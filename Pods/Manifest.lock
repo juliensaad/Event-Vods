@@ -1,0 +1,29 @@
+PODS:
+  - Cards (1.3.1):
+    - Player
+  - Player (0.8.4)
+  - Siesta (1.3.1):
+    - Siesta/Core (= 1.3.1)
+  - Siesta/Core (1.3.1)
+  - Siesta/UI (1.3.1):
+    - Siesta/Core
+  - SnapKit (4.0.0)
+  - youtube-ios-player-helper (0.1.6)
+
+DEPENDENCIES:
+  - Cards (~> 1.3.1)
+  - Siesta (~> 1.3.1)
+  - Siesta/UI (~> 1.3.1)
+  - SnapKit
+  - youtube-ios-player-helper (~> 0.1)
+
+SPEC CHECKSUMS:
+  Cards: c5023eb5dfa9d81478535fa255a8060f4e0737e3
+  Player: e45514e9e5fb8ff18f50eb2ba6f84dac9b6a0024
+  Siesta: 47460ba8b964881b7db532a0e640a6c703959c23
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  youtube-ios-player-helper: 21ab92db027c7ff86cb17a3843a3f6eafc8158d2
+
+PODFILE CHECKSUM: c323b0bda716de1d8e918adfc6fc53cc49050c9a
+
+COCOAPODS: 1.4.0
