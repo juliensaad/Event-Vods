@@ -40,6 +40,8 @@ class EventsViewController: UIViewController, ResourceObserver {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = NSLocalizedString("home", comment: "")
+        view.backgroundColor = UIColor(displayP3Red: 19, green: 67, blue: 70, alpha: 1.0)
         view.addSubview(tableView)
         view.addSubview(statusOverlay)
         
@@ -48,6 +50,10 @@ class EventsViewController: UIViewController, ResourceObserver {
         
         eventsResource = EventAPI.events()
         
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     func resourceChanged(_ resource: Resource, event: ResourceEvent) {
@@ -79,7 +85,7 @@ class EventsViewController: UIViewController, ResourceObserver {
 
 // MARK: TableView
 
-extension EventsViewController: UITableViewDataSource, UITableViewDelegate, EventTableViewCellDelegate {
+extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return events.count
@@ -87,24 +93,21 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate, Even
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let event = events[indexPath.row]
-        let cell = EventTableViewCell(event: event, reuseIdentifier: EventTableViewCell.reuseIdentifier)
-        cell.delegate = self
+        let cell = EventCell(event: event, reuseIdentifier: EventTableViewCell.reuseIdentifier)
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let gamesViewController = GamesViewController()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 250
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 250
+        return 220
     }
-    
-    func didSelectCell(cell: EventTableViewCell) {
-        print("Selected!")
-    }
+
 }

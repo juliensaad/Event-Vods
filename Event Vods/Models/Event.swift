@@ -18,5 +18,9 @@ class Event: Decodable {
     let endDate: Date?
     let logo: String?
     let status: String?
+    let _id: String?
 
+    var backgroundImageName: String {
+        return String(abs((_id ?? "").hash) % 13)
+    }
 }
