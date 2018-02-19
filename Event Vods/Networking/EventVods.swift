@@ -21,7 +21,7 @@ extension EventVods: Endpoint {
     var path: String {
         switch self {
         case .events:   return "/events"
-        case .game:    return "/events/slug/"
+        case .game:    return "/events/slug"
         }
     }
 }

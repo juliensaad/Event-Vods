@@ -9,7 +9,7 @@
 import Foundation
 
 class Event: Decodable {
-    let updatedAt: Date?
+    let _id: String?
     let name: String
     let game: Game
     let slug: String
@@ -18,7 +18,9 @@ class Event: Decodable {
     let endDate: Date?
     let logo: String?
     let status: String?
-    let _id: String?
+    let updatedAt: Date?
+
+    let contents: [EventSection]?
 
     var backgroundImageName: String {
         return String(abs((_id ?? "").hash) % 13)

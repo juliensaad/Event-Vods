@@ -10,6 +10,14 @@
 		1D065DDB2030ECC600F5340E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D065DDA2030ECC600F5340E /* Localizable.strings */; };
 		1D065DDD20312D5E00F5340E /* GamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D065DDC20312D5E00F5340E /* GamesViewController.swift */; };
 		1D065DDF20312D8C00F5340E /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D065DDE20312D8C00F5340E /* EventCell.swift */; };
+		1D37E1EA203920DB00AEDCDB /* EventSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1E9203920DB00AEDCDB /* EventSection.swift */; };
+		1D37E1EC2039211B00AEDCDB /* EventModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1EB2039211B00AEDCDB /* EventModule.swift */; };
+		1D37E1EE203925B800AEDCDB /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1ED203925B800AEDCDB /* EventDetailsViewController.swift */; };
+		1D37E1F020392BA300AEDCDB /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1EF20392BA300AEDCDB /* Match.swift */; };
+		1D37E1F220392BDE00AEDCDB /* MatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1F120392BDE00AEDCDB /* MatchData.swift */; };
+		1D37E1F420392BFA00AEDCDB /* YoutubeLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1F320392BFA00AEDCDB /* YoutubeLink.swift */; };
+		1D37E1F620392C7800AEDCDB /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1F520392C7800AEDCDB /* Team.swift */; };
+		1D37E1F820392ECA00AEDCDB /* PlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1F720392ECA00AEDCDB /* PlaybackViewController.swift */; };
 		1DB24CD3202B6F3800E6BDB3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24CD2202B6F3800E6BDB3 /* AppDelegate.swift */; };
 		1DB24CD5202B6F3800E6BDB3 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24CD4202B6F3800E6BDB3 /* EventsViewController.swift */; };
 		1DB24CD8202B6F3800E6BDB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DB24CD6202B6F3800E6BDB3 /* Main.storyboard */; };
@@ -40,6 +48,14 @@
 		1D065DDA2030ECC600F5340E /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		1D065DDC20312D5E00F5340E /* GamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesViewController.swift; sourceTree = "<group>"; };
 		1D065DDE20312D8C00F5340E /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
+		1D37E1E9203920DB00AEDCDB /* EventSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSection.swift; sourceTree = "<group>"; };
+		1D37E1EB2039211B00AEDCDB /* EventModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventModule.swift; sourceTree = "<group>"; };
+		1D37E1ED203925B800AEDCDB /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
+		1D37E1EF20392BA300AEDCDB /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
+		1D37E1F120392BDE00AEDCDB /* MatchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchData.swift; sourceTree = "<group>"; };
+		1D37E1F320392BFA00AEDCDB /* YoutubeLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeLink.swift; sourceTree = "<group>"; };
+		1D37E1F520392C7800AEDCDB /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
+		1D37E1F720392ECA00AEDCDB /* PlaybackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackViewController.swift; sourceTree = "<group>"; };
 		1DB24CCF202B6F3800E6BDB3 /* Event Vods.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Event Vods.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DB24CD2202B6F3800E6BDB3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1DB24CD4202B6F3800E6BDB3 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
@@ -115,6 +131,8 @@
 				1DD3DD83202F3F9900A0F152 /* Podfile */,
 				1DB24CD2202B6F3800E6BDB3 /* AppDelegate.swift */,
 				1DB24CD4202B6F3800E6BDB3 /* EventsViewController.swift */,
+				1D37E1ED203925B800AEDCDB /* EventDetailsViewController.swift */,
+				1D37E1F720392ECA00AEDCDB /* PlaybackViewController.swift */,
 				1D065DDC20312D5E00F5340E /* GamesViewController.swift */,
 				1D065DDA2030ECC600F5340E /* Localizable.strings */,
 				1DB24CD6202B6F3800E6BDB3 /* Main.storyboard */,
@@ -148,7 +166,13 @@
 			isa = PBXGroup;
 			children = (
 				1DD3DD842030992200A0F152 /* Event.swift */,
+				1D37E1EB2039211B00AEDCDB /* EventModule.swift */,
+				1D37E1EF20392BA300AEDCDB /* Match.swift */,
+				1D37E1F520392C7800AEDCDB /* Team.swift */,
+				1D37E1F120392BDE00AEDCDB /* MatchData.swift */,
+				1D37E1F320392BFA00AEDCDB /* YoutubeLink.swift */,
 				1DD3DD9620309F5900A0F152 /* Game.swift */,
+				1D37E1E9203920DB00AEDCDB /* EventSection.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -409,16 +433,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D37E1EA203920DB00AEDCDB /* EventSection.swift in Sources */,
 				1DD3DD9E2030B42700A0F152 /* EventTableViewCell.swift in Sources */,
+				1D37E1EE203925B800AEDCDB /* EventDetailsViewController.swift in Sources */,
 				1DB24CD5202B6F3800E6BDB3 /* EventsViewController.swift in Sources */,
 				1D065DDF20312D8C00F5340E /* EventCell.swift in Sources */,
+				1D37E1EC2039211B00AEDCDB /* EventModule.swift in Sources */,
 				1DD3DD9B2030A8C900A0F152 /* EventAPI.swift in Sources */,
+				1D37E1F420392BFA00AEDCDB /* YoutubeLink.swift in Sources */,
+				1D37E1F620392C7800AEDCDB /* Team.swift in Sources */,
+				1D37E1F820392ECA00AEDCDB /* PlaybackViewController.swift in Sources */,
 				1DD3DD852030992200A0F152 /* Event.swift in Sources */,
 				1D065DDD20312D5E00F5340E /* GamesViewController.swift in Sources */,
+				1D37E1F220392BDE00AEDCDB /* MatchData.swift in Sources */,
 				1DB24CD3202B6F3800E6BDB3 /* AppDelegate.swift in Sources */,
 				1DD3DD9720309F5900A0F152 /* Game.swift in Sources */,
 				1DD3DD8B20309BEB00A0F152 /* EventVods.swift in Sources */,
 				1DD3DD8920309AFA00A0F152 /* Endpoint.swift in Sources */,
+				1D37E1F020392BA300AEDCDB /* Match.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

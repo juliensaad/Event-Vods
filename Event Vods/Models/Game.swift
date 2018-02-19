@@ -11,4 +11,5 @@ import Foundation
 class Game: Decodable {
     static let LeagueOfLegendsSlug = "lol"
     let slug: String
+    let icon: String?
 }

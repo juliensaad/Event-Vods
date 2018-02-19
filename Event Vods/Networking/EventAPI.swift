@@ -37,14 +37,14 @@ class _EventAPI {
         }
         
         service.configureTransformer(EventVods.game.path + "/*") {
-            try jsonDecoder.decode(Game.self, from: $0.content)
+            try jsonDecoder.decode(Event.self, from: $0.content)
         }
     }
     
-    func game(_ game: String) -> Resource {
+    func game(_ slug: String) -> Resource {
         return service
             .resource(EventVods.game.path)
-            .child(game)
+            .child(slug)
     }
     
     func events() -> Resource {

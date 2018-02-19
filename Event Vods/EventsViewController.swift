@@ -29,14 +29,14 @@ class EventsViewController: UIViewController, ResourceObserver {
         didSet {
             oldValue?.removeObservers(ownedBy: self)
             oldValue?.cancelLoadIfUnobserved(afterDelay: 0.1)
-            
+
             eventsResource?
                 .addObserver(self)
                 .addObserver(statusOverlay)
                 .loadIfNeeded()
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,7 +49,6 @@ class EventsViewController: UIViewController, ResourceObserver {
         statusOverlay.frame = view.bounds
         
         eventsResource = EventAPI.events()
-        
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -57,7 +56,9 @@ class EventsViewController: UIViewController, ResourceObserver {
     }
     
     func resourceChanged(_ resource: Resource, event: ResourceEvent) {
-        showEvents(eventsResource?.typedContent())
+        if resource == eventsResource {
+            showEvents(eventsResource?.typedContent())
+        }
     }
     
     func showEvents(_ events: [Event]?) {
@@ -99,7 +100,19 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let gamesViewController = GamesViewController()
+        let event = events[indexPath.row]
+
+        EventAPI.game(event.slug).addObserver(owner: self) {
+            [weak self] resource, _ in
+            if let detailedEvent: Event = resource.typedContent() {
+                let eventDetailsViewController = EventDetailsViewController(event: detailedEvent)
+                self?.navigationController?.pushViewController(eventDetailsViewController, animated: true)
+            }
+
+//
+        }
+        .loadIfNeeded()
+
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
