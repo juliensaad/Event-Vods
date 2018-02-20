@@ -66,7 +66,7 @@
 		1DB24CE3202B6F3800E6BDB3 /* Event VodsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Event VodsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DB24CE7202B6F3800E6BDB3 /* Event_VodsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event_VodsTests.swift; sourceTree = "<group>"; };
 		1DB24CE9202B6F3800E6BDB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1DD3DD83202F3F9900A0F152 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; };
+		1DD3DD83202F3F9900A0F152 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		1DD3DD842030992200A0F152 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		1DD3DD8820309AFA00A0F152 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		1DD3DD8A20309BEB00A0F152 /* EventVods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventVods.swift; sourceTree = "<group>"; };

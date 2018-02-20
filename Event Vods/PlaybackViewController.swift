@@ -7,18 +7,35 @@
 //
 
 import UIKit
+import youtube_ios_player_helper
 
-class PlaybackViewController: UIViewController {
+class PlaybackViewController: UIViewController, YTPlayerViewDelegate, UIGestureRecognizerDelegate {
 
     let url: String
-    init(url: String) {
-        self.url = url
-        super.init(nibName: nil, bundle: nil)
-    }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private lazy var minButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("5 min", for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.alpha = 0
+        button.addTarget(self, action: #selector(tapMinButton), for: .touchUpInside)
+        return button
+    }()
+
+    private lazy var youtubePlayer: YTPlayerView = {
+        let playerView = YTPlayerView()
+        playerView.webView?.allowsInlineMediaPlayback = true
+        playerView.webView?.mediaPlaybackRequiresUserAction = false
+        playerView.delegate = self
+
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapWebView))
+        gestureRecognizer.numberOfTapsRequired = 1
+        gestureRecognizer.delegate = self
+        playerView.addGestureRecognizer(gestureRecognizer)
+        playerView.webView?.isUserInteractionEnabled = false
+        playerView.webView?.isUserInteractionEnabled = false
+        return playerView
+    }()
 
     var playbackURL: String {
         var embededURL = url.replacingOccurrences(of: "watch?v=", with: "embed/")
@@ -29,25 +46,85 @@ class PlaybackViewController: UIViewController {
             embededURL = embededURL.replacingOccurrences(of: "&t=\(query)", with: "?start=\(numberOfSeconds)")
         }
 
-        return "\(embededURL)&enablejsapi=1&rel=0&playsinline=1&autoplay=1"
+        return "\(embededURL)&enablejsapi=1&rel=0&playsinline=1&autoplay=1&controls=0&showinfo=0&modestbranding=1"
+    }
+
+    init(url: String) {
+        self.url = url
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+
+    @objc func didTapWebView() {
+        UIView.animate(withDuration: 0.3) {
+            self.minButton.alpha = 1
+        }
+    }
+
+    @objc func tapMinButton() {
+        pauseVideo()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let webView = UIWebView(frame: self.view.frame)
+        view.backgroundColor = UIColor.black
+        view.addSubview(youtubePlayer)
+        view.addSubview(minButton)
 
-        self.view.addSubview(webView)
+        youtubePlayer.snp.makeConstraints { (make) in
+            make.edges.equalTo(view)
+        }
 
-        webView.allowsInlineMediaPlayback = true
-        webView.mediaPlaybackRequiresUserAction = false
+        minButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(view).offset(-10)
+            make.centerX.equalTo(view)
+        }
 
+        loadVideo()
+    }
 
-        let embededHTML = "<html><body style='margin:0px;padding:0px;'><script type='text/javascript' src='http://www.youtube.com/iframe_api'></script><script type='text/javascript'>function onYouTubeIframeAPIReady(){ytplayer=new YT.Player('playerId',{events:{onReady:onPlayerReady}})}function onPlayerReady(a){a.target.playVideo();}</script><iframe id='playerId' type='text/html' width='\(self.view.frame.size.width)' height='\(self.view.frame.size.height)' src='\(playbackURL)' frameborder='0'></body></html>"
+    func loadVideo() {
 
-        print("\(playbackURL)")
-        // Load your webView with the HTML we just set up
-        webView.loadHTMLString(embededHTML, baseURL: Bundle.main.bundleURL)
+        var numberOfSeconds = 0
+        if let query = getQueryStringParameter(url: url, param: "t") {
+            numberOfSeconds = getNumberOfSeconds(string: query)
+        }
+
+        let playerVars = [
+            "enablejsapi": 1,
+            "rel": 0,
+            "playsinline": 1,
+            "autoplay": 1,
+            "controls": 0,
+            "showinfo": 0,
+            "modestbranding": 1,
+            "disablekb": 1,
+            "start": numberOfSeconds
+            ]
+
+        // todo: Safety
+        let videoID = getQueryStringParameter(url: url, param: "v")
+        youtubePlayer.load(withVideoId: videoID!, playerVars: playerVars)
+    }
+
+    func playerViewPreferredWebViewBackgroundColor(_ playerView: YTPlayerView) -> UIColor {
+        return UIColor.black
+    }
+
+    func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
+        playerView.playVideo()
+    }
+
+    func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
+        print(state)
     }
 
     func getQueryStringParameter(url: String, param: String) -> String? {
@@ -85,6 +162,10 @@ class PlaybackViewController: UIViewController {
 
 
         return total
+    }
+
+    func pauseVideo() {
+        self.youtubePlayer.pauseVideo()
     }
 
 
