@@ -8,6 +8,7 @@
 
 import UIKit
 import Siesta
+import SnapKit
 
 class EventsViewController: UIViewController, ResourceObserver {
     
@@ -22,6 +23,7 @@ class EventsViewController: UIViewController, ResourceObserver {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.backgroundColor = UIColor.lolGreen
         return tableView
     }()
     
@@ -37,18 +39,62 @@ class EventsViewController: UIViewController, ResourceObserver {
         }
     }
 
+    lazy var logoView: UIImageView = {
+        let logoView = UIImageView(image: UIImage(named: "lol"))
+        logoView.contentMode = .scaleAspectFit
+        logoView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        return logoView
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        title = NSLocalizedString("home", comment: "")
-        view.backgroundColor = UIColor(displayP3Red: 19, green: 67, blue: 70, alpha: 1.0)
+
+        let searchController = UISearchController(searchResultsController: self)
+        searchController.searchBar.tintColor = UIColor.white
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationController?.navigationBar.barTintColor = UIColor.lolGreen
+        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.addSubview(logoView)
+        navigationController?.navigationBar.backgroundColor = UIColor.lolGreen
+
+        logoView.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.bottom.equalToSuperview()
+            make.height.greaterThanOrEqualTo(54)
+            make.centerY.equalToSuperview()
+        }
+
+        view.backgroundColor = UIColor.lolGreen
         view.addSubview(tableView)
         view.addSubview(statusOverlay)
         
         tableView.frame = view.bounds
         statusOverlay.frame = view.bounds
-        
+
         eventsResource = EventAPI.events()
+    }
+
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        setLogoHidden(true, animated: true)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setLogoHidden(false, animated: true)
+    }
+
+    func setLogoHidden(_ hidden: Bool, animated: Bool) {
+        if (animated) {
+            UIView.animateKeyframes(withDuration: 0.1, delay: 0, options: [], animations: {
+                self.logoView.alpha = hidden ? 0 : 1
+            }, completion: nil)
+        }
+        else {
+            self.logoView.alpha = hidden ? 0 : 1
+        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -100,6 +146,8 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
         let event = events[indexPath.row]
 
         EventAPI.game(event.slug).addObserver(owner: self) {
@@ -108,11 +156,9 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
                 let eventDetailsViewController = EventDetailsViewController(event: detailedEvent)
                 self?.navigationController?.pushViewController(eventDetailsViewController, animated: true)
             }
-
-//
         }
+        .addObserver(statusOverlay)
         .loadIfNeeded()
-
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

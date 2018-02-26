@@ -80,7 +80,10 @@ class PlaybackViewController: UIViewController, YTPlayerViewDelegate, UIGestureR
         view.addSubview(minButton)
 
         youtubePlayer.snp.makeConstraints { (make) in
-            make.edges.equalTo(view)
+            make.top.equalTo(view.safeAreaInsets.top)
+            make.bottom.equalTo(view.safeAreaInsets.bottom)
+            make.left.equalTo(view.safeAreaInsets.left)
+            make.right.equalTo(view.safeAreaInsets.right)
         }
 
         minButton.snp.makeConstraints { (make) in

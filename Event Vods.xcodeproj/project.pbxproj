@@ -10,6 +10,7 @@
 		1D065DDB2030ECC600F5340E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D065DDA2030ECC600F5340E /* Localizable.strings */; };
 		1D065DDD20312D5E00F5340E /* GamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D065DDC20312D5E00F5340E /* GamesViewController.swift */; };
 		1D065DDF20312D8C00F5340E /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D065DDE20312D8C00F5340E /* EventCell.swift */; };
+		1D2D27C32043937C00BB3733 /* UIColor+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D27C22043937C00BB3733 /* UIColor+Vods.swift */; };
 		1D37E1EA203920DB00AEDCDB /* EventSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1E9203920DB00AEDCDB /* EventSection.swift */; };
 		1D37E1EC2039211B00AEDCDB /* EventModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1EB2039211B00AEDCDB /* EventModule.swift */; };
 		1D37E1EE203925B800AEDCDB /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1ED203925B800AEDCDB /* EventDetailsViewController.swift */; };
@@ -48,6 +49,7 @@
 		1D065DDA2030ECC600F5340E /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		1D065DDC20312D5E00F5340E /* GamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesViewController.swift; sourceTree = "<group>"; };
 		1D065DDE20312D8C00F5340E /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
+		1D2D27C22043937C00BB3733 /* UIColor+Vods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Vods.swift"; sourceTree = "<group>"; };
 		1D37E1E9203920DB00AEDCDB /* EventSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSection.swift; sourceTree = "<group>"; };
 		1D37E1EB2039211B00AEDCDB /* EventModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventModule.swift; sourceTree = "<group>"; };
 		1D37E1ED203925B800AEDCDB /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				1DB24CD9202B6F3800E6BDB3 /* Assets.xcassets */,
 				1DB24CDB202B6F3800E6BDB3 /* LaunchScreen.storyboard */,
 				1DB24CDE202B6F3800E6BDB3 /* Info.plist */,
+				1D2D27C22043937C00BB3733 /* UIColor+Vods.swift */,
 			);
 			path = "Event Vods";
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 				1D37E1EC2039211B00AEDCDB /* EventModule.swift in Sources */,
 				1DD3DD9B2030A8C900A0F152 /* EventAPI.swift in Sources */,
 				1D37E1F420392BFA00AEDCDB /* YoutubeLink.swift in Sources */,
+				1D2D27C32043937C00BB3733 /* UIColor+Vods.swift in Sources */,
 				1D37E1F620392C7800AEDCDB /* Team.swift in Sources */,
 				1D37E1F820392ECA00AEDCDB /* PlaybackViewController.swift in Sources */,
 				1DD3DD852030992200A0F152 /* Event.swift in Sources */,

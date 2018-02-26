@@ -31,7 +31,7 @@ class EventDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = event.name
-        view.backgroundColor = UIColor(displayP3Red: 19, green: 67, blue: 70, alpha: 1.0)
+        view.backgroundColor = UIColor.lolGreen
         view.addSubview(tableView)
 
         tableView.frame = view.bounds
