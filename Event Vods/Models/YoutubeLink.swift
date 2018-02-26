@@ -10,5 +10,5 @@ import UIKit
 
 class YoutubeLink: Decodable {
     let gameStart: String?
-    let picksBanks: String?
+    let picksBans: String?
 }

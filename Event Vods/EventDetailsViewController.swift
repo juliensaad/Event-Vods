@@ -89,11 +89,11 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
             return
         }
 
-        guard let urlString = module.matches2.first?.data?.first?.youtube.gameStart else {
+        guard let match = module.matches2.first else {
             return
         }
 
-        let playbackViewController = PlaybackViewController(url: urlString)
+        let playbackViewController = PlaybackViewController(match: match)
         navigationController?.present(playbackViewController, animated: true, completion: nil)
     }
 

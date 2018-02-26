@@ -11,15 +11,12 @@ import youtube_ios_player_helper
 
 class PlaybackViewController: UIViewController, YTPlayerViewDelegate, UIGestureRecognizerDelegate {
 
-    let url: String
+    let match: Match
 
-    private lazy var minButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("5 min", for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.alpha = 0
-        button.addTarget(self, action: #selector(tapMinButton), for: .touchUpInside)
-        return button
+    private lazy var overlay: VideoPlayerOverlay = {
+        let overlay = VideoPlayerOverlay(match: match)
+        overlay.alpha = 0
+        return overlay
     }()
 
     private lazy var youtubePlayer: YTPlayerView = {
@@ -37,20 +34,8 @@ class PlaybackViewController: UIViewController, YTPlayerViewDelegate, UIGestureR
         return playerView
     }()
 
-    var playbackURL: String {
-        var embededURL = url.replacingOccurrences(of: "watch?v=", with: "embed/")
-
-        var numberOfSeconds = 0
-        if let query = getQueryStringParameter(url: url, param: "t") {
-            numberOfSeconds = getNumberOfSeconds(string: query)
-            embededURL = embededURL.replacingOccurrences(of: "&t=\(query)", with: "?start=\(numberOfSeconds)")
-        }
-
-        return "\(embededURL)&enablejsapi=1&rel=0&playsinline=1&autoplay=1&controls=0&showinfo=0&modestbranding=1"
-    }
-
-    init(url: String) {
-        self.url = url
+    init(match: Match) {
+        self.match = match
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -63,13 +48,7 @@ class PlaybackViewController: UIViewController, YTPlayerViewDelegate, UIGestureR
     }
 
     @objc func didTapWebView() {
-        UIView.animate(withDuration: 0.3) {
-            self.minButton.alpha = 1
-        }
-    }
-
-    @objc func tapMinButton() {
-        pauseVideo()
+        overlay.fadeIn()
     }
 
     override func viewDidLoad() {
@@ -77,7 +56,7 @@ class PlaybackViewController: UIViewController, YTPlayerViewDelegate, UIGestureR
 
         view.backgroundColor = UIColor.black
         view.addSubview(youtubePlayer)
-        view.addSubview(minButton)
+        view.addSubview(overlay)
 
         youtubePlayer.snp.makeConstraints { (make) in
             make.top.equalTo(view.safeAreaInsets.top)
@@ -86,9 +65,9 @@ class PlaybackViewController: UIViewController, YTPlayerViewDelegate, UIGestureR
             make.right.equalTo(view.safeAreaInsets.right)
         }
 
-        minButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(view).offset(-10)
-            make.centerX.equalTo(view)
+
+        overlay.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
         }
 
         loadVideo()
@@ -96,7 +75,15 @@ class PlaybackViewController: UIViewController, YTPlayerViewDelegate, UIGestureR
 
     func loadVideo() {
 
+        overlay.fadeIn()
+
+        guard let url = match.data?.first?.youtube.gameStart else {
+            // handle bad URL error
+            return
+        }
+
         var numberOfSeconds = 0
+
         if let query = getQueryStringParameter(url: url, param: "t") {
             numberOfSeconds = getNumberOfSeconds(string: query)
         }

@@ -9,8 +9,8 @@
 import UIKit
 
 class Match: Decodable {
-//    let team1: Team
-//    let team2: Team
+    let team1: Team?
+    let team2: Team?
 //    let date: Date
     let data: [MatchData]?
 }

@@ -14,6 +14,6 @@ class EventModule: Decodable {
     let youtube: Bool
     let date: Date
 
-    let matches: [String]
+    let matches: [String]?
     let matches2: [Match]
 }

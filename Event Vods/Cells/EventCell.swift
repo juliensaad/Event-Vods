@@ -80,6 +80,14 @@ class EventCell: UITableViewCell {
             }
         }
     }
+
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        // do nothing
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        // do nothing
+    }
     
     init(event: Event, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
