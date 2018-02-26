@@ -9,18 +9,24 @@
 import UIKit
 import youtube_ios_player_helper
 
-class PlaybackViewController: UIViewController, YTPlayerViewDelegate, UIGestureRecognizerDelegate {
+class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
     let match: Match
+    var hasPlayedVideo: Bool = false
 
     private lazy var overlay: VideoPlayerOverlay = {
         let overlay = VideoPlayerOverlay(match: match)
+        overlay.delegate = self
         overlay.alpha = 0
         return overlay
     }()
 
     private lazy var youtubePlayer: YTPlayerView = {
         let playerView = YTPlayerView()
+        playerView.delegate = self
+        playerView.alpha = 0.01
+        playerView.backgroundColor = UIColor.black
+        playerView.webView?.isUserInteractionEnabled = false
         playerView.webView?.allowsInlineMediaPlayback = true
         playerView.webView?.mediaPlaybackRequiresUserAction = false
         playerView.delegate = self
@@ -29,8 +35,6 @@ class PlaybackViewController: UIViewController, YTPlayerViewDelegate, UIGestureR
         gestureRecognizer.numberOfTapsRequired = 1
         gestureRecognizer.delegate = self
         playerView.addGestureRecognizer(gestureRecognizer)
-        playerView.webView?.isUserInteractionEnabled = false
-        playerView.webView?.isUserInteractionEnabled = false
         return playerView
     }()
 
@@ -48,7 +52,7 @@ class PlaybackViewController: UIViewController, YTPlayerViewDelegate, UIGestureR
     }
 
     @objc func didTapWebView() {
-        overlay.fadeIn()
+        overlay.tapOverlay()
     }
 
     override func viewDidLoad() {
@@ -58,12 +62,6 @@ class PlaybackViewController: UIViewController, YTPlayerViewDelegate, UIGestureR
         view.addSubview(youtubePlayer)
         view.addSubview(overlay)
 
-        youtubePlayer.snp.makeConstraints { (make) in
-            make.top.equalTo(view.safeAreaInsets.top)
-            make.bottom.equalTo(view.safeAreaInsets.bottom)
-            make.left.equalTo(view.safeAreaInsets.left)
-            make.right.equalTo(view.safeAreaInsets.right)
-        }
 
 
         overlay.snp.makeConstraints { (make) in
@@ -73,8 +71,33 @@ class PlaybackViewController: UIViewController, YTPlayerViewDelegate, UIGestureR
         loadVideo()
     }
 
-    func loadVideo() {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        view.setNeedsUpdateConstraints()
+    }
 
+    override func updateViewConstraints() {
+        youtubePlayer.borderize()
+        youtubePlayer.snp.remakeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
+            make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
+            if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
+                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            }
+            else {
+                make.bottom.equalTo(view)
+            }
+            make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
+        }
+
+        super.updateViewConstraints()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNeedsUpdateOfHomeIndicatorAutoHidden()
+    }
+
+    func loadVideo() {
         overlay.fadeIn()
 
         guard let url = match.data?.first?.youtube.gameStart else {
@@ -103,18 +126,6 @@ class PlaybackViewController: UIViewController, YTPlayerViewDelegate, UIGestureR
         // todo: Safety
         let videoID = getQueryStringParameter(url: url, param: "v")
         youtubePlayer.load(withVideoId: videoID!, playerVars: playerVars)
-    }
-
-    func playerViewPreferredWebViewBackgroundColor(_ playerView: YTPlayerView) -> UIColor {
-        return UIColor.black
-    }
-
-    func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
-        playerView.playVideo()
-    }
-
-    func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
-        print(state)
     }
 
     func getQueryStringParameter(url: String, param: String) -> String? {
@@ -158,5 +169,57 @@ class PlaybackViewController: UIViewController, YTPlayerViewDelegate, UIGestureR
         self.youtubePlayer.pauseVideo()
     }
 
+    override func prefersHomeIndicatorAutoHidden() -> Bool {
+        return true
+    }
 
+}
+
+// MARK : YTPlayerViewDelegate
+extension PlaybackViewController: YTPlayerViewDelegate {
+
+    func playerViewPreferredWebViewBackgroundColor(_ playerView: YTPlayerView) -> UIColor {
+        return UIColor.black
+    }
+
+    func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
+        playerView.playVideo()
+    }
+
+    func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
+        if state != .buffering && state != .unstarted {
+            playerView.alpha = 1
+        }
+        else {
+            playerView.alpha = 0.01
+        }
+    }
+
+    func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
+        hasPlayedVideo = true
+        playerView.alpha = 1
+        print("Did play time \(playTime)")
+    }
+}
+
+extension PlaybackViewController: VideoPlayerOverlayDelegate {
+    func didTapOverlay(_ overlay: VideoPlayerOverlay) {
+        if !hasPlayedVideo {
+            youtubePlayer.playVideo()
+            hasPlayedVideo = true
+        }
+        overlay.fadeIn()
+    }
+
+    func didTapPlay(_ overlay: VideoPlayerOverlay) {
+        youtubePlayer.playVideo()
+    }
+
+    func didTapPause(_ overlay: VideoPlayerOverlay) {
+        youtubePlayer.pauseVideo()
+    }
+
+    func didTapSeek(_ overlay: VideoPlayerOverlay, interval: TimeInterval) {
+
+    }
 }
