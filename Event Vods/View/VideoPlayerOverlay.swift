@@ -13,11 +13,12 @@ protocol VideoPlayerOverlayDelegate: NSObjectProtocol {
     func didTapPlay(_ overlay: VideoPlayerOverlay)
     func didTapPause(_ overlay: VideoPlayerOverlay)
     func didTapSeek(_ overlay: VideoPlayerOverlay, interval: TimeInterval)
+    func didTapClose(_ overlay: VideoPlayerOverlay)
 }
 
 class VideoPlayerOverlay: UIView {
 
-    static let playPauseButtonSize: CGFloat = 50
+    static let playPauseButtonSize: CGFloat = 60
 
     weak var delegate: VideoPlayerOverlayDelegate?
     let match: Match
@@ -29,12 +30,14 @@ class VideoPlayerOverlay: UIView {
     
     private lazy var playButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named:"right")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.setImage(UIImage(named:"play")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.imageEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 0)
         button.addTarget(self, action: #selector(play), for: .touchUpInside)
         button.tintColor = .white
         button.layer.cornerRadius = VideoPlayerOverlay.playPauseButtonSize/2
-        button.layer.borderWidth = 3
-        button.layer.borderColor = UIColor.lolGreen.cgColor
+        button.backgroundColor = UIColor(white: 0, alpha: 0.7)
+        button.layer.borderWidth = 5
+        button.layer.borderColor = UIColor.controlGreen.cgColor
         button.clipsToBounds = true
         button.isHidden = true
         return button
@@ -42,13 +45,24 @@ class VideoPlayerOverlay: UIView {
 
     private lazy var pauseButton: UIButton = {
         let button = UIButton()
-//        button.setImage(UIImage(named:"pause")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.setTitle("||", for: .normal)
+        button.setImage(UIImage(named:"pause")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.titleLabel?.font = UIFont(name: "Avenir-Bold", size: 30)
         button.addTarget(self, action: #selector(pause), for: .touchUpInside)
         button.tintColor = .white
+        button.backgroundColor = UIColor(white: 0, alpha: 0.7)
         button.layer.cornerRadius = VideoPlayerOverlay.playPauseButtonSize/2
-        button.layer.borderWidth = 3
-        button.layer.borderColor = UIColor.lolGreen.cgColor
+        button.layer.borderWidth = 5
+        button.layer.borderColor = UIColor.controlGreen.cgColor
+        button.clipsToBounds = true
+        return button
+    }()
+
+    private lazy var closeButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(NSLocalizedString("close", comment: ""), for: .normal)
+        button.titleLabel?.font = UIFont(name: "Avenir-Black", size: 16)
+        button.addTarget(self, action: #selector(close), for: .touchUpInside)
+        button.tintColor = .white
         button.clipsToBounds = true
         return button
     }()
@@ -68,29 +82,30 @@ class VideoPlayerOverlay: UIView {
             matchupView.secondTeamIcon = URL(string: team2Icon)
         }
 
-        if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
-
-        }
-        
+        backgroundColor = UIColor(white: 0, alpha: 0.35)
         addSubview(matchupView)
         addSubview(pauseButton)
         addSubview(playButton)
+        addSubview(closeButton)
 
         matchupView.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
-            make.top.equalToSuperview().offset(60)
+            make.top.equalTo(self.safeAreaLayoutGuide).inset(50)
             make.centerX.equalToSuperview()
         }
 
         playButton.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(30)
+            make.center.equalToSuperview()
             make.size.equalTo(CGSize(width: VideoPlayerOverlay.playPauseButtonSize,
                                      height: VideoPlayerOverlay.playPauseButtonSize))
         }
 
         pauseButton.snp.makeConstraints { (make) in
             make.edges.equalTo(playButton)
+        }
+
+        closeButton.snp.makeConstraints { (make) in
+            make.top.right.equalTo(self.safeAreaLayoutGuide).inset(20)
         }
     }
 
@@ -114,6 +129,11 @@ class VideoPlayerOverlay: UIView {
 
     @objc func tapOverlay() {
         delegate?.didTapOverlay(self)
+    }
+
+    @objc func close() {
+        delegate?.didTapClose(self)
+        resetFadeTimer()
     }
 
     func resetFadeTimer() {

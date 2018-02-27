@@ -26,11 +26,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         playerView.delegate = self
         playerView.alpha = 0.01
         playerView.backgroundColor = UIColor.black
-        playerView.webView?.isUserInteractionEnabled = false
-        playerView.webView?.allowsInlineMediaPlayback = true
-        playerView.webView?.mediaPlaybackRequiresUserAction = false
         playerView.delegate = self
-
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapWebView))
         gestureRecognizer.numberOfTapsRequired = 1
         gestureRecognizer.delegate = self
@@ -62,8 +58,6 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         view.addSubview(youtubePlayer)
         view.addSubview(overlay)
 
-
-
         overlay.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
@@ -76,19 +70,18 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     override func updateViewConstraints() {
-        youtubePlayer.borderize()
         youtubePlayer.snp.remakeConstraints { (make) in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
-            make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
-            if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
-                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.left.equalTo(view.safeAreaLayoutGuide.snp.leftMargin)
+            if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
+                make.bottom.equalTo(view.snp.bottom)
             }
             else {
-                make.bottom.equalTo(view)
+                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottomMargin)
             }
-            make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
+            make.right.equalTo(view.safeAreaLayoutGuide.snp.rightMargin)
         }
-
+        setupWebView()
         super.updateViewConstraints()
     }
 
@@ -97,8 +90,15 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         setNeedsUpdateOfHomeIndicatorAutoHidden()
     }
 
+    func setupWebView() {
+        youtubePlayer.webView?.isUserInteractionEnabled = false
+        youtubePlayer.webView?.allowsInlineMediaPlayback = true
+        youtubePlayer.webView?.mediaPlaybackRequiresUserAction = false
+        youtubePlayer.webView?.scrollView.contentInsetAdjustmentBehavior = .never
+    }
+
     func loadVideo() {
-        overlay.fadeIn()
+        setupWebView()
 
         guard let url = match.data?.first?.youtube.gameStart else {
             // handle bad URL error
@@ -221,5 +221,9 @@ extension PlaybackViewController: VideoPlayerOverlayDelegate {
 
     func didTapSeek(_ overlay: VideoPlayerOverlay, interval: TimeInterval) {
 
+    }
+
+    func didTapClose(_ overlay: VideoPlayerOverlay) {
+        dismiss(animated: true, completion: nil)
     }
 }

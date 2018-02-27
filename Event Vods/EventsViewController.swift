@@ -34,7 +34,6 @@ class EventsViewController: UIViewController, ResourceObserver {
 
             eventsResource?
                 .addObserver(self)
-                .addObserver(statusOverlay)
                 .loadIfNeeded()
         }
     }
@@ -157,7 +156,6 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
                 self?.navigationController?.pushViewController(eventDetailsViewController, animated: true)
             }
         }
-        .addObserver(statusOverlay)
         .loadIfNeeded()
     }
     

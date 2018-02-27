@@ -13,4 +13,9 @@ extension UIView {
         layer.borderColor = UIColor.green.cgColor
         layer.borderWidth = 2
     }
+
+    func borderizeRed() {
+        layer.borderColor = UIColor.red.cgColor
+        layer.borderWidth = 2
+    }
 }
