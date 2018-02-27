@@ -22,6 +22,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        if let navigationController = self.window?.rootViewController as? UINavigationController {
+            if navigationController.visibleViewController is PlaybackViewController {
+                return [.portrait, .landscapeLeft, .landscapeRight]
+            } else {
+                return .portrait
+            }
+        }
+        return .portrait
+    }
 
 
 }

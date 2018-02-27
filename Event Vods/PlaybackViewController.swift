@@ -220,7 +220,7 @@ extension PlaybackViewController: VideoPlayerOverlayDelegate {
     }
 
     func didTapSeek(_ overlay: VideoPlayerOverlay, interval: TimeInterval) {
-
+        youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() + Float(interval), allowSeekAhead: true)
     }
 
     func didTapClose(_ overlay: VideoPlayerOverlay) {
