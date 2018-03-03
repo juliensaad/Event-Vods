@@ -15,5 +15,5 @@ class EventModule: Decodable {
     let date: Date
 
     let matches: [String]?
-    let matches2: [Match]
+    let matches2: [Match]?
 }

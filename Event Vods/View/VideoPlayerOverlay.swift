@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 protocol VideoPlayerOverlayDelegate: NSObjectProtocol {
     func didTapOverlay(_ overlay: VideoPlayerOverlay)
+    func didDoubleTapOverlay(_ overlay: VideoPlayerOverlay)
     func didTapPlay(_ overlay: VideoPlayerOverlay)
     func didTapPause(_ overlay: VideoPlayerOverlay)
     func didTapSeek(_ overlay: VideoPlayerOverlay, interval: TimeInterval)
@@ -17,6 +19,14 @@ protocol VideoPlayerOverlayDelegate: NSObjectProtocol {
 }
 
 class VideoPlayerOverlay: UIView {
+
+    private var spinner: SVIndefiniteAnimatedView = {
+        let view = SVIndefiniteAnimatedView.init(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+        view.strokeColor = UIColor.white
+        view.radius = 12
+        view.strokeThickness = 4
+        return view
+    }()
 
     enum Direction: String {
         case right
@@ -102,14 +112,50 @@ class VideoPlayerOverlay: UIView {
     private lazy var closeButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("close", comment: ""), for: .normal)
-        button.titleLabel?.font = UIFont(name: "Avenir-Black", size: 16)
+        button.titleLabel?.font = UIFont(name: "Avenir-Black", size: 30)
         button.addTarget(self, action: #selector(close), for: .touchUpInside)
         button.tintColor = .white
         button.clipsToBounds = true
         return button
     }()
 
-    
+    private lazy var doubleTapGestureRecognizer: UITapGestureRecognizer = {
+        let doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTapOverlay))
+        doubleTapGestureRecognizer.numberOfTapsRequired = 2
+        return doubleTapGestureRecognizer
+    }()
+
+    private lazy var container: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.clear
+        return view
+    }()
+
+    private var seekButtons: [UIButton] = []
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateSeekButtonVisibility()
+    }
+
+    override func updateConstraints() {
+        super.updateConstraints()
+        updateSeekButtonVisibility()
+    }
+
+    func updateSeekButtonVisibility () {
+        for button in seekButtons {
+            if button.frame.origin.x < bounds.origin.x {
+                button.alpha = 0
+            }
+            else if button.frame.maxX > bounds.maxX {
+                button.alpha = 0
+            }
+            else {
+                button.alpha = 1
+            }
+        }
+    }
 
     init(match: Match) {
         self.match = match
@@ -117,20 +163,20 @@ class VideoPlayerOverlay: UIView {
 
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOverlay))
         addGestureRecognizer(gestureRecognizer)
+//        addGestureRecognizer(doubleTapGestureRecognizer)
+//        container.addGestureRecognizer(gestureRecognizer)
+//        container.addGestureRecognizer(doubleTapGestureRecognizer)
+//        gestureRecognizer.require(toFail: doubleTapGestureRecognizer)
 
-        if let team1Icon = match.team1?.icon {
-            matchupView.firstTeamIcon = URL(string: team1Icon)
-        }
+        matchupView.match = self.match
 
-        if let team2Icon = match.team2?.icon {
-            matchupView.secondTeamIcon = URL(string: team2Icon)
-        }
-
-        backgroundColor = UIColor(white: 0, alpha: 0.45)
-        addSubview(matchupView)
-        addSubview(pauseButton)
-        addSubview(playButton)
-        addSubview(closeButton)
+        addSubview(container)
+        addSubview(spinner)
+        container.backgroundColor = UIColor(white: 0, alpha: 0.45)
+        container.addSubview(matchupView)
+        container.addSubview(pauseButton)
+        container.addSubview(playButton)
+        container.addSubview(closeButton)
 
         let b0 = makeButton(direction: .left, seekTime: .fiveMin)
         let b1 = makeButton(direction: .left, seekTime: .oneMin)
@@ -139,9 +185,11 @@ class VideoPlayerOverlay: UIView {
         let b4 = makeButton(direction: .right, seekTime: .oneMin)
         let b5 = makeButton(direction: .right, seekTime: .fiveMin)
 
+        seekButtons = [b0,b1,b2,b3,b4,b5]
+
         var referenceConstraintItem = playButton.snp.left
         for button in [b2,b1,b0] {
-            addSubview(button)
+            container.addSubview(button)
             button.snp.makeConstraints({ (make) in
                 make.right.equalTo(referenceConstraintItem).offset(-32)
                 make.centerY.equalTo(playButton)
@@ -152,7 +200,7 @@ class VideoPlayerOverlay: UIView {
 
         referenceConstraintItem = playButton.snp.right
         for button in [b3,b4,b5] {
-            addSubview(button)
+            container.addSubview(button)
             button.snp.makeConstraints({ (make) in
                 make.left.equalTo(referenceConstraintItem).offset(32)
                 make.centerY.equalTo(playButton)
@@ -163,7 +211,7 @@ class VideoPlayerOverlay: UIView {
 
         matchupView.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
-            make.top.equalTo(self.safeAreaLayoutGuide).inset(50)
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.topMargin).inset(30)
             make.centerX.equalToSuperview()
         }
 
@@ -174,13 +222,22 @@ class VideoPlayerOverlay: UIView {
                                      height: VideoPlayerOverlay.playPauseButtonSize))
         }
 
+        spinner.snp.makeConstraints { (make) in
+            make.center.equalTo(pauseButton)
+            make.size.equalTo(CGSize(width: 20, height: 20))
+        }
+
         pauseButton.snp.makeConstraints { (make) in
             make.edges.equalTo(playButton)
         }
 
         closeButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.topMargin).inset(20)
-            make.right.equalTo(self.safeAreaLayoutGuide.snp.rightMargin).inset(30)
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.topMargin).inset(10)
+            make.right.equalTo(self.safeAreaLayoutGuide.snp.rightMargin).inset(14)
+        }
+
+        container.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
         }
     }
 
@@ -214,6 +271,10 @@ class VideoPlayerOverlay: UIView {
         delegate?.didTapOverlay(self)
     }
 
+    @objc func doubleTapOverlay() {
+        delegate?.didDoubleTapOverlay(self)
+    }
+
     @objc func close() {
         delegate?.didTapClose(self)
         resetFadeTimer()
@@ -243,51 +304,33 @@ class VideoPlayerOverlay: UIView {
         return button
     }
 
+    func beginLoading() {
+        spinner.alpha = 1
+        playButton.imageView?.alpha = 0
+        pauseButton.imageView?.alpha = 0
+    }
+
+    func stopLoading() {
+        fadeOut()
+        UIView.animateKeyframes(withDuration: 0.3, delay: 0, options: [], animations: {
+            self.spinner.alpha = 0
+            self.playButton.imageView?.alpha = 1
+            self.pauseButton.imageView?.alpha = 1
+        }, completion: nil)
+    }
+
     func fadeIn() {
-        UIView.animate(withDuration: 0.3) {
-            self.alpha = 1
-        }
+        updateSeekButtonVisibility()
+        UIView.animateKeyframes(withDuration: 0.3, delay: 0, options: [], animations: {
+            self.container.alpha = 1
+        }, completion: nil)
         resetFadeTimer()
     }
 
     func fadeOut() {
-        UIView.animate(withDuration: 0.3) {
-            self.alpha = 0
-        }
+        updateSeekButtonVisibility()
+        UIView.animateKeyframes(withDuration: 0.3, delay: 0, options: [], animations: {
+            self.container.alpha = 0
+        }, completion: nil)
     }
-}
-
-extension UIButton {
-
-    func centerVertically(padding: CGFloat = 6.0) {
-        guard
-            let imageViewSize = self.imageView?.frame.size,
-            let titleLabelSize = self.titleLabel?.frame.size else {
-                return
-        }
-
-        let totalHeight = imageViewSize.height + titleLabelSize.height + padding
-
-        self.imageEdgeInsets = UIEdgeInsets(
-            top: -(totalHeight - imageViewSize.height),
-            left: 0.0,
-            bottom: 0.0,
-            right: -titleLabelSize.width
-        )
-
-        self.titleEdgeInsets = UIEdgeInsets(
-            top: 0.0,
-            left: -imageViewSize.width,
-            bottom: -(totalHeight - titleLabelSize.height),
-            right: 0.0
-        )
-
-        self.contentEdgeInsets = UIEdgeInsets(
-            top: titleLabelSize.height,
-            left: 0.0,
-            bottom: titleLabelSize.height,
-            right: 0.0
-        )
-    }
-
 }

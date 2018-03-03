@@ -11,6 +11,20 @@ import Siesta
 
 class TeamMatchupView: UIView {
 
+    var match: Match? {
+        didSet {
+            if let match = match {
+                if let team1Icon = match.team1?.icon, let team2Icon = match.team2?.icon {
+                    firstTeamIcon = URL(string: team1Icon)
+                    secondTeamIcon = URL(string: team2Icon)
+                }
+                else {
+                    // setup labels
+                }
+            }
+        }
+    }
+
     private lazy var firstTeamImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -100,8 +114,6 @@ class TeamMatchupView: UIView {
         vsLabel.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
         }
-
-        
     }
 
     override var intrinsicContentSize: CGSize {

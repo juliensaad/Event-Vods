@@ -10,17 +10,24 @@ import UIKit
 
 class EventDetailsViewController: UIViewController {
     let event: Event
+    let sections: [EventSection]
 
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.separatorStyle = .none
         return tableView
     }()
 
     init(event: Event) {
         self.event = event
+        if let contents = self.event.contents {
+            self.sections = contents.reversed()
+        }
+        else {
+            self.sections = []
+        }
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -36,6 +43,11 @@ class EventDetailsViewController: UIViewController {
 
         tableView.frame = view.bounds
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+    }
 }
 
 // MARK: TableView
@@ -43,24 +55,19 @@ class EventDetailsViewController: UIViewController {
 extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return event.contents?.count ?? 1
+        return sections.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let section = event.contents?[section] else {
-            return 0
-        }
 
 //        let matchCount = section.modules?.map({ (module) -> Int in
 //            return module.matches.count
 //        }).reduce(0) { $0 + $1 }
-        return section.modules?.count ?? 0
+        return sections[section].modules.count
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let section = event.contents?[section] else {
-            return nil
-        }
+        let section = sections[section]
 
         let label = UILabel()
         label.text = section.title
@@ -74,10 +81,7 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let module = event.contents?[indexPath.section].modules?[indexPath.row] else {
-            return UITableViewCell()
-        }
-
+        let module = sections[indexPath.section].modules[indexPath.row]
         let cell = UITableViewCell()
         cell.textLabel?.text = module.title
 
@@ -85,11 +89,9 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let module = event.contents?[indexPath.section].modules?[indexPath.row] else {
-            return
-        }
+        let module = sections[indexPath.section].modules[indexPath.row]
 
-        guard let match = module.matches2.first else {
+        guard let match = module.matches2?.first else {
             return
         }
 

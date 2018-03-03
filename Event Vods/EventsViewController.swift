@@ -9,6 +9,7 @@
 import UIKit
 import Siesta
 import SnapKit
+import SVProgressHUD
 
 class EventsViewController: UIViewController, ResourceObserver {
     
@@ -102,6 +103,7 @@ class EventsViewController: UIViewController, ResourceObserver {
     
     func resourceChanged(_ resource: Resource, event: ResourceEvent) {
         if resource == eventsResource {
+            //SVProgressHUD.dismiss()
             showEvents(eventsResource?.typedContent())
         }
     }
@@ -110,7 +112,6 @@ class EventsViewController: UIViewController, ResourceObserver {
         guard var events = events else {
             return
         }
-        
         
         events = events.filter { (event) -> Bool in
             event.game.slug == Game.LeagueOfLegendsSlug
@@ -139,7 +140,7 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let event = events[indexPath.row]
-        let cell = EventCell(event: event, reuseIdentifier: EventTableViewCell.reuseIdentifier)
+        let cell = EventCell(event: event, reuseIdentifier: EventCell.reuseIdentifier)
         
         return cell
     }
@@ -149,14 +150,24 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
 
         let event = events[indexPath.row]
 
+        SVProgressHUD.show()
         EventAPI.game(event.slug).addObserver(owner: self) {
             [weak self] resource, _ in
+
             if let detailedEvent: Event = resource.typedContent() {
+                SVProgressHUD.dismiss()
                 let eventDetailsViewController = EventDetailsViewController(event: detailedEvent)
                 self?.navigationController?.pushViewController(eventDetailsViewController, animated: true)
+                EventAPI.game(event.slug).removeObservers(ownedBy: self)
+            }
+            else if let error = resource.latestError {
+                SVProgressHUD.dismiss()
+                print(error)
             }
         }
         .loadIfNeeded()
+
+
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

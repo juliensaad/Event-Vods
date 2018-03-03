@@ -7,8 +7,8 @@ target 'Event Vods' do
   pod ‘youtube-ios-player-helper’, :git => 'https://github.com/juliensaad/youtube-ios-player-helper.git', :commit => '5427ed44bb51de0c7b54cc6a415e5aca8b42c163'
   pod 'Siesta', '~> 1.3.1'
   pod 'Siesta/UI', '~> 1.3.1'
-  pod 'Cards', '~> 1.3.1'
   pod 'SnapKit'
+  pod 'SVProgressHUD'
   # Pods for Event Vods
 
   target 'Event VodsTests' do

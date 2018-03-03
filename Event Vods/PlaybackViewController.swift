@@ -8,16 +8,18 @@
 
 import UIKit
 import youtube_ios_player_helper
+import SVProgressHUD
 
 class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
     let match: Match
     var hasPlayedVideo: Bool = false
 
+    var initialTouchPoint: CGPoint = CGPoint(x: 0,y: 0)
+
     private lazy var overlay: VideoPlayerOverlay = {
         let overlay = VideoPlayerOverlay(match: match)
         overlay.delegate = self
-        overlay.alpha = 0
         return overlay
     }()
 
@@ -54,6 +56,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler)))
         view.backgroundColor = UIColor.black
         view.addSubview(youtubePlayer)
         view.addSubview(overlay)
@@ -81,6 +84,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
             }
             make.right.equalTo(view.safeAreaLayoutGuide.snp.rightMargin)
         }
+        youtubePlayer.setNeedsLayout()
         setupWebView()
         super.updateViewConstraints()
     }
@@ -88,6 +92,11 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsUpdateOfHomeIndicatorAutoHidden()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
     }
 
     func setupWebView() {
@@ -98,9 +107,10 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     func loadVideo() {
+        overlay.beginLoading()
         setupWebView()
 
-        guard let url = match.data?.first?.youtube.gameStart else {
+        guard let url = match.data.first?.youtube?.gameStart else {
             // handle bad URL error
             return
         }
@@ -123,9 +133,12 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
             "start": numberOfSeconds
             ]
 
-        // todo: Safety
-        let videoID = getQueryStringParameter(url: url, param: "v")
-        youtubePlayer.load(withVideoId: videoID!, playerVars: playerVars)
+        if let videoID = getQueryStringParameter(url: url, param: "v") {
+            youtubePlayer.load(withVideoId: videoID, playerVars: playerVars)
+        }
+        else {
+            youtubePlayer.loadVideo(byURL: url, startSeconds: 0, suggestedQuality: YTPlaybackQuality.auto)
+        }
     }
 
     func getQueryStringParameter(url: String, param: String) -> String? {
@@ -165,12 +178,37 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         return total
     }
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
+
     func pauseVideo() {
         self.youtubePlayer.pauseVideo()
     }
 
     override func prefersHomeIndicatorAutoHidden() -> Bool {
         return true
+    }
+
+    @objc func panGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
+        let touchPoint = sender.location(in: self.view.window)
+
+        if sender.state == UIGestureRecognizerState.began {
+            initialTouchPoint = touchPoint
+        }
+        else if sender.state == UIGestureRecognizerState.changed {
+            self.view.frame = CGRect(x: 0, y: touchPoint.y - initialTouchPoint.y, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        }
+        else if sender.state == UIGestureRecognizerState.ended || sender.state == UIGestureRecognizerState.cancelled {
+            if touchPoint.y - initialTouchPoint.y > 100 || initialTouchPoint.y - touchPoint.y > 100 {
+                self.dismiss(animated: true, completion: nil)
+            }
+            else {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+                })
+            }
+        }
     }
 
 }
@@ -188,17 +226,18 @@ extension PlaybackViewController: YTPlayerViewDelegate {
 
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
         if state != .buffering && state != .unstarted {
-            playerView.alpha = 1
+//            playerView.alpha = 1
+            overlay.fadeOut()
+            overlay.stopLoading()
         }
         else {
-            playerView.alpha = 0.01
+//            playerView.alpha = 0.01
         }
     }
 
     func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
         hasPlayedVideo = true
-        playerView.alpha = 1
-        print("Did play time \(playTime)")
+//        playerView.alpha = 1
     }
 }
 
@@ -221,6 +260,10 @@ extension PlaybackViewController: VideoPlayerOverlayDelegate {
 
     func didTapSeek(_ overlay: VideoPlayerOverlay, interval: TimeInterval) {
         youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() + Float(interval), allowSeekAhead: true)
+    }
+
+    func didDoubleTapOverlay(_ overlay: VideoPlayerOverlay) {
+        youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() + Float(10), allowSeekAhead: true)
     }
 
     func didTapClose(_ overlay: VideoPlayerOverlay) {

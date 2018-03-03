@@ -10,5 +10,5 @@ import UIKit
 
 class MatchData: Decodable {
     let rating: Float?
-    let youtube: YoutubeLink
+    let youtube: YoutubeLink?
 }
