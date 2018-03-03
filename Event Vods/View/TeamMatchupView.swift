@@ -14,7 +14,7 @@ class TeamMatchupView: UIView {
     var match: Match? {
         didSet {
             if let match = match {
-                if let team1Icon = match.team1?.icon, let team2Icon = match.team2?.icon {
+                if let team1Icon = match.team1.icon, let team2Icon = match.team2.icon {
                     firstTeamIcon = URL(string: team1Icon)
                     secondTeamIcon = URL(string: team2Icon)
                 }
@@ -28,12 +28,20 @@ class TeamMatchupView: UIView {
     private lazy var firstTeamImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+        imageView.layer.shadowColor = UIColor.black.cgColor
+        imageView.layer.shadowOpacity = 0.2
+        imageView.layer.shadowRadius = 6
+        imageView.layer.shadowOffset = CGSize(width: 0, height: 1)
         return imageView
     }()
 
     private lazy var secondTeamImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+        imageView.layer.shadowColor = UIColor.black.cgColor
+        imageView.layer.shadowOpacity = 0.2
+        imageView.layer.shadowRadius = 6
+        imageView.layer.shadowOffset = CGSize(width: 0, height: 1)
         return imageView
     }()
 
@@ -42,6 +50,10 @@ class TeamMatchupView: UIView {
         label.textColor = .white
         label.font = UIFont(name: "Avenir-Black", size: 24)
         label.text = NSLocalizedString("vs", comment: "")
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.layer.shadowOpacity = 0.2
+        label.layer.shadowRadius = 6
+        label.layer.shadowOffset = CGSize(width: 0, height: 1)
         return label
     }()
 

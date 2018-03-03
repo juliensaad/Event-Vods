@@ -8,12 +8,12 @@
 
 import UIKit
 
-class EventModule: Decodable {
+struct EventModule: Decodable {
     let _id: String
-    let title: String
+    var title: String
     let youtube: Bool
     let date: Date
 
     let matches: [String]?
-    let matches2: [Match]?
+    let matches2: [Match]
 }

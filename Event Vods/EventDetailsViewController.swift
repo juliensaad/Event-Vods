@@ -10,7 +10,7 @@ import UIKit
 
 class EventDetailsViewController: UIViewController {
     let event: Event
-    let sections: [EventSection]
+    let sections: [EventModule]
 
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -23,7 +23,19 @@ class EventDetailsViewController: UIViewController {
     init(event: Event) {
         self.event = event
         if let contents = self.event.contents {
-            self.sections = contents.reversed()
+            let fullSections = contents.reversed()
+
+            var dayModules: [EventModule] = []
+
+            for section in fullSections {
+                for module in section.modules {
+                    var newModule = module
+                    newModule.title = "\(section.title) - \(module.title)"
+                    dayModules.append(newModule)
+                }
+            }
+            sections = dayModules
+
         }
         else {
             self.sections = []
@@ -42,6 +54,8 @@ class EventDetailsViewController: UIViewController {
         view.addSubview(tableView)
 
         tableView.frame = view.bounds
+        view.backgroundColor = UIColor.lolGreen
+        tableView.backgroundColor = UIColor.lolGreen
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -63,48 +77,39 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
 //        let matchCount = section.modules?.map({ (module) -> Int in
 //            return module.matches.count
 //        }).reduce(0) { $0 + $1 }
-        return sections[section].modules.count
+        return sections[section].matches2.count
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let section = sections[section]
 
-        let label = UILabel()
-        label.text = section.title
-        label.backgroundColor = UIColor.lightGray
+        let label = UIButton()
+        label.isUserInteractionEnabled = false
+        label.setTitle(section.title, for: .normal)
+        label.titleEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+        label.backgroundColor = UIColor.sectionGreen
 
         return label
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-         return 24
+         return 30
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let module = sections[indexPath.section].modules[indexPath.row]
-        let cell = UITableViewCell()
-        cell.textLabel?.text = module.title
-
+        let match = sections[indexPath.section].matches2[indexPath.row]
+        let cell = MatchTableViewCell(match: match, reuseIdentifier: MatchTableViewCell.reuseIdentifier)
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let module = sections[indexPath.section].modules[indexPath.row]
-
-        guard let match = module.matches2?.first else {
-            return
-        }
-
+        let match = sections[indexPath.section].matches2[indexPath.row]
         let playbackViewController = PlaybackViewController(match: match)
         navigationController?.present(playbackViewController, animated: true, completion: nil)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 55
+        return 100
     }
 
 }

@@ -49,10 +49,10 @@ class EventsViewController: UIViewController, ResourceObserver {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let searchController = UISearchController(searchResultsController: self)
-        searchController.searchBar.tintColor = UIColor.white
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
+//        let searchController = UISearchController(searchResultsController: self)
+//        searchController.searchBar.tintColor = UIColor.white
+//        navigationItem.searchController = searchController
+//        navigationItem.hidesSearchBarWhenScrolling = false
         navigationController?.navigationBar.barTintColor = UIColor.lolGreen
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.addSubview(logoView)

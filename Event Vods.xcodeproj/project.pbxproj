@@ -21,6 +21,9 @@
 		1D37E1F420392BFA00AEDCDB /* YoutubeLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1F320392BFA00AEDCDB /* YoutubeLink.swift */; };
 		1D37E1F620392C7800AEDCDB /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1F520392C7800AEDCDB /* Team.swift */; };
 		1D37E1F820392ECA00AEDCDB /* PlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1F720392ECA00AEDCDB /* PlaybackViewController.swift */; };
+		1D5FC42D204B394100925DE7 /* String+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5FC42C204B394100925DE7 /* String+Vods.swift */; };
+		1D5FC430204B3E4300925DE7 /* EventDetailsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5FC42F204B3E4300925DE7 /* EventDetailsDataSource.swift */; };
+		1D5FC432204B41E300925DE7 /* MatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5FC431204B41E300925DE7 /* MatchTableViewCell.swift */; };
 		1D95A1BB2043A56400266E32 /* UIView+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D95A1BA2043A56400266E32 /* UIView+Vods.swift */; };
 		1DB24CD3202B6F3800E6BDB3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24CD2202B6F3800E6BDB3 /* AppDelegate.swift */; };
 		1DB24CD5202B6F3800E6BDB3 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24CD4202B6F3800E6BDB3 /* EventsViewController.swift */; };
@@ -64,6 +67,9 @@
 		1D37E1F320392BFA00AEDCDB /* YoutubeLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeLink.swift; sourceTree = "<group>"; };
 		1D37E1F520392C7800AEDCDB /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		1D37E1F720392ECA00AEDCDB /* PlaybackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackViewController.swift; sourceTree = "<group>"; };
+		1D5FC42C204B394100925DE7 /* String+Vods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Vods.swift"; sourceTree = "<group>"; };
+		1D5FC42F204B3E4300925DE7 /* EventDetailsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsDataSource.swift; sourceTree = "<group>"; };
+		1D5FC431204B41E300925DE7 /* MatchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchTableViewCell.swift; sourceTree = "<group>"; };
 		1D95A1BA2043A56400266E32 /* UIView+Vods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Vods.swift"; sourceTree = "<group>"; };
 		1DB24CCF202B6F3800E6BDB3 /* Event Vods.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Event Vods.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DB24CD2202B6F3800E6BDB3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -111,6 +117,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D5FC42E204B3E2300925DE7 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				1D5FC42F204B3E4300925DE7 /* EventDetailsDataSource.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		1DB24CC6202B6F3800E6BDB3 = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +155,7 @@
 				1DD3DD9220309DFE00A0F152 /* Networking */,
 				1DD3DD83202F3F9900A0F152 /* Podfile */,
 				1DB24CD2202B6F3800E6BDB3 /* AppDelegate.swift */,
+				1D5FC42E204B3E2300925DE7 /* ViewModels */,
 				1DB24CD4202B6F3800E6BDB3 /* EventsViewController.swift */,
 				1D37E1ED203925B800AEDCDB /* EventDetailsViewController.swift */,
 				1D37E1F720392ECA00AEDCDB /* PlaybackViewController.swift */,
@@ -193,6 +208,7 @@
 			children = (
 				1DD3DD9D2030B42700A0F152 /* EventTableViewCell.swift */,
 				1D065DDE20312D8C00F5340E /* EventCell.swift */,
+				1D5FC431204B41E300925DE7 /* MatchTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -212,6 +228,7 @@
 				1D2D27C22043937C00BB3733 /* UIColor+Vods.swift */,
 				1D95A1BA2043A56400266E32 /* UIView+Vods.swift */,
 				1DFCB94F204B105E0091C7CA /* UIButton+Vods.swift */,
+				1D5FC42C204B394100925DE7 /* String+Vods.swift */,
 			);
 			path = "UIKit extensions";
 			sourceTree = "<group>";
@@ -367,6 +384,7 @@
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/Siesta/Siesta.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/YoutubePlayer-in-WKWebView/YoutubePlayer_in_WKWebView.framework",
 				"${BUILT_PRODUCTS_DIR}/youtube-ios-player-helper/youtube_ios_player_helper.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -374,6 +392,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Siesta.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YoutubePlayer_in_WKWebView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/youtube_ios_player_helper.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -464,13 +483,16 @@
 				1DD3DD9B2030A8C900A0F152 /* EventAPI.swift in Sources */,
 				1D37E1F420392BFA00AEDCDB /* YoutubeLink.swift in Sources */,
 				1D2D27C32043937C00BB3733 /* UIColor+Vods.swift in Sources */,
+				1D5FC42D204B394100925DE7 /* String+Vods.swift in Sources */,
 				1D37E1F620392C7800AEDCDB /* Team.swift in Sources */,
 				1D37E1F820392ECA00AEDCDB /* PlaybackViewController.swift in Sources */,
 				1DD3DD852030992200A0F152 /* Event.swift in Sources */,
 				1D2D27C52043975E00BB3733 /* VideoPlayerOverlay.swift in Sources */,
+				1D5FC430204B3E4300925DE7 /* EventDetailsDataSource.swift in Sources */,
 				1D065DDD20312D5E00F5340E /* GamesViewController.swift in Sources */,
 				1D37E1F220392BDE00AEDCDB /* MatchData.swift in Sources */,
 				1DFCB950204B105E0091C7CA /* UIButton+Vods.swift in Sources */,
+				1D5FC432204B41E300925DE7 /* MatchTableViewCell.swift in Sources */,
 				1DB24CD3202B6F3800E6BDB3 /* AppDelegate.swift in Sources */,
 				1DD3DD9720309F5900A0F152 /* Game.swift in Sources */,
 				1DD3DD8B20309BEB00A0F152 /* EventVods.swift in Sources */,

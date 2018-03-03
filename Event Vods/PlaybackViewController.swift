@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import youtube_ios_player_helper
+import YoutubePlayer_in_WKWebView
 import SVProgressHUD
 
 class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
@@ -23,12 +23,11 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         return overlay
     }()
 
-    private lazy var youtubePlayer: YTPlayerView = {
-        let playerView = YTPlayerView()
+    private lazy var youtubePlayer: WKYTPlayerView = {
+        let playerView = WKYTPlayerView()
         playerView.delegate = self
         playerView.alpha = 0.01
         playerView.backgroundColor = UIColor.black
-        playerView.delegate = self
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapWebView))
         gestureRecognizer.numberOfTapsRequired = 1
         gestureRecognizer.delegate = self
@@ -101,8 +100,8 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
     func setupWebView() {
         youtubePlayer.webView?.isUserInteractionEnabled = false
-        youtubePlayer.webView?.allowsInlineMediaPlayback = true
-        youtubePlayer.webView?.mediaPlaybackRequiresUserAction = false
+//        youtubePlayer.webView?.allowsInlineMediaPlayback = true
+//        youtubePlayer.webView?.mediaPlaybackRequiresUserAction = false
         youtubePlayer.webView?.scrollView.contentInsetAdjustmentBehavior = .never
     }
 
@@ -118,7 +117,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         var numberOfSeconds = 0
 
         if let query = getQueryStringParameter(url: url, param: "t") {
-            numberOfSeconds = getNumberOfSeconds(string: query)
+            numberOfSeconds = query.getNumberOfSeconds()
         }
 
         let playerVars = [
@@ -137,45 +136,13 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
             youtubePlayer.load(withVideoId: videoID, playerVars: playerVars)
         }
         else {
-            youtubePlayer.loadVideo(byURL: url, startSeconds: 0, suggestedQuality: YTPlaybackQuality.auto)
+            youtubePlayer.loadVideo(byURL: url, startSeconds: 0, suggestedQuality: WKYTPlaybackQuality.auto)
         }
     }
 
     func getQueryStringParameter(url: String, param: String) -> String? {
         guard let url = URLComponents(string: url) else { return nil }
         return url.queryItems?.first(where: { $0.name == param })?.value
-    }
-
-    func getNumberOfSeconds(string: String) -> Int {
-        var timeString = string
-
-        var total = 0
-        if timeString.contains("h") {
-            let hours = timeString.components(separatedBy: "h").first
-            if let hours = hours {
-                timeString = timeString.replacingOccurrences(of: "\(hours)h", with: "")
-                total += Int(hours)! * 3600
-            }
-        }
-
-        if timeString.contains("m") {
-            let minutes = timeString.components(separatedBy: "m").first
-            if let minutes = minutes {
-                timeString = timeString.replacingOccurrences(of: "\(minutes)m", with: "")
-                total += Int(minutes)! * 60
-            }
-        }
-
-        if timeString.contains("s") {
-            let seconds = timeString.components(separatedBy: "s").first
-            if let seconds = seconds {
-                timeString = timeString.replacingOccurrences(of: "\(seconds)s", with: "")
-                total += Int(seconds)!
-            }
-        }
-
-
-        return total
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -214,30 +181,31 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 }
 
 // MARK : YTPlayerViewDelegate
-extension PlaybackViewController: YTPlayerViewDelegate {
+extension PlaybackViewController: WKYTPlayerViewDelegate {
 
-    func playerViewPreferredWebViewBackgroundColor(_ playerView: YTPlayerView) -> UIColor {
+    func playerViewPreferredWebViewBackgroundColor(_ playerView: WKYTPlayerView) -> UIColor {
         return UIColor.black
     }
 
-    func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
+    func playerViewDidBecomeReady(_ playerView: WKYTPlayerView) {
         playerView.playVideo()
     }
 
-    func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
+    func playerView(_ playerView: WKYTPlayerView, didChangeTo state: WKYTPlayerState) {
         if state != .buffering && state != .unstarted {
-//            playerView.alpha = 1
+            playerView.alpha = 1
+            youtubePlayer.playVideo()
             overlay.fadeOut()
             overlay.stopLoading()
         }
         else {
-//            playerView.alpha = 0.01
+            playerView.alpha = 0.01
         }
     }
 
-    func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
+    func playerView(_ playerView: WKYTPlayerView, didPlayTime playTime: Float) {
         hasPlayedVideo = true
-//        playerView.alpha = 1
+        playerView.alpha = 1
     }
 }
 
@@ -259,11 +227,15 @@ extension PlaybackViewController: VideoPlayerOverlayDelegate {
     }
 
     func didTapSeek(_ overlay: VideoPlayerOverlay, interval: TimeInterval) {
-        youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() + Float(interval), allowSeekAhead: true)
+
+        youtubePlayer.getCurrentTime { (time, error) in
+            self.youtubePlayer.seek(toSeconds: time + Float(interval), allowSeekAhead: true)
+        }
+
     }
 
     func didDoubleTapOverlay(_ overlay: VideoPlayerOverlay) {
-        youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() + Float(10), allowSeekAhead: true)
+        //youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() + Float(10), allowSeekAhead: true)
     }
 
     func didTapClose(_ overlay: VideoPlayerOverlay) {

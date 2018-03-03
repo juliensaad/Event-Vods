@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Siesta
 
 class Match: Decodable {
 
@@ -17,8 +18,8 @@ class Match: Decodable {
         case date
     }
 
-    let team1: Team?
-    let team2: Team?
+    let team1: Team
+    let team2: Team
     let date: Date?
     let data: [MatchData]
 
@@ -38,8 +39,20 @@ class Match: Decodable {
 
         date = try container.decodeIfPresent(Date.self, forKey: .date)
 
-        team1 = try container.decodeIfPresent(Team.self, forKey: .team1)
-        team2 = try container.decodeIfPresent(Team.self, forKey: .team2)
+        if let team1 = try container.decodeIfPresent(Team.self, forKey: .team1) {
+            self.team1 = team1
+        }
+        else {
+            self.team1 = Team()
+        }
+        
+
+        if let team2 = try container.decodeIfPresent(Team.self, forKey: .team2) {
+            self.team2 = team2
+        }
+        else {
+            self.team2 = Team()
+        }
     }
 
 }

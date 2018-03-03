@@ -9,6 +9,7 @@ target 'Event Vods' do
   pod 'Siesta/UI', '~> 1.3.1'
   pod 'SnapKit'
   pod 'SVProgressHUD'
+  pod 'YoutubePlayer-in-WKWebView', '~> 0.2.0'
   # Pods for Event Vods
 
   target 'Event VodsTests' do

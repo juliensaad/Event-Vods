@@ -9,7 +9,13 @@
 import UIKit
 
 class Team: Decodable {
-    let name: String?
+    let name: String
     let slug: String?
     let icon: String?
+
+    init() {
+        name = ""
+        slug = ""
+        icon = ""
+    }
 }
