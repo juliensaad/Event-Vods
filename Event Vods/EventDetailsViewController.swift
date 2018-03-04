@@ -28,7 +28,7 @@ class EventDetailsViewController: UIViewController {
             var dayModules: [EventModule] = []
 
             for section in fullSections {
-                for module in section.modules {
+                for module in section.modules.reversed() {
                     var newModule = module
                     newModule.title = "\(section.title) - \(module.title)"
                     dayModules.append(newModule)
@@ -62,6 +62,30 @@ class EventDetailsViewController: UIViewController {
         super.viewWillAppear(animated)
         UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
     }
+
+    func presentMatchURL(match: Match, url: String?, placeholder: Bool?) {
+        if let placeholder = placeholder {
+            if placeholder {
+                showPlaceholderAlert()
+                return
+            }
+        }
+        if let url = url {
+            let playbackViewController = PlaybackViewController(match: match, url: url)
+            self.navigationController?.present(playbackViewController, animated: true, completion: nil)
+        }
+        else {
+            showPlaceholderAlert()
+        }
+    }
+
+    func showPlaceholderAlert() {
+        let alert = UIAlertController(title: NSLocalizedString("sorry", comment: ""),
+                                      message: NSLocalizedString("match_doesnt_exist", comment: ""),
+                                      preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
 }
 
 // MARK: TableView
@@ -73,10 +97,6 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-//        let matchCount = section.modules?.map({ (module) -> Int in
-//            return module.matches.count
-//        }).reduce(0) { $0 + $1 }
         return sections[section].matches2.count
     }
 
@@ -88,6 +108,7 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
         label.setTitle(section.title, for: .normal)
         label.titleEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         label.backgroundColor = UIColor.sectionGreen
+        label.titleLabel?.font = UIFont(name: "Avenir", size: 16)
 
         return label
     }
@@ -104,12 +125,40 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let match = sections[indexPath.section].matches2[indexPath.row]
-        let playbackViewController = PlaybackViewController(match: match)
-        navigationController?.present(playbackViewController, animated: true, completion: nil)
+
+        let controller = UIAlertController(title: match.matchTitle, message: nil, preferredStyle: .actionSheet)
+
+        var prefix: String = ""
+
+        for (index, matchData) in match.data.enumerated() {
+            if match.data.count > 1 {
+                prefix = "Game \(index+1) - "
+            }
+            let picksBans = UIAlertAction(title: "\(prefix)Picks & Bans", style: UIAlertActionStyle.default, handler: { (action) in
+                self.presentMatchURL(match: match, url: matchData.youtube?.picksBans, placeholder: matchData.placeholder)
+            })
+
+            let gameStart = UIAlertAction(title: "\(prefix)Game Start", style: UIAlertActionStyle.default, handler: { (action) in
+                self.presentMatchURL(match: match, url: matchData.youtube?.gameStart, placeholder: matchData.placeholder)
+            })
+
+            controller.addAction(picksBans)
+            controller.addAction(gameStart)
+        }
+
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: nil)
+        controller.addAction(cancelAction)
+
+        let sourceView = (self.tableView.cellForRow(at: indexPath) as! MatchTableViewCell).teamMatchupView
+        controller.popoverPresentationController?.sourceView = sourceView.vsLabel
+        present(controller, animated: true, completion: nil)
+
+//        let playbackViewController = PlaybackViewController(match: match, matchData: match.data[0])
+//        navigationController?.present(playbackViewController, animated: true, completion: nil)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 110
     }
 
 }

@@ -16,12 +16,22 @@ class Match: Decodable {
         case team2
         case data
         case date
+        case hasSpoilers = "spoiler1"
+        case team1Match
+        case team2Match
     }
 
     let team1: Team
     let team2: Team
     let date: Date?
     let data: [MatchData]
+    var hasSpoilers: Bool = false
+    let team1Match: String?
+    let team2Match: String?
+
+    var matchTitle: String {
+        return "\(team1.tag) vs \(team2.tag)"
+    }
 
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -38,6 +48,8 @@ class Match: Decodable {
         }
 
         date = try container.decodeIfPresent(Date.self, forKey: .date)
+        team1Match = try container.decodeIfPresent(String.self, forKey: .team1Match)
+        team2Match = try container.decodeIfPresent(String.self, forKey: .team2Match)
 
         if let team1 = try container.decodeIfPresent(Team.self, forKey: .team1) {
             self.team1 = team1
@@ -52,6 +64,13 @@ class Match: Decodable {
         }
         else {
             self.team2 = Team()
+        }
+
+        if let spoiler = try container.decodeIfPresent(Bool.self, forKey: .hasSpoilers) {
+            self.hasSpoilers = spoiler
+        }
+        else {
+            self.hasSpoilers = false
         }
     }
 

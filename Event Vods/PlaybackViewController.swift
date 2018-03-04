@@ -13,6 +13,7 @@ import SVProgressHUD
 class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
     let match: Match
+    let url: String?
     var hasPlayedVideo: Bool = false
 
     var initialTouchPoint: CGPoint = CGPoint(x: 0,y: 0)
@@ -35,8 +36,9 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         return playerView
     }()
 
-    init(match: Match) {
+    init(match: Match, url: String?) {
         self.match = match
+        self.url = url
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -109,8 +111,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         overlay.beginLoading()
         setupWebView()
 
-        guard let url = match.data.first?.youtube?.gameStart else {
-            // handle bad URL error
+        guard let url = self.url else {
             return
         }
 

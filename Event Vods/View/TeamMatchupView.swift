@@ -14,12 +14,21 @@ class TeamMatchupView: UIView {
     var match: Match? {
         didSet {
             if let match = match {
-                if let team1Icon = match.team1.icon, let team2Icon = match.team2.icon {
-                    firstTeamIcon = URL(string: team1Icon)
-                    secondTeamIcon = URL(string: team2Icon)
+                if match.hasSpoilers {
+                    let placeholder = UIImage(named: "lol")
+                    firstTeamImageView.image = placeholder
+                    secondTeamImageView.image = placeholder
+                    firstTeamLabel.text = match.team1Match
+                    secondTeamLabel.text = match.team2Match
                 }
                 else {
-                    // setup labels
+                    firstTeamLabel.text = match.team1.tag ?? match.team1.name
+                    secondTeamLabel.text = match.team2.tag ?? match.team2.name
+
+                    if let team1Icon = match.team1.icon, let team2Icon = match.team2.icon {
+                        firstTeamIcon = URL(string: team1Icon)
+                        secondTeamIcon = URL(string: team2Icon)
+                    }
                 }
             }
         }
@@ -45,7 +54,29 @@ class TeamMatchupView: UIView {
         return imageView
     }()
 
-    private lazy var vsLabel: UILabel = {
+    private lazy var firstTeamLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Avenir-Black", size: 16)
+        label.textColor = UIColor.white
+        label.layer.shadowOffset = CGSize(width: 0, height: 1)
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.layer.shadowOpacity = 0.2
+        label.layer.shadowRadius = 6
+        return label
+    }()
+
+    private lazy var secondTeamLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Avenir-Black", size: 16)
+        label.textColor = UIColor.white
+        label.layer.shadowOffset = CGSize(width: 0, height: 1)
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.layer.shadowOpacity = 0.2
+        label.layer.shadowRadius = 6
+        return label
+    }()
+
+    lazy var vsLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont(name: "Avenir-Black", size: 24)
@@ -109,18 +140,31 @@ class TeamMatchupView: UIView {
 
         addSubview(firstTeamImageView)
         addSubview(secondTeamImageView)
+        addSubview(firstTeamLabel)
+        addSubview(secondTeamLabel)
+        addSubview(secondTeamImageView)
         addSubview(vsLabel)
 
         firstTeamImageView.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-14)
             make.centerX.equalToSuperview().offset(-80)
-            make.height.equalToSuperview()
+            make.height.equalTo(44)
         }
     
         secondTeamImageView.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
+            make.centerY.equalTo(firstTeamImageView)
             make.centerX.equalToSuperview().offset(80)
-            make.height.equalToSuperview()
+            make.height.equalTo(44)
+        }
+
+        firstTeamLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(firstTeamImageView)
+            make.top.equalTo(firstTeamImageView.snp.bottom).offset(5)
+        }
+
+        secondTeamLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(secondTeamImageView)
+            make.top.equalTo(secondTeamImageView.snp.bottom).offset(10)
         }
 
         vsLabel.snp.makeConstraints { (make) in

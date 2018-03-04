@@ -78,7 +78,9 @@ class VideoPlayerOverlay: UIView {
     var isLandscape: Bool = false
 
     private lazy var matchupView: TeamMatchupView = {
-        return TeamMatchupView()
+        let view = TeamMatchupView()
+        view.isHidden = true
+        return view
     }()
     
     private lazy var playButton: UIButton = {

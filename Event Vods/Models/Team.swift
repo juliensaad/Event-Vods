@@ -12,10 +12,12 @@ class Team: Decodable {
     let name: String
     let slug: String?
     let icon: String?
+    let tag: String
 
     init() {
         name = ""
         slug = ""
         icon = ""
+        tag = ""
     }
 }

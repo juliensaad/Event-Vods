@@ -12,7 +12,7 @@ class MatchTableViewCell: UITableViewCell {
 
     static let reuseIdentifier = "MatchTableViewCell"
 
-    private lazy var teamMatchupView: TeamMatchupView = {
+    lazy var teamMatchupView: TeamMatchupView = {
         let view = TeamMatchupView()
         return view
     }()
@@ -28,13 +28,21 @@ class MatchTableViewCell: UITableViewCell {
     init(match: Match, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
 
+        let separatorView = UIView()
+        separatorView.backgroundColor = UIColor.controlGreen
+
         teamMatchupView.match = match
         contentView.backgroundColor = UIColor.lolGreen
         contentView.addSubview(teamMatchupView)
+        contentView.addSubview(separatorView)
+
+        separatorView.snp.makeConstraints { (make) in
+            make.height.equalTo(1)
+            make.left.right.bottom.equalToSuperview()
+        }
 
         teamMatchupView.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
-            make.height.equalTo(50)
             make.centerY.equalToSuperview()
         }
     }
@@ -43,25 +51,8 @@ class MatchTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
 
-
     required init?(coder aDecoder: NSCoder) {
         fatalError("IB not supported")
-    }
-
-    func makeCard() {
-        //
-        //        card.backgroundColor = UIColor(red: 0, green: 94/255, blue: 112/255, alpha: 1)
-        //        card.icon = UIImage(named: "flappy")
-        //        card.title = event.name
-        //        card.itemTitle = event.slug
-        //        card.itemSubtitle = event.startDate?.description ?? ""
-        //        card.textColor = UIColor.white
-        //
-        //        card.hasParallax = true
-        //
-        //        card.snp.makeConstraints { (make) in
-        //            make.edges.equalTo(contentView).inset(UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20))
-        //        }
     }
 
 }
