@@ -21,6 +21,7 @@
 		1D37E1F420392BFA00AEDCDB /* YoutubeLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1F320392BFA00AEDCDB /* YoutubeLink.swift */; };
 		1D37E1F620392C7800AEDCDB /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1F520392C7800AEDCDB /* Team.swift */; };
 		1D37E1F820392ECA00AEDCDB /* PlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1F720392ECA00AEDCDB /* PlaybackViewController.swift */; };
+		1D3DF638204CAD3D007BEAFA /* URLRedirectLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DF637204CAD3D007BEAFA /* URLRedirectLoader.swift */; };
 		1D5FC42D204B394100925DE7 /* String+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5FC42C204B394100925DE7 /* String+Vods.swift */; };
 		1D5FC430204B3E4300925DE7 /* EventDetailsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5FC42F204B3E4300925DE7 /* EventDetailsDataSource.swift */; };
 		1D5FC432204B41E300925DE7 /* MatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5FC431204B41E300925DE7 /* MatchTableViewCell.swift */; };
@@ -67,6 +68,7 @@
 		1D37E1F320392BFA00AEDCDB /* YoutubeLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeLink.swift; sourceTree = "<group>"; };
 		1D37E1F520392C7800AEDCDB /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		1D37E1F720392ECA00AEDCDB /* PlaybackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackViewController.swift; sourceTree = "<group>"; };
+		1D3DF637204CAD3D007BEAFA /* URLRedirectLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRedirectLoader.swift; sourceTree = "<group>"; };
 		1D5FC42C204B394100925DE7 /* String+Vods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Vods.swift"; sourceTree = "<group>"; };
 		1D5FC42F204B3E4300925DE7 /* EventDetailsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsDataSource.swift; sourceTree = "<group>"; };
 		1D5FC431204B41E300925DE7 /* MatchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchTableViewCell.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				1DD3DD9A2030A8C900A0F152 /* EventAPI.swift */,
 				1DD3DD8820309AFA00A0F152 /* Endpoint.swift */,
 				1DD3DD8A20309BEB00A0F152 /* EventVods.swift */,
+				1D3DF637204CAD3D007BEAFA /* URLRedirectLoader.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -489,6 +492,7 @@
 				1DD3DD852030992200A0F152 /* Event.swift in Sources */,
 				1D2D27C52043975E00BB3733 /* VideoPlayerOverlay.swift in Sources */,
 				1D5FC430204B3E4300925DE7 /* EventDetailsDataSource.swift in Sources */,
+				1D3DF638204CAD3D007BEAFA /* URLRedirectLoader.swift in Sources */,
 				1D065DDD20312D5E00F5340E /* GamesViewController.swift in Sources */,
 				1D37E1F220392BDE00AEDCDB /* MatchData.swift in Sources */,
 				1DFCB950204B105E0091C7CA /* UIButton+Vods.swift in Sources */,

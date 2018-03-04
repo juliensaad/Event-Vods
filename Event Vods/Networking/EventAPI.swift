@@ -20,8 +20,8 @@ class _EventAPI {
         standardTransformers: [.text, .image])
     fileprivate init() {
         #if DEBUG
-//            LogCategory.enabled = [.network]
-            LogCategory.enabled = LogCategory.common
+            LogCategory.enabled = [.network]
+//            LogCategory.enabled = LogCategory.common
         #endif
 
         let jsonDecoder = JSONDecoder()

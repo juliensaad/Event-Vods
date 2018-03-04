@@ -40,4 +40,14 @@ extension String {
 
         return total
     }
+
+    static func getRedirectURL(url: String, withCompletion completion: @escaping (String?) -> Void) {
+        if url.contains("youtube") {
+            completion(url)
+        }
+        else {
+            let loader = URLRedirectLoader()
+            loader.fetchRedirect(url: url, completion: completion)
+        }
+    }
 }

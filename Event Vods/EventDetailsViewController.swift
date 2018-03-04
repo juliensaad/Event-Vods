@@ -91,8 +91,13 @@ class EventDetailsViewController: UIViewController {
             }
         }
         if let url = url {
-            let playbackViewController = PlaybackViewController(match: match, url: url)
-            self.navigationController?.present(playbackViewController, animated: true, completion: nil)
+            String.getRedirectURL(url: url, withCompletion: { (string) in
+                if let url = string {
+                    let playbackViewController = PlaybackViewController(match: match, url: url)
+                    self.navigationController?.present(playbackViewController, animated: true, completion: nil)
+                }
+            })
+
         }
         else {
             showPlaceholderAlert()
