@@ -15,5 +15,5 @@ struct EventModule: Decodable {
     let date: Date
 
     let matches: [String]?
-    let matches2: [Match]
+    var matches2: [Match]
 }

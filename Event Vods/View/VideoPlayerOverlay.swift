@@ -76,6 +76,9 @@ class VideoPlayerOverlay: UIView {
     let match: Match
     var fadeTimer: Timer?
     var isLandscape: Bool = false
+    var isLoading: Bool {
+        return spinner.alpha > 0
+    }
 
     private lazy var matchupView: TeamMatchupView = {
         let view = TeamMatchupView()
@@ -147,7 +150,10 @@ class VideoPlayerOverlay: UIView {
 
     func updateSeekButtonVisibility () {
         for button in seekButtons {
-            if button.frame.origin.x < bounds.origin.x {
+            if isLoading {
+                button.alpha = 0
+            }
+            else if button.frame.origin.x < bounds.origin.x {
                 button.alpha = 0
             }
             else if button.frame.maxX > bounds.maxX {
@@ -308,16 +314,16 @@ class VideoPlayerOverlay: UIView {
 
     func beginLoading() {
         spinner.alpha = 1
-        playButton.imageView?.alpha = 0
-        pauseButton.imageView?.alpha = 0
+        playButton.alpha = 0
+        pauseButton.alpha = 0
     }
 
     func stopLoading() {
         fadeOut()
         UIView.animateKeyframes(withDuration: 0.3, delay: 0, options: [], animations: {
             self.spinner.alpha = 0
-            self.playButton.imageView?.alpha = 1
-            self.pauseButton.imageView?.alpha = 1
+            self.playButton.alpha = 1
+            self.pauseButton.alpha = 1
         }, completion: nil)
     }
 

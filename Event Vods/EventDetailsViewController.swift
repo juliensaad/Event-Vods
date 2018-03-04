@@ -31,7 +31,27 @@ class EventDetailsViewController: UIViewController {
                 for module in section.modules.reversed() {
                     var newModule = module
                     newModule.title = "\(section.title) - \(module.title)"
-                    dayModules.append(newModule)
+
+                    var newMatches: [Match] = []
+                    var shouldAddMatch = false
+                    for match in newModule.matches2 {
+                        for matchData in match.data {
+                            // only show matches that have youtube links
+                            // or that are placeholders
+                            if matchData.youtube != nil || matchData.placeholder == true {
+                                shouldAddMatch = true
+                                break
+                            }
+                        }
+
+                        if shouldAddMatch {
+                            newMatches.append(match)
+                        }
+                    }
+                    newModule.matches2 = newMatches
+                    if !newModule.matches2.isEmpty {
+                        dayModules.append(newModule)
+                    }
                 }
             }
             sections = dayModules
@@ -151,10 +171,9 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
 
         let sourceView = (self.tableView.cellForRow(at: indexPath) as! MatchTableViewCell).teamMatchupView
         controller.popoverPresentationController?.sourceView = sourceView.vsLabel
-        present(controller, animated: true, completion: nil)
-
-//        let playbackViewController = PlaybackViewController(match: match, matchData: match.data[0])
-//        navigationController?.present(playbackViewController, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(controller, animated: true, completion: nil)
+        }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

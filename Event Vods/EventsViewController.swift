@@ -103,7 +103,6 @@ class EventsViewController: UIViewController, ResourceObserver {
     
     func resourceChanged(_ resource: Resource, event: ResourceEvent) {
         if resource == eventsResource {
-            //SVProgressHUD.dismiss()
             showEvents(eventsResource?.typedContent())
         }
     }

@@ -150,10 +150,6 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         return UIStatusBarStyle.lightContent
     }
 
-    func pauseVideo() {
-        self.youtubePlayer.pauseVideo()
-    }
-
     override func prefersHomeIndicatorAutoHidden() -> Bool {
         return true
     }
@@ -195,7 +191,10 @@ extension PlaybackViewController: WKYTPlayerViewDelegate {
     func playerView(_ playerView: WKYTPlayerView, didChangeTo state: WKYTPlayerState) {
         if state != .buffering && state != .unstarted {
             playerView.alpha = 1
-            youtubePlayer.playVideo()
+
+            if state != .paused || !hasPlayedVideo {
+                youtubePlayer.playVideo()
+            }
             overlay.fadeOut()
             overlay.stopLoading()
         }
