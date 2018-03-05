@@ -83,25 +83,20 @@ class EventDetailsViewController: UIViewController {
         UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
     }
 
-    func presentMatchURL(match: Match, url: String?, placeholder: Bool?) {
+    func presentMatchURL(match: Match, url: String, placeholder: Bool?) {
         if let placeholder = placeholder {
             if placeholder {
                 showPlaceholderAlert()
                 return
             }
         }
-        if let url = url {
-            String.getRedirectURL(url: url, withCompletion: { (string) in
-                if let url = string {
-                    let playbackViewController = PlaybackViewController(match: match, url: url)
-                    self.navigationController?.present(playbackViewController, animated: true, completion: nil)
-                }
-            })
 
-        }
-        else {
-            showPlaceholderAlert()
-        }
+        String.getRedirectURL(url: url, withCompletion: { (string) in
+            if let url = string {
+                let playbackViewController = PlaybackViewController(match: match, url: url)
+                self.navigationController?.present(playbackViewController, animated: true, completion: nil)
+            }
+        })
     }
 
     func showPlaceholderAlert() {
@@ -110,6 +105,12 @@ class EventDetailsViewController: UIViewController {
                                       preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
         present(alert, animated: true, completion: nil)
+    }
+
+    func getAction(forTitle title: String, url: String, match: Match, placeholder: Bool?) -> UIAlertAction {
+        return UIAlertAction(title: title, style: UIAlertActionStyle.default, handler: { (action) in
+            self.presentMatchURL(match: match, url: url, placeholder: placeholder)
+        })
     }
 }
 
@@ -159,16 +160,18 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
             if match.data.count > 1 {
                 prefix = "Game \(index+1) - "
             }
-            let picksBans = UIAlertAction(title: "\(prefix)Picks & Bans", style: UIAlertActionStyle.default, handler: { (action) in
-                self.presentMatchURL(match: match, url: matchData.youtube?.picksBans, placeholder: matchData.placeholder)
-            })
 
-            let gameStart = UIAlertAction(title: "\(prefix)Game Start", style: UIAlertActionStyle.default, handler: { (action) in
-                self.presentMatchURL(match: match, url: matchData.youtube?.gameStart, placeholder: matchData.placeholder)
-            })
 
-            controller.addAction(picksBans)
-            controller.addAction(gameStart)
+            if let url = matchData.youtube?.picksBans {
+                let action = getAction(forTitle: "\(prefix)Picks & Bans", url: url, match: match, placeholder: matchData.placeholder)
+                controller.addAction(action)
+            }
+
+            if let url = matchData.youtube?.gameStart {
+                let action = getAction(forTitle: "\(prefix)Game Start", url: url, match: match, placeholder: matchData.placeholder)
+                controller.addAction(action)
+            }
+
         }
 
         let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: nil)
