@@ -8,11 +8,11 @@
 
 import Foundation
 
-
 import Foundation
 import UIKit
 import SnapKit
 import Siesta
+import Kingfisher
 
 class EventCell: UITableViewCell {
     
@@ -20,6 +20,7 @@ class EventCell: UITableViewCell {
     
     private lazy var eventImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.kf.indicatorType = .activity
         imageView.contentMode = UIViewContentMode.scaleAspectFit
         return imageView
     }()
@@ -31,11 +32,6 @@ class EventCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
-    
-    var imageURL: URL? {
-        get { return imageResource?.url }
-        set { imageResource = ImageCache.resource(absoluteURL: newValue) }
-    }
     
     var placeholderImage: UIImage {
         return UIImage()
@@ -65,21 +61,6 @@ class EventCell: UITableViewCell {
         label.numberOfLines = 0
         return label
     }()
-    
-    var imageResource: Resource? {
-        willSet {
-            imageResource?.removeObservers(ownedBy: self)
-            imageResource?.cancelLoadIfUnobserved(afterDelay: 0.05)
-        }
-        
-        didSet {
-            imageResource?.loadIfNeeded()
-            imageResource?.addObserver(owner: self) { [weak self] _,_ in
-                self?.eventImageView.image = self?.imageResource?.typedContent(
-                    ifNone: self?.placeholderImage)
-            }
-        }
-    }
 
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         // do nothing
@@ -96,6 +77,7 @@ class EventCell: UITableViewCell {
         subtitleLabel.text = event.subtitle
         backgroundImageView.image = UIImage(named: event.backgroundImageName)
         backgroundImageView.clipsToBounds = true
+        dateLabel.text = event.dateRangeText
         contentView.clipsToBounds = true
         contentView.addSubview(backgroundImageView)
         contentView.addSubview(eventNameLabel)
@@ -132,9 +114,9 @@ class EventCell: UITableViewCell {
             make.bottom.equalTo(contentView).offset(-verticalMargin)
             make.left.equalTo(eventNameLabel)
         }
-        
-        if let logo = event.logo {
-            imageURL = URL(string: logo)
+
+        if let logo = event.logo, let url = URL(string:logo) {
+            eventImageView.kf.setImage(with: url)
         }
     }
     

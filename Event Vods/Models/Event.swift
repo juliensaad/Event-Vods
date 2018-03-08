@@ -30,6 +30,20 @@ class Event: Decodable {
         return String(abs((_id ?? "").hash) % 13)
     }
 
+    var dateRangeText: String {
+        guard let startDate = startDate, let endDate = endDate else {
+            return "Some time ago."
+        }
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM dd, yyyy"
+
+        let start = formatter.string(from: startDate)
+        let end = formatter.string(from: endDate)
+
+        return "\(start) - \(end)"
+    }
+
 //    required init(from decoder: Decoder) throws {
 //        let container = try decoder.container(keyedBy: CodingKeys.self)
 //        if let test = try container.decodeIfPresent(String.self, forKey: .test) {

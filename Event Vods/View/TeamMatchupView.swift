@@ -22,12 +22,14 @@ class TeamMatchupView: UIView {
                     secondTeamLabel.text = match.team2Match
                 }
                 else {
-                    firstTeamLabel.text = match.team1.tag ?? match.team1.name
-                    secondTeamLabel.text = match.team2.tag ?? match.team2.name
+                    firstTeamLabel.text = match.team1.tag
+                    secondTeamLabel.text = match.team2.tag
 
                     if let team1Icon = match.team1.icon, let team2Icon = match.team2.icon {
-                        firstTeamIcon = URL(string: team1Icon)
-                        secondTeamIcon = URL(string: team2Icon)
+                        firstTeamImageView.kf.indicatorType = .activity
+                        secondTeamImageView.kf.indicatorType = .activity
+                        firstTeamImageView.kf.setImage(with: URL(string: team1Icon))
+                        secondTeamImageView.kf.setImage(with: URL(string: team2Icon))
                     }
                 }
             }
@@ -87,46 +89,6 @@ class TeamMatchupView: UIView {
         label.layer.shadowOffset = CGSize(width: 0, height: 1)
         return label
     }()
-
-    var firstTeamResource: Resource? {
-        willSet {
-            firstTeamResource?.removeObservers(ownedBy: self)
-            firstTeamResource?.cancelLoadIfUnobserved(afterDelay: 0.05)
-        }
-
-        didSet {
-            firstTeamResource?.loadIfNeeded()
-            firstTeamResource?.addObserver(owner: self) { [weak self] _,_ in
-                self?.firstTeamImageView.image = self?.firstTeamResource?.typedContent(
-                    ifNone: self?.placeholderImage)
-            }
-        }
-    }
-
-    var secondTeamResource: Resource? {
-        willSet {
-            secondTeamResource?.removeObservers(ownedBy: self)
-            secondTeamResource?.cancelLoadIfUnobserved(afterDelay: 0.05)
-        }
-
-        didSet {
-            secondTeamResource?.loadIfNeeded()
-            secondTeamResource?.addObserver(owner: self) { [weak self] _,_ in
-                self?.secondTeamImageView.image = self?.secondTeamResource?.typedContent(
-                    ifNone: self?.placeholderImage)
-            }
-        }
-    }
-
-    var firstTeamIcon: URL? {
-        get { return firstTeamResource?.url }
-        set { firstTeamResource = ImageCache.resource(absoluteURL: newValue) }
-    }
-
-    var secondTeamIcon: URL? {
-        get { return secondTeamResource?.url }
-        set { secondTeamResource = ImageCache.resource(absoluteURL: newValue) }
-    }
 
     var placeholderImage: UIImage {
         return UIImage()

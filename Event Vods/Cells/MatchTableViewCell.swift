@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class MatchTableViewCell: UITableViewCell {
 

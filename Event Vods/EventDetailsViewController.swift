@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class EventDetailsViewController: UIViewController {
     let event: Event
@@ -72,14 +73,13 @@ class EventDetailsViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = UINavigationItem.LargeTitleDisplayMode.never
 
         let titleView = UIButton()
-        if let logo = event.logo {
-            titleView.setImage(UIImage(named: "lol"), for: .normal)
-
+        if let logo = event.logo, let url = URL(string:logo) {
+            titleView.kf.setImage(with: url, for: .normal)
             titleView.imageEdgeInsets = UIEdgeInsetsMake(8,8,8,8)
             titleView.imageView?.contentMode = UIViewContentMode.scaleAspectFit
             titleView.layer.shadowColor = UIColor.black.cgColor
-            titleView.layer.shadowOpacity = 0.2
-            titleView.layer.shadowRadius = 6
+            titleView.layer.shadowOpacity = 0.3
+            titleView.layer.shadowRadius = 3
             titleView.layer.shadowOffset = CGSize(width: 0, height: 1)
             titleView.isUserInteractionEnabled = false
             navigationItem.titleView = titleView
