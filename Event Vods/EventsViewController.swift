@@ -39,10 +39,17 @@ class EventsViewController: UIViewController, ResourceObserver {
         }
     }
 
-    lazy var logoView: UIImageView = {
-        let logoView = UIImageView(image: UIImage(named: "lol"))
-        logoView.contentMode = .scaleAspectFit
+    lazy var logoView: UIButton = {
+        let logoView = UIButton()
+        logoView.setImage(UIImage(named: "lol"), for: .normal)
+        logoView.imageView?.contentMode = .scaleAspectFit
+        logoView.imageEdgeInsets = UIEdgeInsetsMake(4, 4, 4, 4)
         logoView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        logoView.layer.shadowColor = UIColor.black.cgColor
+        logoView.layer.shadowOpacity = 0.2
+        logoView.layer.shadowRadius = 6
+        logoView.layer.shadowOffset = CGSize(width: 0, height: 1)
+        logoView.isUserInteractionEnabled = false
         return logoView
     }()
 

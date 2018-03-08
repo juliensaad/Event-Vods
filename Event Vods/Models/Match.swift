@@ -74,4 +74,8 @@ class Match: Decodable {
         }
     }
 
+    var backgroundImageName: String {
+        return String(abs(matchTitle.hash) % 13)
+    }
+
 }

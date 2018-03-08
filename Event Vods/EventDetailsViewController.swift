@@ -69,13 +69,33 @@ class EventDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = event.name
-        view.backgroundColor = UIColor.lolGreen
+        navigationItem.largeTitleDisplayMode = UINavigationItem.LargeTitleDisplayMode.never
+
+        let titleView = UIButton()
+        if let logo = event.logo {
+            titleView.setImage(UIImage(named: "lol"), for: .normal)
+
+            titleView.imageEdgeInsets = UIEdgeInsetsMake(8,8,8,8)
+            titleView.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+            titleView.layer.shadowColor = UIColor.black.cgColor
+            titleView.layer.shadowOpacity = 0.2
+            titleView.layer.shadowRadius = 6
+            titleView.layer.shadowOffset = CGSize(width: 0, height: 1)
+            titleView.isUserInteractionEnabled = false
+            navigationItem.titleView = titleView
+        }
+        else {
+            title = event.name
+        }
+
+        navigationController?.navigationBar.topItem?.title = ""
+
+        view.backgroundColor = UIColor.black
         view.addSubview(tableView)
 
         tableView.frame = view.bounds
-        view.backgroundColor = UIColor.lolGreen
-        tableView.backgroundColor = UIColor.lolGreen
+        tableView.backgroundColor = UIColor.clear
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -133,7 +153,7 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
         label.isUserInteractionEnabled = false
         label.setTitle(section.title, for: .normal)
         label.titleEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
-        label.backgroundColor = UIColor.sectionGreen
+        label.backgroundColor = UIColor(red: 0.2, green: 0.2, blue: 0.22, alpha: 1.0)
         label.titleLabel?.font = UIFont(name: "Avenir", size: 16)
 
         return label

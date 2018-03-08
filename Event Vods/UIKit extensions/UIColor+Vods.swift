@@ -10,7 +10,7 @@ import UIKit
 
 extension UIColor {
     @nonobjc class var lolGreen: UIColor {
-        return UIColor(red: 16.0 / 255.0, green: 67.0 / 255.0, blue: 70.0 / 255.0, alpha: 1.0)
+        return UIColor(red: 10.0 / 255.0, green: 110.0 / 255.0, blue: 115.0 / 255.0, alpha: 1.0)
     }
 
     @nonobjc class var controlGreen: UIColor {

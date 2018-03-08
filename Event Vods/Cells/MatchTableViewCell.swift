@@ -17,6 +17,13 @@ class MatchTableViewCell: UITableViewCell {
         return view
     }()
 
+    lazy var backgroundImageView: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = UIViewContentMode.scaleAspectFill
+        view.alpha = 0.1
+        return view
+    }()
+
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         // do nothing
     }
@@ -29,13 +36,20 @@ class MatchTableViewCell: UITableViewCell {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
 
         let separatorView = UIView()
-        separatorView.backgroundColor = UIColor.controlGreen
+        separatorView.backgroundColor = UIColor(white: 0.1, alpha: 0.4)
 
         teamMatchupView.match = match
-        contentView.backgroundColor = UIColor.lolGreen
+        backgroundColor = .clear
+        contentView.backgroundColor = UIColor(red: 0.1, green: 0.1, blue: 0.11, alpha: 0.9)
+        contentView.addSubview(backgroundImageView)
         contentView.addSubview(teamMatchupView)
         contentView.addSubview(separatorView)
 
+        backgroundImageView.image = UIImage(named: match.backgroundImageName)
+        backgroundImageView.clipsToBounds = true
+        backgroundImageView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
         separatorView.snp.makeConstraints { (make) in
             make.height.equalTo(1)
             make.left.right.bottom.equalToSuperview()
