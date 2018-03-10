@@ -11,6 +11,7 @@ target 'Event Vods' do
   pod 'SVProgressHUD'
   pod 'YoutubePlayer-in-WKWebView', '~> 0.2.0'
   pod 'Kingfisher'
+  pod 'PageMenu'
   # Pods for Event Vods
 
   target 'Event VodsTests' do

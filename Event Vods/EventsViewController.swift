@@ -13,7 +13,24 @@ import SVProgressHUD
 
 class EventsViewController: UIViewController, ResourceObserver {
     
+    var allEvents: [Event] = [] {
+        didSet {
+            games = Set(allEvents.map({ (event) -> Game in
+                return event.game
+            }))
+        }
+    }
+
     var events: [Event] = []
+
+    var games: Set<Game> = [] {
+        didSet {
+            print(games)
+        }
+    }
+
+    var selectedGameSlug = "lol"
+    
     lazy var statusOverlay: ResourceStatusOverlay = {
         let overlay = ResourceStatusOverlay()
         return overlay
@@ -118,19 +135,23 @@ class EventsViewController: UIViewController, ResourceObserver {
         guard var events = events else {
             return
         }
-        
-        events = events.filter { (event) -> Bool in
-            event.game.slug == Game.LeagueOfLegendsSlug
-        }
-        
+
         events.sort { (event, otherEvent) -> Bool in
             if let update = event.updatedAt, let otherUpdate = otherEvent.updatedAt {
                 return update > otherUpdate
             }
             return false
         }
-        
-        self.events = events
+
+        self.allEvents = events
+
+        filterEvents(selectedGameSlug)
+    }
+
+    func filterEvents(_ slug: String) {
+        events = allEvents.filter { (event) -> Bool in
+            event.game.slug == selectedGameSlug
+        }
         tableView.reloadData()
     }
     

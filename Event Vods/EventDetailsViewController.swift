@@ -190,7 +190,7 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
         label.isUserInteractionEnabled = false
         label.setTitle(section.title, for: .normal)
         label.titleEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
-        label.backgroundColor = UIColor(red: 0.16, green: 0.14, blue: 0.17, alpha: 1.0)
+        label.backgroundColor = UIColor(red: 0.16, green: 0.14, blue: 0.21, alpha: 1.0)
         label.titleLabel?.font = UIFont.boldVodsFontOfSize(17)
         label.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         let separator = UIView()
