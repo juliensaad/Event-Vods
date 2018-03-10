@@ -25,11 +25,6 @@ class MatchTableViewCell: UITableViewCell {
         return view
     }()
 
-    lazy var progressView: DSGradientProgressView = {
-        let view = DSGradientProgressView()
-        return view
-    }()
-
     lazy var overlay: UIView = {
         let view = UIView()
         view.alpha = 0.5
@@ -52,7 +47,7 @@ class MatchTableViewCell: UITableViewCell {
         // do nothing
     }
 
-    init(match: Match, reuseIdentifier: String?) {
+    init(match: Match, tintColor: UIColor, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
 
         let separatorView = UIView()
@@ -61,7 +56,7 @@ class MatchTableViewCell: UITableViewCell {
         teamMatchupView.match = match
         
         backgroundColor = .clear
-        contentView.backgroundColor = UIColor.lolGreen
+        contentView.backgroundColor = tintColor
         contentView.addSubview(backgroundImageView)
         contentView.addSubview(teamMatchupView)
         contentView.addSubview(separatorView)

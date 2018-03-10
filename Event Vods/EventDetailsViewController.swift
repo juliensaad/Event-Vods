@@ -35,6 +35,10 @@ class EventDetailsViewController: UIViewController {
         return titleView
     }()
 
+    var gameColor: UIColor {
+        return navigationController?.navigationBar.backgroundColor ?? UIColor.lolGreen
+    }
+
     init(event: Event) {
         self.event = event
         if let contents = self.event.contents {
@@ -85,7 +89,11 @@ class EventDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.lolGreen
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            appDelegate.pageController.isSwipingEnabled = false
+        }
+
+        view.backgroundColor = gameColor
         view.addSubview(tableView)
 
         tableView.frame = view.bounds
@@ -98,6 +106,9 @@ class EventDetailsViewController: UIViewController {
         super.viewWillDisappear(animated)
 
         if isMovingFromParentViewController {
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+                appDelegate.pageController.isSwipingEnabled = true
+            }
             UIView.animate(withDuration: 0.3, animations: {
                 self.titleView.alpha = 0
             }) { (completed) in
@@ -211,7 +222,7 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let match = sections[indexPath.section].matches2[indexPath.row]
-        let cell = MatchTableViewCell(match: match, reuseIdentifier: MatchTableViewCell.reuseIdentifier)
+        let cell = MatchTableViewCell(match: match, tintColor: gameColor, reuseIdentifier: MatchTableViewCell.reuseIdentifier)
         return cell
     }
 

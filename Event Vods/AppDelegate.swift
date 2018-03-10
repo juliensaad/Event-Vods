@@ -13,9 +13,21 @@ import SVProgressHUD
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let pageController = YZSwipeBetweenViewController()
+
+    func setSwipingEnabled(_ enabled: Bool) {
+        pageController.isSwipingEnabled = enabled
+    }
 
     func applicationDidFinishLaunching(_ application: UIApplication) {
-        
+        for slug in ["lol", "csgo", "overwatch", "dota", "rocket-league"] {
+            let viewController = EventsViewController(slug: slug)
+            let navigationController = UINavigationController(rootViewController: viewController)
+            navigationController.navigationBar.prefersLargeTitles = true
+            pageController.viewControllers.append(navigationController)
+        }
+
+        window?.rootViewController = pageController
     }
     
     func application(_ application: UIApplication,

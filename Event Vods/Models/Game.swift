@@ -12,7 +12,7 @@ class Game: Decodable, Hashable, CustomStringConvertible {
     let slug: String
     let icon: String?
 
-    var color: UIColor {
+    static func colorForSlug(_ slug: String) -> UIColor {
         switch slug {
         case "lol":
             return UIColor.lolGreen

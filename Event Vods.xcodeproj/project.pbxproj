@@ -28,8 +28,8 @@
 		1D84BCEF20531F6200CE8EEF /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D84BCEE20531F6200CE8EEF /* UserDataManager.swift */; };
 		1D84BCF120531FCF00CE8EEF /* SwiftyUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D84BCF020531FCF00CE8EEF /* SwiftyUserDefaults.swift */; };
 		1D95A1BB2043A56400266E32 /* UIView+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D95A1BA2043A56400266E32 /* UIView+Vods.swift */; };
-		1D9F5A3620544FF800D3A7D0 /* DSGradientProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9F5A3520544FF800D3A7D0 /* DSGradientProgressView.swift */; };
 		1D9F5A3820545CE300D3A7D0 /* UIFont+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9F5A3720545CE300D3A7D0 /* UIFont+Vods.swift */; };
+		1D9F5A3A20546DA600D3A7D0 /* YZSwipeBetweenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9F5A3920546DA600D3A7D0 /* YZSwipeBetweenViewController.swift */; };
 		1DB24CD3202B6F3800E6BDB3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24CD2202B6F3800E6BDB3 /* AppDelegate.swift */; };
 		1DB24CD5202B6F3800E6BDB3 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24CD4202B6F3800E6BDB3 /* EventsViewController.swift */; };
 		1DB24CD8202B6F3800E6BDB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DB24CD6202B6F3800E6BDB3 /* Main.storyboard */; };
@@ -79,8 +79,8 @@
 		1D84BCEE20531F6200CE8EEF /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		1D84BCF020531FCF00CE8EEF /* SwiftyUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyUserDefaults.swift; sourceTree = "<group>"; };
 		1D95A1BA2043A56400266E32 /* UIView+Vods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Vods.swift"; sourceTree = "<group>"; };
-		1D9F5A3520544FF800D3A7D0 /* DSGradientProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSGradientProgressView.swift; sourceTree = "<group>"; };
 		1D9F5A3720545CE300D3A7D0 /* UIFont+Vods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Vods.swift"; sourceTree = "<group>"; };
+		1D9F5A3920546DA600D3A7D0 /* YZSwipeBetweenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YZSwipeBetweenViewController.swift; sourceTree = "<group>"; };
 		1DB24CCF202B6F3800E6BDB3 /* Event Vods.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Event Vods.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DB24CD2202B6F3800E6BDB3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1DB24CD4202B6F3800E6BDB3 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
@@ -140,7 +140,6 @@
 			children = (
 				1D84BCEE20531F6200CE8EEF /* UserDataManager.swift */,
 				1D84BCF020531FCF00CE8EEF /* SwiftyUserDefaults.swift */,
-				1D9F5A3520544FF800D3A7D0 /* DSGradientProgressView.swift */,
 			);
 			path = Persistance;
 			sourceTree = "<group>";
@@ -240,6 +239,7 @@
 			children = (
 				1D2D27C42043975E00BB3733 /* VideoPlayerOverlay.swift */,
 				1D2D27C62043A02D00BB3733 /* TeamMatchupView.swift */,
+				1D9F5A3920546DA600D3A7D0 /* YZSwipeBetweenViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -517,7 +517,6 @@
 				1D2D27C52043975E00BB3733 /* VideoPlayerOverlay.swift in Sources */,
 				1D5FC430204B3E4300925DE7 /* EventDetailsDataSource.swift in Sources */,
 				1D84BCF120531FCF00CE8EEF /* SwiftyUserDefaults.swift in Sources */,
-				1D9F5A3620544FF800D3A7D0 /* DSGradientProgressView.swift in Sources */,
 				1D3DF638204CAD3D007BEAFA /* URLRedirectLoader.swift in Sources */,
 				1D065DDD20312D5E00F5340E /* GamesViewController.swift in Sources */,
 				1D37E1F220392BDE00AEDCDB /* MatchData.swift in Sources */,
@@ -527,6 +526,7 @@
 				1DD3DD9720309F5900A0F152 /* Game.swift in Sources */,
 				1DD3DD8B20309BEB00A0F152 /* EventVods.swift in Sources */,
 				1DD3DD8920309AFA00A0F152 /* Endpoint.swift in Sources */,
+				1D9F5A3A20546DA600D3A7D0 /* YZSwipeBetweenViewController.swift in Sources */,
 				1D95A1BB2043A56400266E32 /* UIView+Vods.swift in Sources */,
 				1D37E1F020392BA300AEDCDB /* Match.swift in Sources */,
 			);

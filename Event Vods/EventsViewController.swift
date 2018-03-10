@@ -58,7 +58,7 @@ class EventsViewController: UIViewController, ResourceObserver {
 
     lazy var logoView: UIButton = {
         let logoView = UIButton()
-        logoView.setImage(UIImage(named: "lol"), for: .normal)
+        logoView.setImage(UIImage(named: selectedGameSlug), for: .normal)
         logoView.imageView?.contentMode = .scaleAspectFit
         logoView.imageEdgeInsets = UIEdgeInsetsMake(4, 4, 4, 4)
         logoView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
@@ -70,6 +70,15 @@ class EventsViewController: UIViewController, ResourceObserver {
         return logoView
     }()
 
+    init(slug: String) {
+        self.selectedGameSlug = slug
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -77,10 +86,10 @@ class EventsViewController: UIViewController, ResourceObserver {
 //        searchController.searchBar.tintColor = UIColor.white
 //        navigationItem.searchController = searchController
 //        navigationItem.hidesSearchBarWhenScrolling = false
-        navigationController?.navigationBar.barTintColor = UIColor.lolGreen
+        navigationController?.navigationBar.barTintColor = Game.colorForSlug(selectedGameSlug)
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.addSubview(logoView)
-        navigationController?.navigationBar.backgroundColor = UIColor.lolGreen
+        navigationController?.navigationBar.backgroundColor = Game.colorForSlug(selectedGameSlug)
 
         logoView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
