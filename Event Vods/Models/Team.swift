@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Team: Decodable {
+class Team: Decodable, CustomStringConvertible {
     let name: String
     let slug: String?
     let icon: String?
@@ -19,5 +19,9 @@ class Team: Decodable {
         slug = ""
         icon = ""
         tag = ""
+    }
+
+    var description: String {
+        return name
     }
 }

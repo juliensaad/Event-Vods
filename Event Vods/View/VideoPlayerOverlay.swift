@@ -117,7 +117,7 @@ class VideoPlayerOverlay: UIView {
     private lazy var closeButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("close", comment: ""), for: .normal)
-        button.titleLabel?.font = UIFont(name: "Avenir-Black", size: 30)
+        button.titleLabel?.font = UIFont.boldVodsFontOfSize( 30)
         button.addTarget(self, action: #selector(close), for: .touchUpInside)
         button.tintColor = .white
         button.clipsToBounds = true
@@ -306,7 +306,7 @@ class VideoPlayerOverlay: UIView {
         let image = UIImage(named: "\(direction.rawValue)-\(seekTime.index)")
         button.setImage(image, for: .normal)
         button.setTitle(seekTime.stringValue, for: .normal)
-        button.titleLabel?.font = UIFont(name: "Avenir-Black", size: 16)
+        button.titleLabel?.font = UIFont.boldVodsFontOfSize( 16)
         button.tag = Int(seekTime.rawValue) * direction.multiplier
         button.addTarget(self, action: #selector(tapSeekButton), for: .touchUpInside)
         return button

@@ -9,7 +9,7 @@
 import UIKit
 import Siesta
 
-class Match: Decodable {
+class Match: Decodable, CustomStringConvertible {
 
     private enum CodingKeys : String, CodingKey {
         case team1
@@ -24,7 +24,7 @@ class Match: Decodable {
     let team1: Team
     let team2: Team
     let date: Date?
-    let data: [MatchData]
+    var data: [MatchData]
     var hasSpoilers: Bool = false
     let team1Match: String?
     let team2Match: String?
@@ -74,8 +74,26 @@ class Match: Decodable {
         }
     }
 
+    var watchCount: Int {
+        var count = 0
+        for match in data {
+            if UserDataManager.shared.getProgressionForMatch(match: match) != nil {
+                count = count + 1
+            }
+        }
+        return count
+    }
+
+    var isFullyWatched: Bool {
+        return watchCount == data.count
+    }
+
     var backgroundImageName: String {
         return String(abs(matchTitle.hash) % 13)
+    }
+
+    var description: String {
+        return "\(team1) vs \(team2)"
     }
 
 }

@@ -48,8 +48,8 @@ class EventDetailsViewController: UIViewController {
                     newModule.title = "\(section.title) - \(module.title)"
 
                     var newMatches: [Match] = []
-                    var shouldAddMatch = false
                     for match in newModule.matches2 {
+                        var shouldAddMatch = false
                         for matchData in match.data {
                             // only show matches that have youtube links
                             // or that are placeholders
@@ -97,10 +97,12 @@ class EventDetailsViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        UIView.animate(withDuration: 0.3, animations: {
-            self.titleView.alpha = 0
-        }) { (completed) in
-            self.titleView.removeFromSuperview()
+        if isMovingFromParentViewController {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.titleView.alpha = 0
+            }) { (completed) in
+                self.titleView.removeFromSuperview()
+            }
         }
     }
 
@@ -122,6 +124,12 @@ class EventDetailsViewController: UIViewController {
         else {
             title = event.name
         }
+
+        UIView.animate(withDuration: 0.3, animations: {
+            self.titleView.alpha = 1
+        })
+
+        tableView.reloadData()
     }
 
     func presentMatchURL(match: Match, matchData: MatchData, url: String, time: TimeInterval?, placeholder: Bool?) {
@@ -182,9 +190,9 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
         label.isUserInteractionEnabled = false
         label.setTitle(section.title, for: .normal)
         label.titleEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
-        label.backgroundColor = UIColor(red: 0.16, green: 0.14, blue: 0.22, alpha: 1.0)
-        label.titleLabel?.font = UIFont(name: "Avenir-Black", size: 17)
-
+        label.backgroundColor = UIColor(red: 0.16, green: 0.14, blue: 0.17, alpha: 1.0)
+        label.titleLabel?.font = UIFont.boldVodsFontOfSize(17)
+        label.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         let separator = UIView()
         separator.backgroundColor = UIColor(white: 0.1, alpha: 0.4)
         label.addSubview(separator)
@@ -230,7 +238,6 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
             }
 
             if let progression = UserDataManager.shared.getProgressionForMatch(match: matchData) {
-
                 var url = matchData.youtube?.gameStart
                 if url == nil {
                     url = matchData.youtube?.picksBans

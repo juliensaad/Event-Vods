@@ -58,7 +58,7 @@ class TeamMatchupView: UIView {
 
     private lazy var firstTeamLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Avenir-Black", size: 16)
+        label.font = UIFont.boldVodsFontOfSize( 16)
         label.textColor = UIColor.white
         label.layer.shadowOffset = CGSize(width: 0, height: 1)
         label.layer.shadowColor = UIColor.black.cgColor
@@ -69,7 +69,7 @@ class TeamMatchupView: UIView {
 
     private lazy var secondTeamLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Avenir-Black", size: 16)
+        label.font = UIFont.boldVodsFontOfSize( 16)
         label.textColor = UIColor.white
         label.layer.shadowOffset = CGSize(width: 0, height: 1)
         label.layer.shadowColor = UIColor.black.cgColor
@@ -81,7 +81,7 @@ class TeamMatchupView: UIView {
     lazy var vsLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UIFont(name: "Avenir-Black", size: 24)
+        label.font = UIFont.boldVodsFontOfSize( 24)
         label.text = NSLocalizedString("vs", comment: "")
         label.layer.shadowColor = UIColor.black.cgColor
         label.layer.shadowOpacity = 0.2

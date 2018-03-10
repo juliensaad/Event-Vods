@@ -39,7 +39,7 @@ class EventCell: UITableViewCell {
     
     private lazy var eventNameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Avenir-Black", size: 30)
+        label.font = UIFont.boldVodsFontOfSize( 30)
         label.textColor = .white
         label.numberOfLines = 0
         return label
@@ -47,7 +47,7 @@ class EventCell: UITableViewCell {
 
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Avenir-Black", size: 16)
+        label.font = UIFont.boldVodsFontOfSize( 16)
         label.textColor = .white
         label.numberOfLines = 0
         return label
@@ -55,7 +55,7 @@ class EventCell: UITableViewCell {
 
     private lazy var dateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Avenir-Light", size: 14)
+        label.font = UIFont.lightVodsFontOfSize( 14)
         label.textColor = .white
         label.text = "Jan 20 2018 - Mar 18, 2018"
         label.numberOfLines = 0
