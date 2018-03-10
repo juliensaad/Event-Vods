@@ -11,4 +11,14 @@ import UIKit
 class YoutubeLink: Decodable {
     let gameStart: String?
     let picksBans: String?
+
+    var validUrl: String? {
+        if let gameStart = gameStart {
+            return gameStart
+        }
+        if let picksBans = picksBans {
+            return picksBans
+        }
+        return nil
+    }
 }

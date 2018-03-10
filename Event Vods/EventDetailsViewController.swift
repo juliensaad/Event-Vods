@@ -21,6 +21,20 @@ class EventDetailsViewController: UIViewController {
         return tableView
     }()
 
+    lazy var titleView: UIButton = {
+        let titleView = UIButton()
+        titleView.imageEdgeInsets = UIEdgeInsetsMake(8,0,8,0)
+        titleView.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+        titleView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        titleView.setContentHuggingPriority(.defaultLow, for: .vertical)
+        titleView.layer.shadowColor = UIColor.black.cgColor
+        titleView.layer.shadowOpacity = 0.3
+        titleView.layer.shadowRadius = 3
+        titleView.layer.shadowOffset = CGSize(width: 0, height: 1)
+        titleView.isUserInteractionEnabled = false
+        return titleView
+    }()
+
     init(event: Event) {
         self.event = event
         if let contents = self.event.contents {
@@ -70,37 +84,44 @@ class EventDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.largeTitleDisplayMode = UINavigationItem.LargeTitleDisplayMode.never
 
-        let titleView = UIButton()
-        if let logo = event.logo, let url = URL(string:logo) {
-            titleView.kf.setImage(with: url, for: .normal)
-            titleView.imageEdgeInsets = UIEdgeInsetsMake(8,8,8,8)
-            titleView.imageView?.contentMode = UIViewContentMode.scaleAspectFit
-            titleView.layer.shadowColor = UIColor.black.cgColor
-            titleView.layer.shadowOpacity = 0.3
-            titleView.layer.shadowRadius = 3
-            titleView.layer.shadowOffset = CGSize(width: 0, height: 1)
-            titleView.isUserInteractionEnabled = false
-            navigationItem.titleView = titleView
-        }
-        else {
-            title = event.name
-        }
-
-        navigationController?.navigationBar.topItem?.title = ""
-
-        view.backgroundColor = UIColor.black
+        view.backgroundColor = UIColor.lolGreen
         view.addSubview(tableView)
 
         tableView.frame = view.bounds
         tableView.backgroundColor = UIColor.clear
+        navigationController?.navigationBar.topItem?.title = ""
 
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        UIView.animate(withDuration: 0.3, animations: {
+            self.titleView.alpha = 0
+        }) { (completed) in
+            self.titleView.removeFromSuperview()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+
+        if let logo = event.logo, let url = URL(string:logo) {
+            titleView.kf.setImage(with: url, for: .normal)
+            navigationController?.navigationBar.addSubview(titleView)
+            
+            titleView.snp.makeConstraints { (make) in
+                make.centerX.equalToSuperview()
+                make.top.bottom.equalToSuperview().priority(500)
+                make.height.lessThanOrEqualTo(60)
+                make.centerY.equalToSuperview()
+            }
+        }
+        else {
+            title = event.name
+        }
     }
 
     func presentMatchURL(match: Match, matchData: MatchData, url: String, time: TimeInterval?, placeholder: Bool?) {
@@ -161,14 +182,23 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
         label.isUserInteractionEnabled = false
         label.setTitle(section.title, for: .normal)
         label.titleEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
-        label.backgroundColor = UIColor(red: 0.2, green: 0.2, blue: 0.22, alpha: 1.0)
-        label.titleLabel?.font = UIFont(name: "Avenir", size: 16)
+        label.backgroundColor = UIColor(red: 0.16, green: 0.14, blue: 0.22, alpha: 1.0)
+        label.titleLabel?.font = UIFont(name: "Avenir-Black", size: 17)
+
+        let separator = UIView()
+        separator.backgroundColor = UIColor(white: 0.1, alpha: 0.4)
+        label.addSubview(separator)
+        separator.snp.makeConstraints { (make) in
+            make.left.right.equalToSuperview()
+            make.height.equalTo(1)
+            make.bottom.equalToSuperview()
+        }
 
         return label
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-         return 30
+         return 34
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -214,13 +244,23 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
 
         }
 
-        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: nil)
-        controller.addAction(cancelAction)
+        if controller.actions.count == 1 {
+            guard let youtube = match.data[0].youtube else {
+                return
+            }
+            if let onlyValidUrl = youtube.validUrl {
+                presentMatchURL(match: match, matchData: match.data[0], url: onlyValidUrl, time: nil, placeholder: false)
+            }
+        }
+        else {
+            let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: nil)
+            controller.addAction(cancelAction)
 
-        let sourceView = (self.tableView.cellForRow(at: indexPath) as! MatchTableViewCell).teamMatchupView
-        controller.popoverPresentationController?.sourceView = sourceView.vsLabel
-        DispatchQueue.main.async {
-            self.present(controller, animated: true, completion: nil)
+            let sourceView = (self.tableView.cellForRow(at: indexPath) as! MatchTableViewCell).teamMatchupView
+            controller.popoverPresentationController?.sourceView = sourceView.vsLabel
+            DispatchQueue.main.async {
+                self.present(controller, animated: true, completion: nil)
+            }
         }
     }
 

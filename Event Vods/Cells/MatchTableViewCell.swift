@@ -21,7 +21,7 @@ class MatchTableViewCell: UITableViewCell {
     lazy var backgroundImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = UIViewContentMode.scaleAspectFill
-        view.alpha = 0.1
+        view.alpha = 0.4
         return view
     }()
 
@@ -41,7 +41,7 @@ class MatchTableViewCell: UITableViewCell {
 
         teamMatchupView.match = match
         backgroundColor = .clear
-        contentView.backgroundColor = UIColor(red: 0.1, green: 0.1, blue: 0.11, alpha: 0.9)
+        contentView.backgroundColor = UIColor(red: 0.1, green: 0.1, blue: 0.11, alpha: 1)
         contentView.addSubview(backgroundImageView)
         contentView.addSubview(teamMatchupView)
         contentView.addSubview(separatorView)
