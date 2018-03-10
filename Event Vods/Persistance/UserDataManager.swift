@@ -14,7 +14,7 @@ extension DefaultsKeys {
 
 class UserDataManager: NSObject {
     static let shared = UserDataManager()
-    let Defaults = UserDefaults(suiteName: "com.juliensaad.shared-defaults")!
+    let Defaults = UserDefaults(suiteName: "group.juliensaad.vods")!
 
     func saveVideoProgression(forMatch match: MatchData, time: TimeInterval) {
         Defaults[.watchProgression][match._id] = time

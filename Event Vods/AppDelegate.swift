@@ -21,11 +21,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidFinishLaunching(_ application: UIApplication) {
         for slug in ["lol", "csgo", "overwatch", "dota", "rocket-league"] {
-            let viewController = EventsViewController(slug: slug)
-            let navigationController = UINavigationController(rootViewController: viewController)
-            navigationController.navigationBar.prefersLargeTitles = true
-            pageController.viewControllers.append(navigationController)
+
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                let splitViewController = EventsSplitViewController(slug: slug)
+                pageController.viewControllers.append(splitViewController)
+            }
+            else {
+                let viewController = EventsViewController(slug: slug)
+                let navigationController = UINavigationController(rootViewController: viewController)
+                navigationController.navigationBar.prefersLargeTitles = true
+                pageController.viewControllers.append(navigationController)
+            }
         }
+
 
         window?.rootViewController = pageController
     }

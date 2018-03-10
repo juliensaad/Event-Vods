@@ -23,7 +23,7 @@ class EventDetailsViewController: UIViewController {
 
     lazy var titleView: UIButton = {
         let titleView = UIButton()
-        titleView.imageEdgeInsets = UIEdgeInsetsMake(8,0,8,0)
+        titleView.contentEdgeInsets = UIEdgeInsetsMake(8,0,8,0)
         titleView.imageView?.contentMode = UIViewContentMode.scaleAspectFit
         titleView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         titleView.setContentHuggingPriority(.defaultLow, for: .vertical)
@@ -32,6 +32,8 @@ class EventDetailsViewController: UIViewController {
         titleView.layer.shadowRadius = 3
         titleView.layer.shadowOffset = CGSize(width: 0, height: 1)
         titleView.isUserInteractionEnabled = false
+        titleView.layer.shouldRasterize = true
+        titleView.layer.rasterizationScale = UIScreen.main.scale
         return titleView
     }()
 
@@ -89,14 +91,18 @@ class EventDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            appDelegate.pageController.isSwipingEnabled = false
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+                appDelegate.pageController.isSwipingEnabled = false
+            }
         }
 
         view.backgroundColor = gameColor
         view.addSubview(tableView)
 
-        tableView.frame = view.bounds
+        tableView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
         tableView.backgroundColor = UIColor.clear
         navigationController?.navigationBar.topItem?.title = ""
 
@@ -106,8 +112,10 @@ class EventDetailsViewController: UIViewController {
         super.viewWillDisappear(animated)
 
         if isMovingFromParentViewController {
-            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                appDelegate.pageController.isSwipingEnabled = true
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+                    appDelegate.pageController.isSwipingEnabled = true
+                }
             }
             UIView.animate(withDuration: 0.3, animations: {
                 self.titleView.alpha = 0
@@ -119,17 +127,23 @@ class EventDetailsViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+        }
 
         if let logo = event.logo, let url = URL(string:logo) {
-            titleView.kf.setImage(with: url, for: .normal)
+            titleView.kf.setImage(with: url, for: .normal, placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image, error, type, url) in
+                if let image = image {
+                    let newImage = self.resizeImageWith(image: image, newSize: CGSize(width: image.size.width / image.size.height * 80, height: 80))
+                    self.titleView.setImage(newImage, for: .normal)
+                }
+            })
             navigationController?.navigationBar.addSubview(titleView)
             
             titleView.snp.makeConstraints { (make) in
-                make.centerX.equalToSuperview()
-                make.top.bottom.equalToSuperview().priority(500)
-                make.height.lessThanOrEqualTo(60)
-                make.centerY.equalToSuperview()
+                make.center.equalToSuperview()
+                make.top.bottom.equalToSuperview().priority(750)
             }
         }
         else {
@@ -284,6 +298,26 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 110
+    }
+
+    func resizeImageWith(image: UIImage, newSize: CGSize) -> UIImage {
+
+        let horizontalRatio = newSize.width / image.size.width
+        let verticalRatio = newSize.height / image.size.height
+
+        let ratio = max(horizontalRatio, verticalRatio)
+        let newSize = CGSize(width: image.size.width * ratio, height: image.size.height * ratio)
+        var newImage: UIImage
+
+        let renderFormat = UIGraphicsImageRendererFormat.default()
+        renderFormat.opaque = false
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: newSize.width, height: newSize.height), format: renderFormat)
+        newImage = renderer.image {
+            (context) in
+            image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        }
+
+        return newImage
     }
 
 }

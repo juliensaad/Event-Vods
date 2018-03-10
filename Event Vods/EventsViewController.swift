@@ -11,8 +11,14 @@ import Siesta
 import SnapKit
 import SVProgressHUD
 
+protocol EventsViewControllerDelegate: NSObjectProtocol {
+    func eventsViewController(_ viewController: EventsViewController, didSelectEvent event: Event)
+}
+
 class EventsViewController: UIViewController, ResourceObserver {
-    
+
+    weak var delegate: EventsViewControllerDelegate?
+
     var allEvents: [Event] = [] {
         didSet {
             games = Set(allEvents.map({ (event) -> Game in
@@ -31,17 +37,12 @@ class EventsViewController: UIViewController, ResourceObserver {
 
     var selectedGameSlug = "lol"
     
-    lazy var statusOverlay: ResourceStatusOverlay = {
-        let overlay = ResourceStatusOverlay()
-        return overlay
-    }()
-    
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
-        tableView.backgroundColor = UIColor.lolGreen
+        tableView.backgroundColor = Game.colorForSlug(selectedGameSlug)
         return tableView
     }()
     
@@ -67,6 +68,8 @@ class EventsViewController: UIViewController, ResourceObserver {
         logoView.layer.shadowRadius = 6
         logoView.layer.shadowOffset = CGSize(width: 0, height: 1)
         logoView.isUserInteractionEnabled = false
+        logoView.layer.shouldRasterize = true
+        logoView.layer.rasterizationScale = UIScreen.main.scale
         return logoView
     }()
 
@@ -82,6 +85,7 @@ class EventsViewController: UIViewController, ResourceObserver {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        SVProgressHUD.show()
 //        let searchController = UISearchController(searchResultsController: self)
 //        searchController.searchBar.tintColor = UIColor.white
 //        navigationItem.searchController = searchController
@@ -98,12 +102,12 @@ class EventsViewController: UIViewController, ResourceObserver {
             make.centerY.equalToSuperview()
         }
 
-        view.backgroundColor = UIColor.lolGreen
+        view.backgroundColor = Game.colorForSlug(selectedGameSlug)
         view.addSubview(tableView)
-        view.addSubview(statusOverlay)
-        
-        tableView.frame = view.bounds
-        statusOverlay.frame = view.bounds
+
+        tableView.snp.makeConstraints({ (make) in
+            make.edges.equalToSuperview()
+        })
 
         eventsResource = EventAPI.events()
     }
@@ -145,6 +149,7 @@ class EventsViewController: UIViewController, ResourceObserver {
             return
         }
 
+        SVProgressHUD.dismiss()
         events.sort { (event, otherEvent) -> Bool in
             if let update = event.updatedAt, let otherUpdate = otherEvent.updatedAt {
                 return update > otherUpdate
@@ -162,6 +167,12 @@ class EventsViewController: UIViewController, ResourceObserver {
             event.game.slug == selectedGameSlug
         }
         tableView.reloadData()
+
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if events.count > 0 {
+                tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
+            }
+        }
     }
     
 }
@@ -185,15 +196,24 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
 
         let event = events[indexPath.row]
-
+        
         SVProgressHUD.show()
         EventAPI.game(event.slug).addObserver(owner: self) {
             [weak self] resource, _ in
 
             if let detailedEvent: Event = resource.typedContent() {
                 SVProgressHUD.dismiss()
-                let eventDetailsViewController = EventDetailsViewController(event: detailedEvent)
-                self?.navigationController?.pushViewController(eventDetailsViewController, animated: true)
+
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    if let sself = self {
+                        sself.delegate?.eventsViewController(sself, didSelectEvent: detailedEvent)
+                    }
+                }
+                else {
+                    let eventDetailsViewController = EventDetailsViewController(event: detailedEvent)
+                    self?.navigationController?.pushViewController(eventDetailsViewController, animated: true)
+                }
+
                 EventAPI.game(event.slug).removeObservers(ownedBy: self)
             }
             else if let error = resource.latestError {

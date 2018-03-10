@@ -43,6 +43,8 @@ class TeamMatchupView: UIView {
         imageView.layer.shadowOpacity = 0.2
         imageView.layer.shadowRadius = 6
         imageView.layer.shadowOffset = CGSize(width: 0, height: 1)
+        imageView.layer.shouldRasterize = true
+        imageView.layer.rasterizationScale = UIScreen.main.scale
         return imageView
     }()
 
@@ -53,6 +55,8 @@ class TeamMatchupView: UIView {
         imageView.layer.shadowOpacity = 0.2
         imageView.layer.shadowRadius = 6
         imageView.layer.shadowOffset = CGSize(width: 0, height: 1)
+        imageView.layer.shouldRasterize = true
+        imageView.layer.rasterizationScale = UIScreen.main.scale
         return imageView
     }()
 
@@ -64,6 +68,8 @@ class TeamMatchupView: UIView {
         label.layer.shadowColor = UIColor.black.cgColor
         label.layer.shadowOpacity = 0.2
         label.layer.shadowRadius = 6
+        label.layer.shouldRasterize = true
+        label.layer.rasterizationScale = UIScreen.main.scale
         return label
     }()
 
@@ -75,6 +81,8 @@ class TeamMatchupView: UIView {
         label.layer.shadowColor = UIColor.black.cgColor
         label.layer.shadowOpacity = 0.2
         label.layer.shadowRadius = 6
+        label.layer.shouldRasterize = true
+        label.layer.rasterizationScale = UIScreen.main.scale
         return label
     }()
 
@@ -87,6 +95,8 @@ class TeamMatchupView: UIView {
         label.layer.shadowOpacity = 0.2
         label.layer.shadowRadius = 6
         label.layer.shadowOffset = CGSize(width: 0, height: 1)
+        label.layer.shouldRasterize = true
+        label.layer.rasterizationScale = UIScreen.main.scale
         return label
     }()
 

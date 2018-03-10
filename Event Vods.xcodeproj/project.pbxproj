@@ -23,13 +23,13 @@
 		1D37E1F820392ECA00AEDCDB /* PlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1F720392ECA00AEDCDB /* PlaybackViewController.swift */; };
 		1D3DF638204CAD3D007BEAFA /* URLRedirectLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DF637204CAD3D007BEAFA /* URLRedirectLoader.swift */; };
 		1D5FC42D204B394100925DE7 /* String+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5FC42C204B394100925DE7 /* String+Vods.swift */; };
-		1D5FC430204B3E4300925DE7 /* EventDetailsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5FC42F204B3E4300925DE7 /* EventDetailsDataSource.swift */; };
 		1D5FC432204B41E300925DE7 /* MatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5FC431204B41E300925DE7 /* MatchTableViewCell.swift */; };
 		1D84BCEF20531F6200CE8EEF /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D84BCEE20531F6200CE8EEF /* UserDataManager.swift */; };
 		1D84BCF120531FCF00CE8EEF /* SwiftyUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D84BCF020531FCF00CE8EEF /* SwiftyUserDefaults.swift */; };
 		1D95A1BB2043A56400266E32 /* UIView+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D95A1BA2043A56400266E32 /* UIView+Vods.swift */; };
 		1D9F5A3820545CE300D3A7D0 /* UIFont+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9F5A3720545CE300D3A7D0 /* UIFont+Vods.swift */; };
 		1D9F5A3A20546DA600D3A7D0 /* YZSwipeBetweenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9F5A3920546DA600D3A7D0 /* YZSwipeBetweenViewController.swift */; };
+		1D9F5A3E205483A700D3A7D0 /* EventsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9F5A3D205483A700D3A7D0 /* EventsSplitViewController.swift */; };
 		1DB24CD3202B6F3800E6BDB3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24CD2202B6F3800E6BDB3 /* AppDelegate.swift */; };
 		1DB24CD5202B6F3800E6BDB3 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24CD4202B6F3800E6BDB3 /* EventsViewController.swift */; };
 		1DB24CD8202B6F3800E6BDB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DB24CD6202B6F3800E6BDB3 /* Main.storyboard */; };
@@ -74,13 +74,14 @@
 		1D37E1F720392ECA00AEDCDB /* PlaybackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackViewController.swift; sourceTree = "<group>"; };
 		1D3DF637204CAD3D007BEAFA /* URLRedirectLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRedirectLoader.swift; sourceTree = "<group>"; };
 		1D5FC42C204B394100925DE7 /* String+Vods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Vods.swift"; sourceTree = "<group>"; };
-		1D5FC42F204B3E4300925DE7 /* EventDetailsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsDataSource.swift; sourceTree = "<group>"; };
 		1D5FC431204B41E300925DE7 /* MatchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchTableViewCell.swift; sourceTree = "<group>"; };
 		1D84BCEE20531F6200CE8EEF /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		1D84BCF020531FCF00CE8EEF /* SwiftyUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyUserDefaults.swift; sourceTree = "<group>"; };
 		1D95A1BA2043A56400266E32 /* UIView+Vods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Vods.swift"; sourceTree = "<group>"; };
 		1D9F5A3720545CE300D3A7D0 /* UIFont+Vods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Vods.swift"; sourceTree = "<group>"; };
 		1D9F5A3920546DA600D3A7D0 /* YZSwipeBetweenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YZSwipeBetweenViewController.swift; sourceTree = "<group>"; };
+		1D9F5A3D205483A700D3A7D0 /* EventsSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsSplitViewController.swift; sourceTree = "<group>"; };
+		1D9F5A3F20548E8A00D3A7D0 /* Event Vods.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Event Vods.entitlements"; sourceTree = "<group>"; };
 		1DB24CCF202B6F3800E6BDB3 /* Event Vods.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Event Vods.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DB24CD2202B6F3800E6BDB3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1DB24CD4202B6F3800E6BDB3 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
@@ -127,14 +128,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1D5FC42E204B3E2300925DE7 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				1D5FC42F204B3E4300925DE7 /* EventDetailsDataSource.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		1D84BCED20531F4200CE8EEF /* Persistance */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,6 +160,7 @@
 		1DB24CD1202B6F3800E6BDB3 /* Event Vods */ = {
 			isa = PBXGroup;
 			children = (
+				1D9F5A3F20548E8A00D3A7D0 /* Event Vods.entitlements */,
 				1D84BCED20531F4200CE8EEF /* Persistance */,
 				1DFCB94E204B10500091C7CA /* UIKit & Foundation extensions */,
 				1DD3DD9F2030B7AC00A0F152 /* View */,
@@ -175,7 +169,6 @@
 				1DD3DD9220309DFE00A0F152 /* Networking */,
 				1DD3DD83202F3F9900A0F152 /* Podfile */,
 				1DB24CD2202B6F3800E6BDB3 /* AppDelegate.swift */,
-				1D5FC42E204B3E2300925DE7 /* ViewModels */,
 				1DB24CD4202B6F3800E6BDB3 /* EventsViewController.swift */,
 				1D37E1ED203925B800AEDCDB /* EventDetailsViewController.swift */,
 				1D37E1F720392ECA00AEDCDB /* PlaybackViewController.swift */,
@@ -185,6 +178,7 @@
 				1DB24CD9202B6F3800E6BDB3 /* Assets.xcassets */,
 				1DB24CDB202B6F3800E6BDB3 /* LaunchScreen.storyboard */,
 				1DB24CDE202B6F3800E6BDB3 /* Info.plist */,
+				1D9F5A3D205483A700D3A7D0 /* EventsSplitViewController.swift */,
 			);
 			path = "Event Vods";
 			sourceTree = "<group>";
@@ -333,6 +327,11 @@
 					1DB24CCE202B6F3800E6BDB3 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					1DB24CE2202B6F3800E6BDB3 = {
 						CreatedOnToolsVersion = 9.2;
@@ -515,7 +514,6 @@
 				1D37E1F820392ECA00AEDCDB /* PlaybackViewController.swift in Sources */,
 				1DD3DD852030992200A0F152 /* Event.swift in Sources */,
 				1D2D27C52043975E00BB3733 /* VideoPlayerOverlay.swift in Sources */,
-				1D5FC430204B3E4300925DE7 /* EventDetailsDataSource.swift in Sources */,
 				1D84BCF120531FCF00CE8EEF /* SwiftyUserDefaults.swift in Sources */,
 				1D3DF638204CAD3D007BEAFA /* URLRedirectLoader.swift in Sources */,
 				1D065DDD20312D5E00F5340E /* GamesViewController.swift in Sources */,
@@ -524,6 +522,7 @@
 				1D5FC432204B41E300925DE7 /* MatchTableViewCell.swift in Sources */,
 				1DB24CD3202B6F3800E6BDB3 /* AppDelegate.swift in Sources */,
 				1DD3DD9720309F5900A0F152 /* Game.swift in Sources */,
+				1D9F5A3E205483A700D3A7D0 /* EventsSplitViewController.swift in Sources */,
 				1DD3DD8B20309BEB00A0F152 /* EventVods.swift in Sources */,
 				1DD3DD8920309AFA00A0F152 /* Endpoint.swift in Sources */,
 				1D9F5A3A20546DA600D3A7D0 /* YZSwipeBetweenViewController.swift in Sources */,
@@ -618,7 +617,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -669,7 +668,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -682,6 +681,7 @@
 			baseConfigurationReference = A897425B741A558B92AEE885 /* Pods-Event Vods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Event Vods/Event Vods.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P6P7F9RSRA;
 				INFOPLIST_FILE = "Event Vods/Info.plist";
@@ -698,6 +698,7 @@
 			baseConfigurationReference = 58C3C6B292AD0A3B34DFEA76 /* Pods-Event Vods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Event Vods/Event Vods.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P6P7F9RSRA;
 				INFOPLIST_FILE = "Event Vods/Info.plist";

@@ -75,7 +75,6 @@ class VideoPlayerOverlay: UIView {
     weak var delegate: VideoPlayerOverlayDelegate?
     let match: Match
     var fadeTimer: Timer?
-    var isLandscape: Bool = false
     var isLoading: Bool {
         return spinner.alpha > 0
     }

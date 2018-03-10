@@ -158,7 +158,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @objc func panGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
-        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
+        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) && UIDevice.current.userInterfaceIdiom == .phone {
             return
         }
         
