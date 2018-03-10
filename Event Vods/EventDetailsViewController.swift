@@ -103,7 +103,7 @@ class EventDetailsViewController: UIViewController {
         UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
     }
 
-    func presentMatchURL(match: Match, url: String, placeholder: Bool?) {
+    func presentMatchURL(match: Match, matchData: MatchData, url: String, time: TimeInterval?, placeholder: Bool?) {
         if let placeholder = placeholder {
             if placeholder {
                 showPlaceholderAlert()
@@ -113,7 +113,7 @@ class EventDetailsViewController: UIViewController {
 
         String.getRedirectURL(url: url, withCompletion: { (string) in
             if let url = string {
-                let playbackViewController = PlaybackViewController(match: match, url: url)
+                let playbackViewController = PlaybackViewController(match: match, matchData: matchData, url: url, time: time)
                 self.navigationController?.present(playbackViewController, animated: true, completion: nil)
             }
         })
@@ -127,10 +127,18 @@ class EventDetailsViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
 
-    func getAction(forTitle title: String, url: String, match: Match, placeholder: Bool?) -> UIAlertAction {
+    func getAction(forTitle title: String, url: String, match: Match, matchData: MatchData, time: TimeInterval?, placeholder: Bool?) -> UIAlertAction {
         return UIAlertAction(title: title, style: UIAlertActionStyle.default, handler: { (action) in
-            self.presentMatchURL(match: match, url: url, placeholder: placeholder)
+            self.presentMatchURL(match: match, matchData: matchData, url: url, time: time, placeholder: placeholder)
         })
+    }
+
+    func stringFromTimeInterval(interval: TimeInterval) -> String {
+        let interval = Int(interval)
+        let seconds = interval % 60
+        let minutes = (interval / 60) % 60
+        let hours = (interval / 3600)
+        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
 }
 
@@ -181,15 +189,27 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
                 prefix = "Game \(index+1) - "
             }
 
-
             if let url = matchData.youtube?.picksBans {
-                let action = getAction(forTitle: "\(prefix)Picks & Bans", url: url, match: match, placeholder: matchData.placeholder)
+                let action = getAction(forTitle: "\(prefix)Picks & Bans", url: url, match: match, matchData: matchData, time: nil, placeholder: matchData.placeholder)
                 controller.addAction(action)
             }
 
             if let url = matchData.youtube?.gameStart {
-                let action = getAction(forTitle: "\(prefix)Game Start", url: url, match: match, placeholder: matchData.placeholder)
+                let action = getAction(forTitle: "\(prefix)Game Start", url: url, match: match, matchData: matchData, time: nil, placeholder: matchData.placeholder)
                 controller.addAction(action)
+            }
+
+            if let progression = UserDataManager.shared.getProgressionForMatch(match: matchData) {
+
+                var url = matchData.youtube?.gameStart
+                if url == nil {
+                    url = matchData.youtube?.picksBans
+                }
+
+                if let url = url {
+                    let action = getAction(forTitle: "\(prefix)Resume - \(stringFromTimeInterval(interval: progression))", url: url, match: match, matchData: matchData, time: progression, placeholder: matchData.placeholder)
+                    controller.addAction(action)
+                }
             }
 
         }

@@ -9,6 +9,7 @@
 import UIKit
 
 class MatchData: Decodable {
+    let _id: String
     let rating: Float?
     let youtube: YoutubeLink?
     let placeholder: Bool?

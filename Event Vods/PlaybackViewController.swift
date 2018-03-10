@@ -13,7 +13,9 @@ import SVProgressHUD
 class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
     let match: Match
+    let matchData: MatchData
     let url: String?
+    let time: TimeInterval?
     var hasPlayedVideo: Bool = false
 
     var initialTouchPoint: CGPoint = CGPoint(x: 0,y: 0)
@@ -36,9 +38,11 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         return playerView
     }()
 
-    init(match: Match, url: String?) {
+    init(match: Match, matchData: MatchData, url: String?, time: TimeInterval?) {
         self.match = match
+        self.matchData = matchData
         self.url = url
+        self.time = time
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -115,11 +119,15 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
             return
         }
 
-        var numberOfSeconds = 0
+        var numberOfSeconds: TimeInterval = 0
 
-        if let query = getQueryStringParameter(url: url, param: "t") {
+        if let time = time {
+            numberOfSeconds = time
+        }
+        else if let query = url.getQueryStringParameter("t") {
             numberOfSeconds = query.getNumberOfSeconds()
         }
+
 
         let playerVars = [
             "enablejsapi": 1,
@@ -130,20 +138,15 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
             "showinfo": 0,
             "modestbranding": 1,
             "disablekb": 1,
-            "start": numberOfSeconds
+            "start": Int(numberOfSeconds)
             ]
 
-        if let videoID = getQueryStringParameter(url: url, param: "v") {
+        if let videoID = url.getQueryStringParameter("v") {
             youtubePlayer.load(withVideoId: videoID, playerVars: playerVars)
         }
         else {
             youtubePlayer.loadVideo(byURL: url, startSeconds: 0, suggestedQuality: WKYTPlaybackQuality.auto)
         }
-    }
-
-    func getQueryStringParameter(url: String, param: String) -> String? {
-        guard let url = URLComponents(string: url) else { return nil }
-        return url.queryItems?.first(where: { $0.name == param })?.value
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -155,6 +158,10 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @objc func panGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
+        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
+            return
+        }
+        
         let touchPoint = sender.location(in: self.view.window)
 
         if sender.state == UIGestureRecognizerState.began {
@@ -206,6 +213,8 @@ extension PlaybackViewController: WKYTPlayerViewDelegate {
     func playerView(_ playerView: WKYTPlayerView, didPlayTime playTime: Float) {
         hasPlayedVideo = true
         playerView.alpha = 1
+
+        UserDataManager.shared.saveVideoProgression(forMatch: self.matchData, time: TimeInterval(playTime))
     }
 }
 

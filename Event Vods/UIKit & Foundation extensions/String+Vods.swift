@@ -9,15 +9,15 @@
 import Foundation
 
 extension String {
-    func getNumberOfSeconds() -> Int {
+    func getNumberOfSeconds() -> TimeInterval {
         var timeString = self
 
-        var total = 0
+        var total: TimeInterval = 0
         if timeString.contains("h") {
             let hours = timeString.components(separatedBy: "h").first
             if let hours = hours {
                 timeString = timeString.replacingOccurrences(of: "\(hours)h", with: "")
-                total += Int(hours)! * 3600
+                total += TimeInterval(hours)! * 3600
             }
         }
 
@@ -25,7 +25,7 @@ extension String {
             let minutes = timeString.components(separatedBy: "m").first
             if let minutes = minutes {
                 timeString = timeString.replacingOccurrences(of: "\(minutes)m", with: "")
-                total += Int(minutes)! * 60
+                total += TimeInterval(minutes)! * 60
             }
         }
 
@@ -33,7 +33,7 @@ extension String {
             let seconds = timeString.components(separatedBy: "s").first
             if let seconds = seconds {
                 timeString = timeString.replacingOccurrences(of: "\(seconds)s", with: "")
-                total += Int(seconds)!
+                total += TimeInterval(seconds)!
             }
         }
 
@@ -49,5 +49,10 @@ extension String {
             let loader = URLRedirectLoader()
             loader.fetchRedirect(url: url, completion: completion)
         }
+    }
+
+    func getQueryStringParameter(_ param: String) -> String? {
+        guard let url = URLComponents(string: self) else { return nil }
+        return url.queryItems?.first(where: { $0.name == param })?.value
     }
 }

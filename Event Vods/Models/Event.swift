@@ -22,10 +22,6 @@ class Event: Decodable {
 
     let contents: [EventSection]?
 
-//    private enum CodingKeys : String, CodingKey {
-//        case test
-//    }
-
     var backgroundImageName: String {
         return String(abs((_id ?? "").hash) % 13)
     }
@@ -44,12 +40,4 @@ class Event: Decodable {
         return "\(start) - \(end)"
     }
 
-//    required init(from decoder: Decoder) throws {
-//        let container = try decoder.container(keyedBy: CodingKeys.self)
-//        if let test = try container.decodeIfPresent(String.self, forKey: .test) {
-//            self.test = test
-//        } else {
-//            self.test = "No value"
-//        }
-//    }
 }
