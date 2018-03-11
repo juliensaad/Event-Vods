@@ -842,9 +842,11 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     }
     
     // Remove the existing webView to reset any state
-    [self.webView removeFromSuperview];
-    _webView = [self createNewWebView];
-    [self addSubview:self.webView];
+    if (!_webView) {
+        [self.webView removeFromSuperview];
+        _webView = [self createNewWebView];
+        [self addSubview:self.webView];
+    }
     
     self.webView.translatesAutoresizingMaskIntoConstraints = NO;
     NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.webView

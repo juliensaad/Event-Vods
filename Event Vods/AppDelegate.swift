@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidFinishLaunching(_ application: UIApplication) {
         Fabric.with([Crashlytics.self])
+        PlayerViewManager.shared.prepare()
         
         for slug in Game.supportedGames {
             if UIDevice.current.userInterfaceIdiom == .pad {

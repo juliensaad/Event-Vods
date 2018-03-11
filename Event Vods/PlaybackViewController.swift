@@ -28,17 +28,17 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         return overlay
     }()
 
-    private lazy var youtubePlayer: WKYTPlayerView = {
-        let playerView = WKYTPlayerView()
-        playerView.delegate = self
-        playerView.alpha = 0.01
-        playerView.backgroundColor = UIColor.black
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapWebView))
-        gestureRecognizer.numberOfTapsRequired = 1
-        gestureRecognizer.delegate = self
-        playerView.addGestureRecognizer(gestureRecognizer)
-        return playerView
-    }()
+    let youtubePlayer: WKYTPlayerView = PlayerViewManager.shared.playerView
+//        let playerView = WKYTPlayerView()
+//        playerView.delegate = self
+//        playerView.alpha = 0.01
+//        playerView.backgroundColor = UIColor.black
+//        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapWebView))
+//        gestureRecognizer.numberOfTapsRequired = 1
+//        gestureRecognizer.delegate = self
+//        playerView.addGestureRecognizer(gestureRecognizer)
+//        return playerView
+//    }()
 
     init(match: Match, matchData: MatchData, url: String?, time: TimeInterval?) {
         self.match = match
@@ -121,8 +121,14 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     func setupWebView() {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapWebView))
+        gestureRecognizer.numberOfTapsRequired = 1
+        gestureRecognizer.delegate = self
+        youtubePlayer.addGestureRecognizer(gestureRecognizer)
+        youtubePlayer.delegate = self
         youtubePlayer.webView?.isUserInteractionEnabled = false
         youtubePlayer.webView?.scrollView.contentInsetAdjustmentBehavior = .never
+        youtubePlayer.webView?.scrollView.isUserInteractionEnabled = false
     }
 
     func loadVideo() {
@@ -141,22 +147,11 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         else if let query = url.getQueryStringParameter("t") {
             numberOfSeconds = query.getNumberOfSeconds()
         }
-
-
-        let playerVars = [
-            "enablejsapi": 1,
-            "rel": 0,
-            "playsinline": 1,
-            "autoplay": 1,
-            "controls": 0,
-            "showinfo": 0,
-            "modestbranding": 1,
-            "disablekb": 1,
-            "start": Int(numberOfSeconds)
-            ]
-
+        
         if let videoID = url.getQueryStringParameter("v") {
-            youtubePlayer.load(withVideoId: videoID, playerVars: playerVars)            
+            youtubePlayer.load(withVideoId: videoID, playerVars: PlayerViewManager.shared.playerParams(seconds: numberOfSeconds))
+//            youtubePlayer.loadVideo(byId: videoID, startSeconds: Float(numberOfSeconds), suggestedQuality: WKYTPlaybackQuality.HD720)
+//            youtubePlayer.loadVideo(byId: videoID, startSeconds: Float(numberOfSeconds), suggestedQuality: WKYTPlaybackQuality.HD720)
         }
         else {
             youtubePlayer.loadVideo(byURL: url, startSeconds: 0, suggestedQuality: WKYTPlaybackQuality.HD720)
@@ -224,6 +219,13 @@ extension PlaybackViewController: WKYTPlayerViewDelegate {
         else {
             playerView.alpha = 0.01
         }
+
+        if state == .playing &&  !setQuality {
+            playerView.pauseVideo()
+            playerView.setPlaybackQuality(WKYTPlaybackQuality.HD720)
+            playerView.playVideo()
+            setQuality = true
+        }
     }
 
     func playerView(_ playerView: WKYTPlayerView, didPlayTime playTime: Float) {
@@ -232,14 +234,14 @@ extension PlaybackViewController: WKYTPlayerViewDelegate {
 
         UserDataManager.shared.saveVideoProgression(forMatch: self.matchData, time: TimeInterval(playTime))
 
-        playerView.getPlaybackQuality({ (quality, error) in
-            if quality.rawValue == 1 && !self.setQuality {
-                playerView.pauseVideo()
-                playerView.setPlaybackQuality(WKYTPlaybackQuality.HD720)
-                playerView.playVideo()
-                self.setQuality = true
-            }
-        })
+//        playerView.getPlaybackQuality({ (quality, error) in
+//            if quality.rawValue == 1 && !self.setQuality {
+//                playerView.pauseVideo()
+//                playerView.setPlaybackQuality(WKYTPlaybackQuality.HD720)
+//                playerView.playVideo()
+//                self.setQuality = true
+//            }
+//        })
 //        youtubePlayer.getAvailableQualityLevels { (levels, error) in
 //            DispatchQueue.main.async {
 //                if let l = levels {
@@ -257,6 +259,7 @@ extension PlaybackViewController: WKYTPlayerViewDelegate {
     func playerView(_ playerView: WKYTPlayerView, didChangeTo quality: WKYTPlaybackQuality) {
         print("Current quality: \(quality.rawValue)")
     }
+    
 
 }
 
