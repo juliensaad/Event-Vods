@@ -8,6 +8,8 @@
 
 import UIKit
 import SVProgressHUD
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,8 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ application: UIApplication) {
-        for slug in ["lol", "csgo", "overwatch", "dota", "rocket-league"] {
-
+        Fabric.with([Crashlytics.self])
+        for slug in Game.supportedGames {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 let splitViewController = EventsSplitViewController(slug: slug)
                 pageController.viewControllers.append(splitViewController)
@@ -44,14 +46,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        if let navigationController = self.window?.rootViewController as? UINavigationController {
-            if navigationController.visibleViewController is PlaybackViewController {
-                return [.portrait, .landscapeLeft, .landscapeRight]
-            } else {
-                return .portrait
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            if let navigationController = pageController.visibleViewController as? UINavigationController {
+                if navigationController.visibleViewController is PlaybackViewController {
+                    return [.portrait, .landscapeLeft, .landscapeRight]
+                } else {
+                    return .portrait
+                }
             }
+            return .portrait
         }
-        return .portrait
+        else {
+            return [.portrait, .landscapeLeft, .landscapeRight]
+        }
     }
 
 

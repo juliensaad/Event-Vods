@@ -30,6 +30,8 @@
 		1D9F5A3820545CE300D3A7D0 /* UIFont+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9F5A3720545CE300D3A7D0 /* UIFont+Vods.swift */; };
 		1D9F5A3A20546DA600D3A7D0 /* YZSwipeBetweenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9F5A3920546DA600D3A7D0 /* YZSwipeBetweenViewController.swift */; };
 		1D9F5A3E205483A700D3A7D0 /* EventsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9F5A3D205483A700D3A7D0 /* EventsSplitViewController.swift */; };
+		1D9F5A422054A0A200D3A7D0 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D9F5A402054A0A100D3A7D0 /* Crashlytics.framework */; };
+		1D9F5A432054A0A200D3A7D0 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D9F5A412054A0A200D3A7D0 /* Fabric.framework */; };
 		1DB24CD3202B6F3800E6BDB3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24CD2202B6F3800E6BDB3 /* AppDelegate.swift */; };
 		1DB24CD5202B6F3800E6BDB3 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB24CD4202B6F3800E6BDB3 /* EventsViewController.swift */; };
 		1DB24CD8202B6F3800E6BDB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DB24CD6202B6F3800E6BDB3 /* Main.storyboard */; };
@@ -82,6 +84,8 @@
 		1D9F5A3920546DA600D3A7D0 /* YZSwipeBetweenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YZSwipeBetweenViewController.swift; sourceTree = "<group>"; };
 		1D9F5A3D205483A700D3A7D0 /* EventsSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsSplitViewController.swift; sourceTree = "<group>"; };
 		1D9F5A3F20548E8A00D3A7D0 /* Event Vods.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Event Vods.entitlements"; sourceTree = "<group>"; };
+		1D9F5A402054A0A100D3A7D0 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		1D9F5A412054A0A200D3A7D0 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		1DB24CCF202B6F3800E6BDB3 /* Event Vods.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Event Vods.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DB24CD2202B6F3800E6BDB3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1DB24CD4202B6F3800E6BDB3 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
@@ -113,7 +117,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D9F5A422054A0A200D3A7D0 /* Crashlytics.framework in Frameworks */,
 				9F2590E20828311D611BE73B /* Pods_Event_Vods.framework in Frameworks */,
+				1D9F5A432054A0A200D3A7D0 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +259,8 @@
 		5C91444DD88D850EBDE3F63A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1D9F5A402054A0A100D3A7D0 /* Crashlytics.framework */,
+				1D9F5A412054A0A200D3A7D0 /* Fabric.framework */,
 				EBC882C6772D3D860480D152 /* Pods_Event_Vods.framework */,
 				38AB50C21B33F0B62E118A1A /* Pods_Event_VodsTests.framework */,
 			);
@@ -283,6 +291,7 @@
 				1DB24CCD202B6F3800E6BDB3 /* Resources */,
 				40A8DF1A330CAE7234180356 /* [CP] Embed Pods Frameworks */,
 				9B64787672503838935DBB6A /* [CP] Copy Pods Resources */,
+				1D9F5A442054A16400D3A7D0 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -381,6 +390,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1D9F5A442054A16400D3A7D0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/Fabric.framework/run\" 4369c02d22d8d6b58190235aa15805f74db30bb5 2e386c2f7b99e689be121788ad6d95095ce8ef8884078081afe5023b9859201c";
+		};
 		22D5EB147EFE35A76D6CA139 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -684,6 +706,10 @@
 				CODE_SIGN_ENTITLEMENTS = "Event Vods/Event Vods.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P6P7F9RSRA;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Event Vods/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.juliensaad.Event-Vods";
@@ -701,6 +727,10 @@
 				CODE_SIGN_ENTITLEMENTS = "Event Vods/Event Vods.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P6P7F9RSRA;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Event Vods/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.juliensaad.Event-Vods";

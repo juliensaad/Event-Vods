@@ -112,6 +112,10 @@ class YZSwipeBetweenViewController: UIViewController {
         container.view.attachEdges()
     }
 
+    var visibleViewController: UIViewController? {
+        return currentViewController
+    }
+
     fileprivate func nextViewController(delta: Int) -> UIViewController? {
 
         if !isSwipingEnabled {
