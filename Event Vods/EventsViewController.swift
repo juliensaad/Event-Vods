@@ -61,7 +61,7 @@ class EventsViewController: UIViewController, ResourceObserver {
         let logoView = UIButton()
         logoView.setImage(UIImage(named: selectedGameSlug), for: .normal)
         logoView.imageView?.contentMode = .scaleAspectFit
-        logoView.imageEdgeInsets = UIEdgeInsetsMake(4, 4, 4, 4)
+        logoView.imageEdgeInsets = UIEdgeInsetsMake(12, 4, 12, 4)
         logoView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         logoView.layer.shadowColor = UIColor.black.cgColor
         logoView.layer.shadowOpacity = 0.2
@@ -110,12 +110,6 @@ class EventsViewController: UIViewController, ResourceObserver {
         })
 
         eventsResource = EventAPI.events()
-    }
-
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        setLogoHidden(true, animated: true)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -211,6 +205,7 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
                 }
                 else {
                     let eventDetailsViewController = EventDetailsViewController(event: detailedEvent)
+                    self?.setLogoHidden(true, animated: true)
                     self?.navigationController?.pushViewController(eventDetailsViewController, animated: true)
                 }
 
