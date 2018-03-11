@@ -9,7 +9,6 @@ target 'Event Vods' do
   pod 'Siesta/UI', '~> 1.3.1'
   pod 'SnapKit'
   pod 'SVProgressHUD'
-  pod 'YoutubePlayer-in-WKWebView', '~> 0.2.0'
   pod 'ABVolumeControl', :git => 'https://github.com/juliensaad/ABVolumeControl'
   pod 'Kingfisher'
   # Pods for Event Vods

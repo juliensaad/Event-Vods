@@ -7,14 +7,15 @@
 //
 
 import Foundation
-import YoutubePlayer_in_WKWebView
+import youtube_ios_player_helper
 
 class PlayerViewManager {
     static let shared = PlayerViewManager()
 
-    let playerView: WKYTPlayerView
+    let playerView: YTPlayerView
+
     init() {
-        playerView = WKYTPlayerView()
+        playerView = YTPlayerView()
         playerView.backgroundColor = UIColor.black
     }
 

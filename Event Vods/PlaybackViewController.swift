@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import YoutubePlayer_in_WKWebView
+import youtube_ios_player_helper
 import SVProgressHUD
 import ABVolumeControl
 
@@ -28,8 +28,8 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         return overlay
     }()
 
-    let youtubePlayer: WKYTPlayerView = PlayerViewManager.shared.playerView
-//        let playerView = WKYTPlayerView()
+    let youtubePlayer: YTPlayerView = PlayerViewManager.shared.playerView
+//        let playerView = YTPlayerView()
 //        playerView.delegate = self
 //        playerView.alpha = 0.01
 //        playerView.backgroundColor = UIColor.black
@@ -129,6 +129,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         youtubePlayer.webView?.isUserInteractionEnabled = false
         youtubePlayer.webView?.scrollView.contentInsetAdjustmentBehavior = .never
         youtubePlayer.webView?.scrollView.isUserInteractionEnabled = false
+        youtubePlayer.alpha = 0.01
     }
 
     func loadVideo() {
@@ -147,14 +148,14 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         else if let query = url.getQueryStringParameter("t") {
             numberOfSeconds = query.getNumberOfSeconds()
         }
-        
+
         if let videoID = url.getQueryStringParameter("v") {
             youtubePlayer.load(withVideoId: videoID, playerVars: PlayerViewManager.shared.playerParams(seconds: numberOfSeconds))
-//            youtubePlayer.loadVideo(byId: videoID, startSeconds: Float(numberOfSeconds), suggestedQuality: WKYTPlaybackQuality.HD720)
+//            youtubePlayer.loadVideo(byId: videoID, startSeconds: Float(numberOfSeconds), suggestedQuality: YTPlaybackQuality.HD720)
 //            youtubePlayer.loadVideo(byId: videoID, startSeconds: Float(numberOfSeconds), suggestedQuality: WKYTPlaybackQuality.HD720)
         }
         else {
-            youtubePlayer.loadVideo(byURL: url, startSeconds: 0, suggestedQuality: WKYTPlaybackQuality.HD720)
+            youtubePlayer.loadVideo(byURL: url, startSeconds: 0, suggestedQuality: YTPlaybackQuality.HD720)
         }
     }
 
@@ -194,21 +195,22 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 }
 
 // MARK : YTPlayerViewDelegate
-extension PlaybackViewController: WKYTPlayerViewDelegate {
+extension PlaybackViewController: YTPlayerViewDelegate {
 
-    func playerViewPreferredWebViewBackgroundColor(_ playerView: WKYTPlayerView) -> UIColor {
+    func playerViewPreferredWebViewBackgroundColor(_ playerView: YTPlayerView) -> UIColor {
         return UIColor.black
     }
 
-    func playerViewDidBecomeReady(_ playerView: WKYTPlayerView) {
+    func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
         playerView.playVideo()
     }
 
-    func playerView(_ playerView: WKYTPlayerView, didChangeTo state: WKYTPlayerState) {
+    func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
         if state == .ended {
             dismiss(animated: true, completion: nil)
         }
-        else if state != .buffering && state != .unstarted {
+        
+        if state != .buffering && state != .unstarted {
             playerView.alpha = 1
 
             if state != .paused || !hasPlayedVideo {
@@ -222,13 +224,13 @@ extension PlaybackViewController: WKYTPlayerViewDelegate {
 
         if state == .playing &&  !setQuality {
             playerView.pauseVideo()
-            playerView.setPlaybackQuality(WKYTPlaybackQuality.HD720)
+            playerView.setPlaybackQuality(YTPlaybackQuality.HD720)
             playerView.playVideo()
             setQuality = true
         }
     }
 
-    func playerView(_ playerView: WKYTPlayerView, didPlayTime playTime: Float) {
+    func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
         hasPlayedVideo = true
         playerView.alpha = 1
 
@@ -256,7 +258,7 @@ extension PlaybackViewController: WKYTPlayerViewDelegate {
 //        }
     }
 
-    func playerView(_ playerView: WKYTPlayerView, didChangeTo quality: WKYTPlaybackQuality) {
+    func playerView(_ playerView: YTPlayerView, didChangeTo quality: YTPlaybackQuality) {
         print("Current quality: \(quality.rawValue)")
     }
     
@@ -282,9 +284,7 @@ extension PlaybackViewController: VideoPlayerOverlayDelegate {
 
     func didTapSeek(_ overlay: VideoPlayerOverlay, interval: TimeInterval) {
 
-        youtubePlayer.getCurrentTime { (time, error) in
-            self.youtubePlayer.seek(toSeconds: time + Float(interval), allowSeekAhead: true)
-        }
+        self.youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() + Float(interval), allowSeekAhead: true)
 
     }
 
