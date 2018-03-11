@@ -91,11 +91,7 @@ class EventDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                appDelegate.pageController.isSwipingEnabled = false
-            }
-        }
+
 
         view.backgroundColor = gameColor
         view.addSubview(tableView)
@@ -112,15 +108,19 @@ class EventDetailsViewController: UIViewController {
         super.viewWillDisappear(animated)
 
         if isMovingFromParentViewController {
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                    appDelegate.pageController.isSwipingEnabled = true
-                }
-            }
             UIView.animate(withDuration: 0.3, animations: {
                 self.titleView.alpha = 0
             }) { (completed) in
                 self.titleView.removeFromSuperview()
+            }
+        }
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if UIDevice.current.userInterfaceIdiom == .phone && isMovingFromParentViewController {
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+                appDelegate.pageController.isSwipingEnabled = true
             }
         }
     }
@@ -130,6 +130,9 @@ class EventDetailsViewController: UIViewController {
 
         if UIDevice.current.userInterfaceIdiom == .phone {
             UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+                appDelegate.pageController.isSwipingEnabled = false
+            }
         }
 
         if let logo = event.logo, let url = URL(string:logo) {

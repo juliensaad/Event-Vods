@@ -30,12 +30,18 @@ class YZSwipeBetweenViewController: UIViewController {
     var isSwipingEnabled = true {
         didSet {
             if !isSwipingEnabled {
-                container.dataSource = nil
-                container.delegate = nil
+                for view in self.container.view.subviews {
+                    if let subview = view as? UIScrollView {
+                        subview.isScrollEnabled = false
+                    }
+                }
             }
             else {
-                container.dataSource = self
-                container.delegate = self
+                for view in self.container.view.subviews {
+                    if let subview = view as? UIScrollView {
+                        subview.isScrollEnabled = true
+                    }
+                }
             }
         }
     }
