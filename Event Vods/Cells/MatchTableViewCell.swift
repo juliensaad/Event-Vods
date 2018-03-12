@@ -27,7 +27,7 @@ class MatchTableViewCell: UITableViewCell {
 
     lazy var overlay: UIView = {
         let view = UIView()
-        view.alpha = 0.5
+        view.alpha = 0
         view.backgroundColor = UIColor.black
         return view
     }()
@@ -40,7 +40,12 @@ class MatchTableViewCell: UITableViewCell {
     }()
 
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        // do nothing
+        if highlighted {
+            self.overlay.alpha = 0.4
+        }
+        else {
+            self.overlay.alpha = 0
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -60,8 +65,8 @@ class MatchTableViewCell: UITableViewCell {
         contentView.addSubview(backgroundImageView)
         contentView.addSubview(teamMatchupView)
         contentView.addSubview(separatorView)
-        contentView.addSubview(overlay)
         contentView.addSubview(watchCountButton)
+        contentView.addSubview(overlay)
 
         backgroundImageView.image = UIImage(named: match.backgroundImageName)
         backgroundImageView.clipsToBounds = true
@@ -88,17 +93,15 @@ class MatchTableViewCell: UITableViewCell {
             make.centerY.equalToSuperview()
         }
 
-
-        overlay.isHidden = !match.isFullyWatched
-
         if match.isFullyWatched {
             watchCountButton.setTitle("\(match.watchCount)/\(match.data.count)", for: .normal)
 //            watchCountButton.setImage(UIImage(named:"watched"), for: .normal)
-            watchCountButton.alpha = 0.55
+            teamMatchupView.alpha = 0.4
+            watchCountButton.alpha = 0.4
         }
         else {
             watchCountButton.setTitle("\(match.watchCount)/\(match.data.count)", for: .normal)
-            watchCountButton.alpha = 0.55
+            watchCountButton.alpha = 1.0
         }
     }
 

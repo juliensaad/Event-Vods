@@ -62,8 +62,20 @@ class EventCell: UITableViewCell {
         return label
     }()
 
+    lazy var overlay: UIView = {
+        let view = UIView()
+        view.alpha = 0
+        view.backgroundColor = UIColor.black
+        return view
+    }()
+
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        // do nothing
+        if highlighted {
+            self.overlay.alpha = 0.4
+        }
+        else {
+            self.overlay.alpha = 0
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -84,6 +96,7 @@ class EventCell: UITableViewCell {
         contentView.addSubview(eventImageView)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(dateLabel)
+        contentView.addSubview(overlay)
         contentView.backgroundColor = .black
 
         let verticalMargin = 15
