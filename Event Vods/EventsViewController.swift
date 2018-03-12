@@ -86,10 +86,11 @@ class EventsViewController: UIViewController, ResourceObserver {
         super.viewDidLoad()
 
         SVProgressHUD.show()
-//        let searchController = UISearchController(searchResultsController: self)
+//        let searchController = UISearchController(searchResultsController: nil)
+//        searchController.searchBar.delegate = self
 //        searchController.searchBar.tintColor = UIColor.white
 //        navigationItem.searchController = searchController
-//        navigationItem.hidesSearchBarWhenScrolling = false
+//        navigationItem.hidesSearchBarWhenScrolling = true
         navigationController?.navigationBar.barTintColor = Game.colorForSlug(selectedGameSlug)
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.addSubview(logoView)
@@ -229,4 +230,10 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
         return 220
     }
 
+}
+
+extension EventsViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print("change");
+    }
 }

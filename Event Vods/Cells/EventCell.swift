@@ -101,6 +101,10 @@ class EventCell: UITableViewCell {
 
         let verticalMargin = 15
 
+        overlay.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+
         eventImageView.snp.makeConstraints { (make) in
             make.right.equalTo(contentView).offset(-14)
             make.top.equalTo(contentView).offset(verticalMargin)
