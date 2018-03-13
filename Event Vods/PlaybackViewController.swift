@@ -82,12 +82,12 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         youtubePlayer.snp.remakeConstraints { (make) in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
             make.left.equalTo(view.safeAreaLayoutGuide.snp.leftMargin)
-            if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
+//            if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
                 make.bottom.equalTo(view.snp.bottom)
-            }
-            else {
-                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottomMargin)
-            }
+//            }
+//            else {
+//                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottomMargin)
+//            }
             make.right.equalTo(view.safeAreaLayoutGuide.snp.rightMargin)
         }
         youtubePlayer.setNeedsLayout()
@@ -198,7 +198,10 @@ extension PlaybackViewController: WKYTPlayerViewDelegate {
     }
 
     func playerView(_ playerView: WKYTPlayerView, didChangeTo state: WKYTPlayerState) {
-        if state != .buffering && state != .unstarted {
+        if state == .ended {
+            dismiss(animated: true, completion: nil)
+        }
+        else if state != .buffering && state != .unstarted {
             playerView.alpha = 1
 
             if state != .paused || !hasPlayedVideo {

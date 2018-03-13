@@ -28,13 +28,13 @@ class TeamMatchupView: UIView {
                     if let team1Icon = match.team1.icon, let team2Icon = match.team2.icon {
                         firstTeamImageView.kf.indicatorType = .activity
                         secondTeamImageView.kf.indicatorType = .activity
-                        firstTeamImageView.kf.setImage(with: URL(string: team1Icon), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { [unowned self] (image, _, _, _) in
+                        firstTeamImageView.kf.setImage(with: URL(string: team1Icon), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image, _, _, _) in
                             if image == nil {
                                 self.failedFirstImage = true
                             }
                             self.setNeedsUpdateConstraints()
                         })
-                        secondTeamImageView.kf.setImage(with: URL(string: team2Icon), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { [unowned self] (image, _, _, _) in
+                        secondTeamImageView.kf.setImage(with: URL(string: team2Icon), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image, _, _, _) in
                             if image == nil {
                                 self.failedSecondImage = true
                             }
