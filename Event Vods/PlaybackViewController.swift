@@ -9,6 +9,7 @@
 import UIKit
 import YoutubePlayer_in_WKWebView
 import SVProgressHUD
+import ABVolumeControl
 
 class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
@@ -66,10 +67,16 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         view.backgroundColor = UIColor.black
         view.addSubview(youtubePlayer)
         view.addSubview(overlay)
+//        overlay.addSubview(volumeBar)
 
         overlay.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
+
+//        volumeBar.snp.makeConstraints { (make) in
+//            make.top.right.left.equalTo(overlay)
+//            make.height.equalTo(4)
+//        }
 
         loadVideo()
     }
@@ -90,6 +97,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 //            }
             make.right.equalTo(view.safeAreaLayoutGuide.snp.rightMargin)
         }
+
         youtubePlayer.setNeedsLayout()
         setupWebView()
         super.updateViewConstraints()
@@ -98,6 +106,8 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsUpdateOfHomeIndicatorAutoHidden()
+        (ABVolumeControl.sharedManager() as! ABVolumeControl).volumeControlStyle = ABVolumeControlStyle.minimal
+        (ABVolumeControl.sharedManager() as! ABVolumeControl).defaultDarkColor = UIColor.black
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -106,6 +116,8 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         if UIDevice.current.userInterfaceIdiom == .phone {
             UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
         }
+
+        (ABVolumeControl.sharedManager() as! ABVolumeControl).volumeControlStyle = ABVolumeControlStyle.minimal
     }
 
     func setupWebView() {

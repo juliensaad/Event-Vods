@@ -10,6 +10,7 @@ target 'Event Vods' do
   pod 'SnapKit'
   pod 'SVProgressHUD'
   pod 'YoutubePlayer-in-WKWebView', '~> 0.2.0'
+  pod 'ABVolumeControl'
   pod 'Kingfisher'
   # Pods for Event Vods
 

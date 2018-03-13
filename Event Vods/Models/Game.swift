@@ -10,7 +10,7 @@ import UIKit
 
 class Game: Decodable, Hashable, CustomStringConvertible {
 
-    static let supportedGames = ["lol", "csgo", "overwatch", "dota", "rocket-league"]
+    static var supportedGames = ["lol", "csgo", "overwatch", "dota", "rocket-league"]
     
     let slug: String
     let icon: String?

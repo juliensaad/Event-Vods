@@ -10,7 +10,8 @@ import UIKit
 import SVProgressHUD
 import Fabric
 import Crashlytics
-
+import ABVolumeControl
+    
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -23,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidFinishLaunching(_ application: UIApplication) {
         Fabric.with([Crashlytics.self])
+        
         for slug in Game.supportedGames {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 let splitViewController = EventsSplitViewController(slug: slug)

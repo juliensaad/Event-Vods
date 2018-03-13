@@ -8,6 +8,7 @@
 
 import UIKit
 import SVProgressHUD
+import SubtleVolume
 
 protocol VideoPlayerOverlayDelegate: NSObjectProtocol {
     func didTapOverlay(_ overlay: VideoPlayerOverlay)
