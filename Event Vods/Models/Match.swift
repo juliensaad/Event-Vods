@@ -29,6 +29,7 @@ class Match: Decodable, CustomStringConvertible {
     let team1Match: String?
     let team2Match: String?
 
+    var gameSlug: String = "lol"
     var matchTitle: String {
         return "\(team1.tag) vs \(team2.tag)"
     }

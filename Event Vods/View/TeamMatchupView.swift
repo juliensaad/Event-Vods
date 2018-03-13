@@ -15,7 +15,7 @@ class TeamMatchupView: UIView {
         didSet {
             if let match = match {
                 if match.hasSpoilers {
-                    let placeholder = UIImage(named: "lol")
+                    let placeholder = UIImage(named: match.gameSlug)
                     firstTeamImageView.image = placeholder
                     secondTeamImageView.image = placeholder
                     firstTeamLabel.text = match.team1Match

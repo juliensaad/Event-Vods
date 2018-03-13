@@ -199,6 +199,18 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
             if let detailedEvent: Event = resource.typedContent() {
                 SVProgressHUD.dismiss()
 
+                if let contents = detailedEvent.contents {
+                    for section in contents {
+                        for module in section.modules {
+                            for match in module.matches2 {
+                                if let slug = self?.selectedGameSlug {
+                                    match.gameSlug = slug
+                                }
+                            }
+                        }
+                    }
+                }
+
                 if UIDevice.current.userInterfaceIdiom == .pad {
                     if let sself = self {
                         sself.delegate?.eventsViewController(sself, didSelectEvent: detailedEvent)
