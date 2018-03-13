@@ -28,13 +28,26 @@ class TeamMatchupView: UIView {
                     if let team1Icon = match.team1.icon, let team2Icon = match.team2.icon {
                         firstTeamImageView.kf.indicatorType = .activity
                         secondTeamImageView.kf.indicatorType = .activity
-                        firstTeamImageView.kf.setImage(with: URL(string: team1Icon))
-                        secondTeamImageView.kf.setImage(with: URL(string: team2Icon))
+                        firstTeamImageView.kf.setImage(with: URL(string: team1Icon), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { [unowned self] (image, _, _, _) in
+                            if image == nil {
+                                self.failedFirstImage = true
+                            }
+                            self.setNeedsUpdateConstraints()
+                        })
+                        secondTeamImageView.kf.setImage(with: URL(string: team2Icon), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { [unowned self] (image, _, _, _) in
+                            if image == nil {
+                                self.failedSecondImage = true
+                            }
+                            self.setNeedsUpdateConstraints()
+                        })
                     }
                 }
             }
         }
     }
+
+    var failedFirstImage = false
+    var failedSecondImage = false
 
     private lazy var firstTeamImageView: UIImageView = {
         let imageView = UIImageView()
@@ -142,6 +155,25 @@ class TeamMatchupView: UIView {
         vsLabel.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
         }
+    }
+
+    override func updateConstraints() {
+        super.updateConstraints()
+
+        if failedFirstImage {
+            firstTeamLabel.snp.remakeConstraints { (make) in
+                make.centerX.equalTo(firstTeamImageView)
+                make.centerY.equalToSuperview()
+            }
+        }
+
+        if failedSecondImage {
+            secondTeamLabel.snp.remakeConstraints { (make) in
+                make.centerX.equalTo(secondTeamImageView)
+                make.centerY.equalToSuperview()
+            }
+        }
+
     }
 
     override var intrinsicContentSize: CGSize {
