@@ -219,7 +219,6 @@ extension PlaybackViewController: WKYTPlayerViewDelegate {
             if state != .paused || !hasPlayedVideo {
                 youtubePlayer.playVideo()
             }
-            overlay.fadeOut()
             overlay.stopLoading()
         }
         else {

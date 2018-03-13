@@ -318,12 +318,14 @@ class VideoPlayerOverlay: UIView {
     }
 
     func stopLoading() {
-        fadeOut()
-        UIView.animateKeyframes(withDuration: 0.3, delay: 0, options: [], animations: {
-            self.spinner.alpha = 0
-            self.playButton.alpha = 1
-            self.pauseButton.alpha = 1
-        }, completion: nil)
+        if (spinner.alpha > 0) {
+            fadeOut()
+            UIView.animateKeyframes(withDuration: 0.3, delay: 0, options: [], animations: {
+                self.spinner.alpha = 0
+                self.playButton.alpha = 1
+                self.pauseButton.alpha = 1
+            }, completion: nil)
+        }
     }
 
     func fadeIn() {
