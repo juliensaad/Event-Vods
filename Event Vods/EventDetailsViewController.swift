@@ -91,8 +91,6 @@ class EventDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
-
         view.backgroundColor = gameColor
         view.addSubview(tableView)
 
@@ -160,6 +158,12 @@ class EventDetailsViewController: UIViewController {
         tableView.reloadData()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.titleView.alpha = 1
+        })
+    }
     func presentMatchURL(match: Match, matchData: MatchData, url: String, time: TimeInterval?, placeholder: Bool?) {
         if let placeholder = placeholder {
             if placeholder {

@@ -150,18 +150,28 @@ class EventsViewController: UIViewController, ResourceObserver {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setLogoHidden(false, animated: true)
-        reloadArrowViews()
+        reloadArrowViews(hidden: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setLogoHidden(false, animated: true)
-        reloadArrowViews()
+        reloadArrowViews(hidden: false)
     }
 
-    func reloadArrowViews() {
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            let currentIndex = appDelegate.pageController.currentIndex
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        setLogoHidden(true, animated: true)
+        reloadArrowViews(hidden: true)
+    }
+
+    func reloadArrowViews(hidden: Bool) {
+        if hidden {
+            leftArrow.isHidden = true
+            rightArrow.isHidden = true
+        }
+        else if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            let currentIndex = appDelegate.pageController.index(of: self)
             let lastIndex = appDelegate.pageController.viewControllers.count - 1
             leftArrow.isHidden = false
             rightArrow.isHidden = false
@@ -296,6 +306,7 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
                 else {
                     let eventDetailsViewController = EventDetailsViewController(event: detailedEvent)
                     self?.setLogoHidden(true, animated: true)
+                    self?.reloadArrowViews(hidden: true)
                     self?.navigationController?.pushViewController(eventDetailsViewController, animated: true)
                 }
 

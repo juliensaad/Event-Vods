@@ -56,6 +56,21 @@ class YZSwipeBetweenViewController: UIViewController {
         )
     }()
 
+    func index(of viewController: UIViewController) -> Int {
+        var index = viewControllers.index(of: viewController)
+
+        if index == nil {
+            if let splitViewController = viewController.navigationController?.parent {
+                index = viewControllers.index(of: splitViewController)
+            }
+            else if let navigationController = viewController.navigationController {
+                index = viewControllers.index(of: navigationController)
+            }
+        }
+
+        return index ?? 0
+    }
+
     @objc var viewControllers: [UIViewController] = [] {
         didSet {
             if viewAppeared {
