@@ -45,6 +45,12 @@ class EventsViewController: UIViewController, ResourceObserver {
         tableView.backgroundColor = Game.colorForSlug(selectedGameSlug)
         return tableView
     }()
+
+    private lazy var refreshControl : UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(refresh(control:)), for: .valueChanged)
+        return control
+    }()
     
     var eventsResource: Resource? {
         didSet {
@@ -118,6 +124,10 @@ class EventsViewController: UIViewController, ResourceObserver {
         setLogoHidden(false, animated: true)
     }
 
+    @objc func refresh(control: UIRefreshControl) {
+        eventsResource?.load()
+    }
+
     func setLogoHidden(_ hidden: Bool, animated: Bool) {
         if (animated) {
             UIView.animateKeyframes(withDuration: 0.1, delay: 0, options: [], animations: {
@@ -135,6 +145,9 @@ class EventsViewController: UIViewController, ResourceObserver {
     
     func resourceChanged(_ resource: Resource, event: ResourceEvent) {
         if resource == eventsResource {
+            if !resource.isLoading {
+                refreshControl.endRefreshing()
+            }
             showEvents(eventsResource?.typedContent())
         }
     }

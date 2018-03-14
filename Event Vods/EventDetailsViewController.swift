@@ -59,7 +59,7 @@ class EventDetailsViewController: UIViewController {
                         for matchData in match.data {
                             // only show matches that have youtube links
                             // or that are placeholders
-                            if matchData.youtube != nil || matchData.placeholder == true {
+                            if matchData.youtube != nil {
                                 shouldAddMatch = true
                                 break
                             }

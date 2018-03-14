@@ -51,12 +51,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UIDevice.current.userInterfaceIdiom == .phone {
             if let navigationController = pageController.visibleViewController as? UINavigationController {
                 if navigationController.visibleViewController is PlaybackViewController {
-                    return [.landscapeLeft, .landscapeRight]
+                    return [.landscapeRight, .landscapeLeft, .portrait]
                 } else {
-                    return .portrait
+                    return [.portrait]
                 }
             }
-            return .portrait
+            return [.portrait]
         }
         else {
             return [.portrait, .landscapeLeft, .landscapeRight]
