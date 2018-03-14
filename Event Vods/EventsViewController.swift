@@ -51,6 +51,22 @@ class EventsViewController: UIViewController, ResourceObserver {
         control.addTarget(self, action: #selector(refresh(control:)), for: .valueChanged)
         return control
     }()
+
+    private lazy var rightArrow: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named:"right-1"), for: .normal)
+        button.alpha = 0.6
+        button.addTarget(self, action: #selector(tapArrowView(button:)), for: .touchUpInside)
+        return button
+    }()
+
+    private lazy var leftArrow: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named:"left-1"), for: .normal)
+        button.alpha = 0.6
+        button.addTarget(self, action: #selector(tapArrowView(button:)), for: .touchUpInside)
+        return button
+    }()
     
     var eventsResource: Resource? {
         didSet {
@@ -100,6 +116,8 @@ class EventsViewController: UIViewController, ResourceObserver {
         navigationController?.navigationBar.barTintColor = Game.colorForSlug(selectedGameSlug)
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.addSubview(logoView)
+        navigationController?.navigationBar.addSubview(rightArrow)
+        navigationController?.navigationBar.addSubview(leftArrow)
         navigationController?.navigationBar.backgroundColor = Game.colorForSlug(selectedGameSlug)
 
         logoView.snp.makeConstraints { (make) in
@@ -107,6 +125,16 @@ class EventsViewController: UIViewController, ResourceObserver {
             make.top.bottom.equalToSuperview()
             make.height.greaterThanOrEqualTo(54)
             make.centerY.equalToSuperview()
+        }
+
+        rightArrow.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview().inset(10)
+        }
+
+        leftArrow.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().inset(10)
         }
 
         view.backgroundColor = Game.colorForSlug(selectedGameSlug)
@@ -122,10 +150,46 @@ class EventsViewController: UIViewController, ResourceObserver {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setLogoHidden(false, animated: true)
+        reloadArrowViews()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setLogoHidden(false, animated: true)
+        reloadArrowViews()
+    }
+
+    func reloadArrowViews() {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            let currentIndex = appDelegate.pageController.currentIndex
+            let lastIndex = appDelegate.pageController.viewControllers.count - 1
+            leftArrow.isHidden = false
+            rightArrow.isHidden = false
+            if currentIndex == 0 {
+                leftArrow.isHidden = true
+            }
+            else if currentIndex == lastIndex {
+                rightArrow.isHidden = true
+            }
+        }
     }
 
     @objc func refresh(control: UIRefreshControl) {
         eventsResource?.load()
+    }
+
+    @objc func tapArrowView(button: UIButton) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+
+        let currentIndex = appDelegate.pageController.currentIndex
+        if button == rightArrow {
+            appDelegate.pageController.setCurrentIndex(currentIndex + 1, animated: true)
+        }
+        else {
+            appDelegate.pageController.setCurrentIndex(currentIndex - 1, animated: true)
+        }
     }
 
     func setLogoHidden(_ hidden: Bool, animated: Bool) {
