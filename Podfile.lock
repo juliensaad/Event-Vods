@@ -9,7 +9,6 @@ PODS:
   - SnapKit (4.0.0)
   - SVProgressHUD (2.2.2)
   - youtube-ios-player-helper (0.1.6)
-  - YoutubePlayer-in-WKWebView (0.2.2)
 
 DEPENDENCIES:
   - ABVolumeControl (from `https://github.com/juliensaad/ABVolumeControl`)
@@ -19,7 +18,6 @@ DEPENDENCIES:
   - SnapKit
   - SVProgressHUD
   - youtube-ios-player-helper (from `https://github.com/juliensaad/youtube-ios-player-helper.git`, commit `5427ed44bb51de0c7b54cc6a415e5aca8b42c163`)
-  - YoutubePlayer-in-WKWebView (~> 0.2.0)
 
 EXTERNAL SOURCES:
   ABVolumeControl:
@@ -43,8 +41,7 @@ SPEC CHECKSUMS:
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SVProgressHUD: 59b2d3dabacbd051576d21d32293ca7228dc18b0
   youtube-ios-player-helper: 21ab92db027c7ff86cb17a3843a3f6eafc8158d2
-  YoutubePlayer-in-WKWebView: 2d80f7c91f1ee00f6a7c8d661d1f2db88b853f8e
 
-PODFILE CHECKSUM: 6b0894746f791202245ab86f7add0b03338059bf
+PODFILE CHECKSUM: 35eeca8ec5de32dfe59a5916d6bea55ccd5bc119
 
 COCOAPODS: 1.4.0
