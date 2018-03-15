@@ -36,7 +36,7 @@ class PlayerViewManager {
         return [
             "enablejsapi": 1,
             "rel": 0,
-            "playsinline": 0,
+            "playsinline": 1,
             "autoplay": 1,
             "controls": 0,
             "showinfo": 0,
