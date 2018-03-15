@@ -15,8 +15,14 @@ class PlayerViewManager {
     let playerView: YTPlayerView
 
     init() {
-        playerView = YTPlayerView(frame: CGRect(x: 0, y: 0, width: 4096, height: 2160))
-        playerView.translatesAutoresizingMaskIntoConstraints = false
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            playerView = YTPlayerView(frame: CGRect(x: 0, y: 0, width: 4096, height: 2160))
+            playerView.translatesAutoresizingMaskIntoConstraints = false
+        }
+        else {
+            playerView = YTPlayerView()
+        }
+
         playerView.backgroundColor = UIColor.black
     }
 

@@ -57,16 +57,9 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         view.backgroundColor = UIColor.black
         view.addSubview(youtubePlayer)
         view.addSubview(overlay)
-//        overlay.addSubview(volumeBar)
-
         overlay.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-
-//        volumeBar.snp.makeConstraints { (make) in
-//            make.top.right.left.equalTo(overlay)
-//            make.height.equalTo(4)
-//        }
 
         loadVideo()
     }
@@ -167,28 +160,28 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @objc func panGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
-        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) && UIDevice.current.userInterfaceIdiom == .phone {
-            return
-        }
-        
-        let touchPoint = sender.location(in: self.view.window)
-
-        if sender.state == UIGestureRecognizerState.began {
-            initialTouchPoint = touchPoint
-        }
-        else if sender.state == UIGestureRecognizerState.changed {
-            self.view.frame = CGRect(x: 0, y: touchPoint.y - initialTouchPoint.y, width: self.view.frame.size.width, height: self.view.frame.size.height)
-        }
-        else if sender.state == UIGestureRecognizerState.ended || sender.state == UIGestureRecognizerState.cancelled {
-            if touchPoint.y - initialTouchPoint.y > 100 || initialTouchPoint.y - touchPoint.y > 100 {
-                self.dismiss(animated: true, completion: nil)
-            }
-            else {
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-                })
-            }
-        }
+//        if (UIDevice.current.userInterfaceIdiom == .phone) || UIDevice.current.userInterfaceIdiom == .pad {
+//            return
+//        }
+//        
+//        let touchPoint = sender.location(in: self.view.window)
+//
+//        if sender.state == UIGestureRecognizerState.began {
+//            initialTouchPoint = touchPoint
+//        }
+//        else if sender.state == UIGestureRecognizerState.changed {
+//            self.view.frame = CGRect(x: 0, y: touchPoint.y - initialTouchPoint.y, width: self.view.frame.size.width, height: self.view.frame.size.height)
+//        }
+//        else if sender.state == UIGestureRecognizerState.ended || sender.state == UIGestureRecognizerState.cancelled {
+//            if touchPoint.y - initialTouchPoint.y > 100 || initialTouchPoint.y - touchPoint.y > 100 {
+//                self.dismiss(animated: true, completion: nil)
+//            }
+//            else {
+//                UIView.animate(withDuration: 0.3, animations: {
+//                    self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+//                })
+//            }
+//        }
     }
 
 }
@@ -220,13 +213,6 @@ extension PlaybackViewController: YTPlayerViewDelegate {
         else {
             playerView.alpha = 0.01
         }
-
-        if state == .playing &&  !setQuality {
-            playerView.pauseVideo()
-            playerView.setPlaybackQuality(YTPlaybackQuality.HD720)
-            playerView.playVideo()
-            setQuality = true
-        }
     }
 
     func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
@@ -234,27 +220,6 @@ extension PlaybackViewController: YTPlayerViewDelegate {
         playerView.alpha = 1
 
         UserDataManager.shared.saveVideoProgression(forMatch: self.matchData, time: TimeInterval(playTime))
-
-//        playerView.getPlaybackQuality({ (quality, error) in
-//            if quality.rawValue == 1 && !self.setQuality {
-//                playerView.pauseVideo()
-//                playerView.setPlaybackQuality(WKYTPlaybackQuality.HD720)
-//                playerView.playVideo()
-//                self.setQuality = true
-//            }
-//        })
-//        youtubePlayer.getAvailableQualityLevels { (levels, error) in
-//            DispatchQueue.main.async {
-//                if let l = levels {
-//                    print(l)
-//                    if l.count > 2 && !self.setQuality {
-//                        self.setQuality = true
-//                      //  self.youtubePlayer.setPlaybackQuality(WKYTPlaybackQuality.HD720)
-//                    }
-//                }
-//
-//            }
-//        }
     }
 
     func playerView(_ playerView: YTPlayerView, didChangeTo quality: YTPlaybackQuality) {
