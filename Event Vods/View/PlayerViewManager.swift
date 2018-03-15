@@ -15,7 +15,8 @@ class PlayerViewManager {
     let playerView: YTPlayerView
 
     init() {
-        playerView = YTPlayerView()
+        playerView = YTPlayerView(frame: CGRect(x: 0, y: 0, width: 4096, height: 2160))
+        playerView.translatesAutoresizingMaskIntoConstraints = false
         playerView.backgroundColor = UIColor.black
     }
 

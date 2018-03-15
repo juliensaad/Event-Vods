@@ -29,16 +29,6 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
     }()
 
     let youtubePlayer: YTPlayerView = PlayerViewManager.shared.playerView
-//        let playerView = YTPlayerView()
-//        playerView.delegate = self
-//        playerView.alpha = 0.01
-//        playerView.backgroundColor = UIColor.black
-//        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapWebView))
-//        gestureRecognizer.numberOfTapsRequired = 1
-//        gestureRecognizer.delegate = self
-//        playerView.addGestureRecognizer(gestureRecognizer)
-//        return playerView
-//    }()
 
     init(match: Match, matchData: MatchData, url: String?, time: TimeInterval?) {
         self.match = match
@@ -130,6 +120,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         youtubePlayer.webView?.scrollView.contentInsetAdjustmentBehavior = .never
         youtubePlayer.webView?.scrollView.isUserInteractionEnabled = false
         youtubePlayer.alpha = 0.01
+        youtubePlayer.updateWebViewFrame(youtubePlayer.webView);
     }
 
     func loadVideo() {

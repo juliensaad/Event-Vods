@@ -682,6 +682,8 @@ typedef NS_ENUM(NSInteger, YTPlayerError) {
  */
 - (int)playlistIndex;
 
+- (void)updateWebViewFrame:(nullable UIWebView *)webView;
+
 #pragma mark - Exposed for Testing
 
 /**

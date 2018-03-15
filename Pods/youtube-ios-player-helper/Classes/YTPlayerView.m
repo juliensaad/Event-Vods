@@ -703,9 +703,11 @@ NSString static *const kYTPlayerSyndicationRegexPattern = @"^https://tpc.googles
   }
 
   // Remove the existing webView to reset any state
-  [self.webView removeFromSuperview];
-  _webView = [self createNewWebView];
-  [self addSubview:self.webView];
+    if (!_webView) {
+      [self.webView removeFromSuperview];
+      _webView = [self createNewWebView];
+      [self addSubview:self.webView];
+    }
 
   NSError *error = nil;
   NSString *path = [[NSBundle bundleForClass:[YTPlayerView class]] pathForResource:@"YTPlayerView-iframe-player"
@@ -851,11 +853,14 @@ NSString static *const kYTPlayerSyndicationRegexPattern = @"^https://tpc.googles
 }
 
 - (UIWebView *)createNewWebView {
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:self.bounds];
-    webView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0.0, 0.0, 4096.0, 2160.0)];
+    webView.translatesAutoresizingMaskIntoConstraints = NO;
+    webView.scalesPageToFit = YES;
     webView.scrollView.scrollEnabled = NO;
     webView.scrollView.bounces = NO;
-    
+
+    [self updateWebViewFrame:webView];
+
     if ([self.delegate respondsToSelector:@selector(playerViewPreferredWebViewBackgroundColor:)]) {
         webView.backgroundColor = [self.delegate playerViewPreferredWebViewBackgroundColor:self];
         if (webView.backgroundColor == [UIColor clearColor]) {
@@ -864,6 +869,19 @@ NSString static *const kYTPlayerSyndicationRegexPattern = @"^https://tpc.googles
     }
     
     return webView;
+}
+
+- (void)updateWebViewFrame:(UIWebView *)webView {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        CGSize contentSize = webView.scrollView.contentSize;
+        CGSize viewSize = UIScreen.mainScreen.bounds.size;
+        float scale = viewSize.width / contentSize.width;
+        webView.scrollView.minimumZoomScale = scale;
+        webView.scrollView.maximumZoomScale = scale;
+        webView.scrollView.zoomScale = scale;
+        // center webView after scaling..
+        [webView setFrame:CGRectMake(0.0, 0.0, UIScreen.mainScreen.bounds.size.width/scale, UIScreen.mainScreen.bounds.size.height/scale)];
+    }
 }
 
 - (void)removeWebView {
