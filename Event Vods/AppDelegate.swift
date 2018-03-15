@@ -49,19 +49,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            if let navigationController = pageController.visibleViewController as? UINavigationController {
-                if navigationController.visibleViewController is PlaybackViewController {
+//        if UIDevice.current.userInterfaceIdiom == .phone {
+        if let navigationController = pageController.visibleViewController as? UINavigationController {
+            if navigationController.visibleViewController is PlaybackViewController {
+                if UIDevice.current.userInterfaceIdiom == .phone {
                     return [.landscapeRight, .landscapeLeft, .portrait]
-                } else {
-                    return [.portrait]
                 }
+                else {
+                    return [.landscapeRight, .landscapeLeft]
+                }
+            } else {
+                return [.portrait]
             }
-            return [.portrait]
         }
-        else {
-            return [.portrait, .landscapeLeft, .landscapeRight]
-        }
+        return [.portrait]
+//        }
+//        else {
+//            return [.portrait, .landscapeLeft, .landscapeRight]
+//        }
     }
 
 

@@ -75,17 +75,27 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         view.setNeedsUpdateConstraints()
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if let webview = youtubePlayer.webView {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                webview.frame.origin.y = 100
+            }
+        }
+    }
     override func updateViewConstraints() {
         youtubePlayer.snp.remakeConstraints { (make) in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
             make.left.equalTo(view.safeAreaLayoutGuide.snp.leftMargin)
-//            if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
-                make.bottom.equalTo(view.snp.bottom)
-//            }
-//            else {
-//                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottomMargin)
-//            }
+            make.bottom.equalTo(view.snp.bottom)
             make.right.equalTo(view.safeAreaLayoutGuide.snp.rightMargin)
+        }
+
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if let webview = youtubePlayer.webView {
+                
+                webview.stringByEvaluatingJavaScript(from: "document.querySelector('meta[name=viewport]').setAttribute('content', 'width=\(view.bounds.size.width)px;', false)")
+            }
         }
 
         youtubePlayer.setNeedsLayout()
@@ -142,8 +152,6 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
         if let videoID = url.getQueryStringParameter("v") {
             youtubePlayer.load(withVideoId: videoID, playerVars: PlayerViewManager.shared.playerParams(seconds: numberOfSeconds))
-//            youtubePlayer.loadVideo(byId: videoID, startSeconds: Float(numberOfSeconds), suggestedQuality: YTPlaybackQuality.HD720)
-//            youtubePlayer.loadVideo(byId: videoID, startSeconds: Float(numberOfSeconds), suggestedQuality: WKYTPlaybackQuality.HD720)
         }
         else {
             youtubePlayer.loadVideo(byURL: url, startSeconds: 0, suggestedQuality: YTPlaybackQuality.HD720)
@@ -274,9 +282,7 @@ extension PlaybackViewController: VideoPlayerOverlayDelegate {
     }
 
     func didTapSeek(_ overlay: VideoPlayerOverlay, interval: TimeInterval) {
-
-        self.youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() + Float(interval), allowSeekAhead: true)
-
+        youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() + Float(interval), allowSeekAhead: true)
     }
 
     func didDoubleTapOverlay(_ overlay: VideoPlayerOverlay) {

@@ -17,13 +17,13 @@ DEPENDENCIES:
   - Siesta/UI (~> 1.3.1)
   - SnapKit
   - SVProgressHUD
-  - youtube-ios-player-helper (from `https://github.com/juliensaad/youtube-ios-player-helper.git`, commit `5427ed44bb51de0c7b54cc6a415e5aca8b42c163`)
+  - youtube-ios-player-helper (from `https://github.com/juliensaad/youtube-ios-player-helper.git`, commit `7ebc20f`)
 
 EXTERNAL SOURCES:
   ABVolumeControl:
     :git: https://github.com/juliensaad/ABVolumeControl
   youtube-ios-player-helper:
-    :commit: 5427ed44bb51de0c7b54cc6a415e5aca8b42c163
+    :commit: 7ebc20f
     :git: https://github.com/juliensaad/youtube-ios-player-helper.git
 
 CHECKOUT OPTIONS:
@@ -31,7 +31,7 @@ CHECKOUT OPTIONS:
     :commit: f489fd6fe27df57340ab03860ea4c2773773b1ee
     :git: https://github.com/juliensaad/ABVolumeControl
   youtube-ios-player-helper:
-    :commit: 5427ed44bb51de0c7b54cc6a415e5aca8b42c163
+    :commit: 7ebc20f
     :git: https://github.com/juliensaad/youtube-ios-player-helper.git
 
 SPEC CHECKSUMS:
@@ -42,6 +42,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 59b2d3dabacbd051576d21d32293ca7228dc18b0
   youtube-ios-player-helper: 21ab92db027c7ff86cb17a3843a3f6eafc8158d2
 
-PODFILE CHECKSUM: 35eeca8ec5de32dfe59a5916d6bea55ccd5bc119
+PODFILE CHECKSUM: be7560ee4f6217662a6f89ba06b8a245172aa7f6
 
 COCOAPODS: 1.4.0
