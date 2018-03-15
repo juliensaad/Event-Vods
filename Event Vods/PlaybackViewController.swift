@@ -84,13 +84,6 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
             make.right.equalTo(view.safeAreaLayoutGuide.snp.rightMargin)
         }
 
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            if let webview = youtubePlayer.webView {
-                
-                webview.stringByEvaluatingJavaScript(from: "document.querySelector('meta[name=viewport]').setAttribute('content', 'width=\(view.bounds.size.width)px;', false)")
-            }
-        }
-
         youtubePlayer.setNeedsLayout()
         setupWebView()
         super.updateViewConstraints()
