@@ -63,8 +63,11 @@ class YZSwipeBetweenViewController: UIViewController {
             if let splitViewController = viewController.navigationController?.parent {
                 index = viewControllers.index(of: splitViewController)
             }
-            else if let navigationController = viewController.navigationController {
-                index = viewControllers.index(of: navigationController)
+
+            if index == nil {
+                if let navigationController = viewController.navigationController {
+                    index = viewControllers.index(of: navigationController)
+                }
             }
         }
 
