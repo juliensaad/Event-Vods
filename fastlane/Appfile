@@ -1,0 +1,8 @@
+app_identifier("com.juliensaad.Event-Vods") # The bundle identifier of your app
+apple_id("saadjulien@gmail.com") # Your Apple email address
+
+itc_team_id "119019113" # iTunes Connect Team ID
+team_id "P6P7F9RSRA" # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
