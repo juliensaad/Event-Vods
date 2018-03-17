@@ -162,8 +162,8 @@
 		1DB24CC6202B6F3800E6BDB3 = {
 			isa = PBXGroup;
 			children = (
-				1DB24CD1202B6F3800E6BDB3 /* Event Vods */,
-				1DB24CE6202B6F3800E6BDB3 /* Event VodsTests */,
+				1DB24CD1202B6F3800E6BDB3 /* Eventvods */,
+				1DB24CE6202B6F3800E6BDB3 /* EventvodsTests */,
 				1DB24CD0202B6F3800E6BDB3 /* Products */,
 				F9BBB781F35B5B7FBB8A2EC1 /* Pods */,
 				5C91444DD88D850EBDE3F63A /* Frameworks */,
@@ -179,7 +179,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1DB24CD1202B6F3800E6BDB3 /* Event Vods */ = {
+		1DB24CD1202B6F3800E6BDB3 /* Eventvods */ = {
 			isa = PBXGroup;
 			children = (
 				1D9F5A3F20548E8A00D3A7D0 /* Event Vods.entitlements */,
@@ -202,10 +202,10 @@
 				1DB24CDE202B6F3800E6BDB3 /* Info.plist */,
 				1D9F5A3D205483A700D3A7D0 /* EventsSplitViewController.swift */,
 			);
-			path = "Event Vods";
+			path = Eventvods;
 			sourceTree = "<group>";
 		};
-		1DB24CE6202B6F3800E6BDB3 /* Event VodsTests */ = {
+		1DB24CE6202B6F3800E6BDB3 /* EventvodsTests */ = {
 			isa = PBXGroup;
 			children = (
 				1D1929D7205DAF2C00C56FA5 /* SnapshotHelper.swift */,
@@ -213,7 +213,7 @@
 				1DB24CE9202B6F3800E6BDB3 /* Info.plist */,
 				1D1929D9205DB23200C56FA5 /* Snapshots.swift */,
 			);
-			path = "Event VodsTests";
+			path = EventvodsTests;
 			sourceTree = "<group>";
 		};
 		1DD3DD9220309DFE00A0F152 /* Networking */ = {
