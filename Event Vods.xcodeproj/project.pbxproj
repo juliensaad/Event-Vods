@@ -88,7 +88,7 @@
 		1D9F5A402054A0A100D3A7D0 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		1D9F5A412054A0A200D3A7D0 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		1D9F5A452054D22800D3A7D0 /* PlayerViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewManager.swift; sourceTree = "<group>"; };
-		1DB24CCF202B6F3800E6BDB3 /* Event Vods.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Event Vods.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DB24CCF202B6F3800E6BDB3 /* Eventvods.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eventvods.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DB24CD2202B6F3800E6BDB3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1DB24CD4202B6F3800E6BDB3 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
 		1DB24CD7202B6F3800E6BDB3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -159,7 +159,7 @@
 		1DB24CD0202B6F3800E6BDB3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1DB24CCF202B6F3800E6BDB3 /* Event Vods.app */,
+				1DB24CCF202B6F3800E6BDB3 /* Eventvods.app */,
 				1DB24CE3202B6F3800E6BDB3 /* Event VodsTests.xctest */,
 			);
 			name = Products;
@@ -284,9 +284,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1DB24CCE202B6F3800E6BDB3 /* Event Vods */ = {
+		1DB24CCE202B6F3800E6BDB3 /* Eventvods */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DB24CEC202B6F3800E6BDB3 /* Build configuration list for PBXNativeTarget "Event Vods" */;
+			buildConfigurationList = 1DB24CEC202B6F3800E6BDB3 /* Build configuration list for PBXNativeTarget "Eventvods" */;
 			buildPhases = (
 				A268CA8864FDD3002026ED41 /* [CP] Check Pods Manifest.lock */,
 				1DB24CCB202B6F3800E6BDB3 /* Sources */,
@@ -300,9 +300,9 @@
 			);
 			dependencies = (
 			);
-			name = "Event Vods";
+			name = Eventvods;
 			productName = "Event Vods";
-			productReference = 1DB24CCF202B6F3800E6BDB3 /* Event Vods.app */;
+			productReference = 1DB24CCF202B6F3800E6BDB3 /* Eventvods.app */;
 			productType = "com.apple.product-type.application";
 		};
 		1DB24CE2202B6F3800E6BDB3 /* Event VodsTests */ = {
@@ -341,7 +341,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -365,7 +365,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1DB24CCE202B6F3800E6BDB3 /* Event Vods */,
+				1DB24CCE202B6F3800E6BDB3 /* Eventvods */,
 				1DB24CE2202B6F3800E6BDB3 /* Event VodsTests */,
 			);
 		};
@@ -570,7 +570,7 @@
 /* Begin PBXTargetDependency section */
 		1DB24CE5202B6F3800E6BDB3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1DB24CCE202B6F3800E6BDB3 /* Event Vods */;
+			target = 1DB24CCE202B6F3800E6BDB3 /* Eventvods */;
 			targetProxy = 1DB24CE4202B6F3800E6BDB3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -707,7 +707,7 @@
 			baseConfigurationReference = A897425B741A558B92AEE885 /* Pods-Event Vods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Event Vods/Event Vods.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P6P7F9RSRA;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -718,6 +718,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.juliensaad.Event-Vods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -728,7 +729,7 @@
 			baseConfigurationReference = 58C3C6B292AD0A3B34DFEA76 /* Pods-Event Vods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Event Vods/Event Vods.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P6P7F9RSRA;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -739,6 +740,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.juliensaad.Event-Vods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -792,7 +794,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DB24CEC202B6F3800E6BDB3 /* Build configuration list for PBXNativeTarget "Event Vods" */ = {
+		1DB24CEC202B6F3800E6BDB3 /* Build configuration list for PBXNativeTarget "Eventvods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DB24CED202B6F3800E6BDB3 /* Debug */,
