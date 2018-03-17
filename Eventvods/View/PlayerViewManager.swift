@@ -1,6 +1,6 @@
 //
 //  PlayerViewManager.swift
-//  Event Vods
+//  Eventvods
 //
 //  Created by Julien Saad on 2018-03-10.
 //  Copyright © 2018 Julien Saad. All rights reserved.

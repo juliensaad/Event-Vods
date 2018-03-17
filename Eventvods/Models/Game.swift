@@ -1,6 +1,6 @@
 //
 //  Game.swift
-//  Event Vods
+//  Eventvods
 //
 //  Created by Julien Saad on 2018-02-11.
 //  Copyright © 2018 Julien Saad. All rights reserved.

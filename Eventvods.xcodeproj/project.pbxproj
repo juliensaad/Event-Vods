@@ -48,10 +48,6 @@
 		1DD3DD9B2030A8C900A0F152 /* EventAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD3DD9A2030A8C900A0F152 /* EventAPI.swift */; };
 		1DD3DD9E2030B42700A0F152 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD3DD9D2030B42700A0F152 /* EventTableViewCell.swift */; };
 		1DFCB950204B105E0091C7CA /* UIButton+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFCB94F204B105E0091C7CA /* UIButton+Vods.swift */; };
-		2AF2A164923121A51B2F4302 /* Pods_Event_VodsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38AB50C21B33F0B62E118A1A /* Pods_Event_VodsTests.framework */; };
-		66C38476540FDA78153D56BB /* Pods_Eventvods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24784E1D1B5CF9CD0DF6C0AC /* Pods_Eventvods.framework */; };
-		8DE7FFEE872F22C3F8FB5E0A /* Pods_EventvodsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E96B6B23B318DC570CC2580E /* Pods_EventvodsTests.framework */; };
-		9F2590E20828311D611BE73B /* Pods_Event_Vods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBC882C6772D3D860480D152 /* Pods_Event_Vods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,17 +109,9 @@
 		1DD3DD9A2030A8C900A0F152 /* EventAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAPI.swift; sourceTree = "<group>"; };
 		1DD3DD9D2030B42700A0F152 /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
 		1DFCB94F204B105E0091C7CA /* UIButton+Vods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Vods.swift"; sourceTree = "<group>"; };
-		24784E1D1B5CF9CD0DF6C0AC /* Pods_Eventvods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Eventvods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2B4BE74EDC006633074C1B23 /* Pods-Event VodsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Event VodsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Event VodsTests/Pods-Event VodsTests.release.xcconfig"; sourceTree = "<group>"; };
-		38AB50C21B33F0B62E118A1A /* Pods_Event_VodsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Event_VodsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D2001AE95AE919A72D29A71 /* Pods-EventvodsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EventvodsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EventvodsTests/Pods-EventvodsTests.debug.xcconfig"; sourceTree = "<group>"; };
-		58C3C6B292AD0A3B34DFEA76 /* Pods-Event Vods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Event Vods.release.xcconfig"; path = "Pods/Target Support Files/Pods-Event Vods/Pods-Event Vods.release.xcconfig"; sourceTree = "<group>"; };
 		6835E73D282FF406D5ED1A5D /* Pods-Eventvods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Eventvods.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Eventvods/Pods-Eventvods.debug.xcconfig"; sourceTree = "<group>"; };
-		A897425B741A558B92AEE885 /* Pods-Event Vods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Event Vods.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Event Vods/Pods-Event Vods.debug.xcconfig"; sourceTree = "<group>"; };
-		C36992FF890C8CB28F239375 /* Pods-Event VodsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Event VodsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Event VodsTests/Pods-Event VodsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E445E8003FD7F81A90D9E734 /* Pods-Eventvods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Eventvods.release.xcconfig"; path = "Pods/Target Support Files/Pods-Eventvods/Pods-Eventvods.release.xcconfig"; sourceTree = "<group>"; };
-		E96B6B23B318DC570CC2580E /* Pods_EventvodsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EventvodsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EBC882C6772D3D860480D152 /* Pods_Event_Vods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Event_Vods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,9 +120,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D9F5A422054A0A200D3A7D0 /* Crashlytics.framework in Frameworks */,
-				9F2590E20828311D611BE73B /* Pods_Event_Vods.framework in Frameworks */,
 				1D9F5A432054A0A200D3A7D0 /* Fabric.framework in Frameworks */,
-				66C38476540FDA78153D56BB /* Pods_Eventvods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,8 +128,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2AF2A164923121A51B2F4302 /* Pods_Event_VodsTests.framework in Frameworks */,
-				8DE7FFEE872F22C3F8FB5E0A /* Pods_EventvodsTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,10 +264,6 @@
 			children = (
 				1D9F5A402054A0A100D3A7D0 /* Crashlytics.framework */,
 				1D9F5A412054A0A200D3A7D0 /* Fabric.framework */,
-				EBC882C6772D3D860480D152 /* Pods_Event_Vods.framework */,
-				38AB50C21B33F0B62E118A1A /* Pods_Event_VodsTests.framework */,
-				24784E1D1B5CF9CD0DF6C0AC /* Pods_Eventvods.framework */,
-				E96B6B23B318DC570CC2580E /* Pods_EventvodsTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -291,10 +271,6 @@
 		F9BBB781F35B5B7FBB8A2EC1 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A897425B741A558B92AEE885 /* Pods-Event Vods.debug.xcconfig */,
-				58C3C6B292AD0A3B34DFEA76 /* Pods-Event Vods.release.xcconfig */,
-				C36992FF890C8CB28F239375 /* Pods-Event VodsTests.debug.xcconfig */,
-				2B4BE74EDC006633074C1B23 /* Pods-Event VodsTests.release.xcconfig */,
 				6835E73D282FF406D5ED1A5D /* Pods-Eventvods.debug.xcconfig */,
 				E445E8003FD7F81A90D9E734 /* Pods-Eventvods.release.xcconfig */,
 				3D2001AE95AE919A72D29A71 /* Pods-EventvodsTests.debug.xcconfig */,
@@ -738,7 +714,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = "Event Vods/Info.plist";
+				INFOPLIST_FILE = Eventvods/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.juliensaad.Event-Vods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -760,7 +736,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = "Event Vods/Info.plist";
+				INFOPLIST_FILE = Eventvods/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.juliensaad.Event-Vods";
 				PRODUCT_NAME = "$(TARGET_NAME)";

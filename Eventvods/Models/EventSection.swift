@@ -1,6 +1,6 @@
 //
 //  EventSection.swift
-//  Event Vods
+//  Eventvods
 //
 //  Created by Julien Saad on 2018-02-17.
 //  Copyright © 2018 Julien Saad. All rights reserved.

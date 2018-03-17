@@ -1,6 +1,6 @@
 //
 //  Event_VodsTests.swift
-//  Event VodsTests
+//  EventvodsTests
 //
 //  Created by Julien Saad on 2018-02-07.
 //  Copyright © 2018 Julien Saad. All rights reserved.
