@@ -20,6 +20,20 @@
                ReferencedContainer = "container:Eventvods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1DB24CCE202B6F3800E6BDB3"
+               BuildableName = "Eventvods.app"
+               BlueprintName = "Eventvods"
+               ReferencedContainer = "container:Eventvods.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -81,15 +95,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1DB24CE2202B6F3800E6BDB3"
-            BuildableName = "EventvodsTests.xctest"
-            BlueprintName = "EventvodsTests"
-            ReferencedContainer = "container:Eventvods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

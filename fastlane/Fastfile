@@ -16,7 +16,7 @@ platform :ios do
   lane :beta do
   	get_certificates           # invokes cert
   	get_provisioning_profile   # invokes sigh
-    build_app(workspace: "Event Vods.xcworkspace", scheme: "Event Vods")
+    build_app(workspace: "Eventvods.xcworkspace", scheme: "Eventvods")
     upload_to_testflight
   end
 end
