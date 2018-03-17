@@ -12,9 +12,9 @@ target 'Eventvods' do
   pod 'ABVolumeControl', :git => 'https://github.com/juliensaad/ABVolumeControl'
   pod 'Kingfisher'
   pod 'GoogleAnalytics'
-  # Pods for Event Vods
+  # Pods for Eventvods
 
-  target 'Event VodsTests' do
+  target 'EventvodsTests' do
     inherit! :search_paths
     # Pods for testing
   end
