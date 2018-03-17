@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_Event_VodsTestsVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_Event_VodsTestsVersionString[];
+FOUNDATION_EXPORT double Pods_EventvodsTestsVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_EventvodsTestsVersionString[];
 

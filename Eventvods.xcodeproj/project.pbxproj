@@ -11,6 +11,7 @@
 		1D065DDD20312D5E00F5340E /* GamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D065DDC20312D5E00F5340E /* GamesViewController.swift */; };
 		1D065DDF20312D8C00F5340E /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D065DDE20312D8C00F5340E /* EventCell.swift */; };
 		1D1929D8205DAF2C00C56FA5 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1929D7205DAF2C00C56FA5 /* SnapshotHelper.swift */; };
+		1D1929DA205DB23200C56FA5 /* Snapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1929D9205DB23200C56FA5 /* Snapshots.swift */; };
 		1D2D27C32043937C00BB3733 /* UIColor+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D27C22043937C00BB3733 /* UIColor+Vods.swift */; };
 		1D2D27C52043975E00BB3733 /* VideoPlayerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D27C42043975E00BB3733 /* VideoPlayerOverlay.swift */; };
 		1D2D27C72043A02D00BB3733 /* TeamMatchupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D27C62043A02D00BB3733 /* TeamMatchupView.swift */; };
@@ -49,6 +50,7 @@
 		1DFCB950204B105E0091C7CA /* UIButton+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFCB94F204B105E0091C7CA /* UIButton+Vods.swift */; };
 		2AF2A164923121A51B2F4302 /* Pods_Event_VodsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38AB50C21B33F0B62E118A1A /* Pods_Event_VodsTests.framework */; };
 		66C38476540FDA78153D56BB /* Pods_Eventvods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24784E1D1B5CF9CD0DF6C0AC /* Pods_Eventvods.framework */; };
+		8DE7FFEE872F22C3F8FB5E0A /* Pods_EventvodsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E96B6B23B318DC570CC2580E /* Pods_EventvodsTests.framework */; };
 		9F2590E20828311D611BE73B /* Pods_Event_Vods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBC882C6772D3D860480D152 /* Pods_Event_Vods.framework */; };
 /* End PBXBuildFile section */
 
@@ -63,10 +65,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		174532E4DD2F2B325524A192 /* Pods-EventvodsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EventvodsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EventvodsTests/Pods-EventvodsTests.release.xcconfig"; sourceTree = "<group>"; };
 		1D065DDA2030ECC600F5340E /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		1D065DDC20312D5E00F5340E /* GamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesViewController.swift; sourceTree = "<group>"; };
 		1D065DDE20312D8C00F5340E /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		1D1929D7205DAF2C00C56FA5 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
+		1D1929D9205DB23200C56FA5 /* Snapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshots.swift; sourceTree = "<group>"; };
 		1D2D27C22043937C00BB3733 /* UIColor+Vods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Vods.swift"; sourceTree = "<group>"; };
 		1D2D27C42043975E00BB3733 /* VideoPlayerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerOverlay.swift; sourceTree = "<group>"; };
 		1D2D27C62043A02D00BB3733 /* TeamMatchupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMatchupView.swift; sourceTree = "<group>"; };
@@ -112,11 +116,13 @@
 		24784E1D1B5CF9CD0DF6C0AC /* Pods_Eventvods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Eventvods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B4BE74EDC006633074C1B23 /* Pods-Event VodsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Event VodsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Event VodsTests/Pods-Event VodsTests.release.xcconfig"; sourceTree = "<group>"; };
 		38AB50C21B33F0B62E118A1A /* Pods_Event_VodsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Event_VodsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D2001AE95AE919A72D29A71 /* Pods-EventvodsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EventvodsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EventvodsTests/Pods-EventvodsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		58C3C6B292AD0A3B34DFEA76 /* Pods-Event Vods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Event Vods.release.xcconfig"; path = "Pods/Target Support Files/Pods-Event Vods/Pods-Event Vods.release.xcconfig"; sourceTree = "<group>"; };
 		6835E73D282FF406D5ED1A5D /* Pods-Eventvods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Eventvods.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Eventvods/Pods-Eventvods.debug.xcconfig"; sourceTree = "<group>"; };
 		A897425B741A558B92AEE885 /* Pods-Event Vods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Event Vods.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Event Vods/Pods-Event Vods.debug.xcconfig"; sourceTree = "<group>"; };
 		C36992FF890C8CB28F239375 /* Pods-Event VodsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Event VodsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Event VodsTests/Pods-Event VodsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E445E8003FD7F81A90D9E734 /* Pods-Eventvods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Eventvods.release.xcconfig"; path = "Pods/Target Support Files/Pods-Eventvods/Pods-Eventvods.release.xcconfig"; sourceTree = "<group>"; };
+		E96B6B23B318DC570CC2580E /* Pods_EventvodsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EventvodsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBC882C6772D3D860480D152 /* Pods_Event_Vods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Event_Vods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -137,6 +143,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AF2A164923121A51B2F4302 /* Pods_Event_VodsTests.framework in Frameworks */,
+				8DE7FFEE872F22C3F8FB5E0A /* Pods_EventvodsTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,6 +211,7 @@
 				1D1929D7205DAF2C00C56FA5 /* SnapshotHelper.swift */,
 				1DB24CE7202B6F3800E6BDB3 /* Event_VodsTests.swift */,
 				1DB24CE9202B6F3800E6BDB3 /* Info.plist */,
+				1D1929D9205DB23200C56FA5 /* Snapshots.swift */,
 			);
 			path = "Event VodsTests";
 			sourceTree = "<group>";
@@ -275,6 +283,7 @@
 				EBC882C6772D3D860480D152 /* Pods_Event_Vods.framework */,
 				38AB50C21B33F0B62E118A1A /* Pods_Event_VodsTests.framework */,
 				24784E1D1B5CF9CD0DF6C0AC /* Pods_Eventvods.framework */,
+				E96B6B23B318DC570CC2580E /* Pods_EventvodsTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -288,6 +297,8 @@
 				2B4BE74EDC006633074C1B23 /* Pods-Event VodsTests.release.xcconfig */,
 				6835E73D282FF406D5ED1A5D /* Pods-Eventvods.debug.xcconfig */,
 				E445E8003FD7F81A90D9E734 /* Pods-Eventvods.release.xcconfig */,
+				3D2001AE95AE919A72D29A71 /* Pods-EventvodsTests.debug.xcconfig */,
+				174532E4DD2F2B325524A192 /* Pods-EventvodsTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -429,7 +440,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Event VodsTests/Pods-Event VodsTests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EventvodsTests/Pods-EventvodsTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		40A8DF1A330CAE7234180356 /* [CP] Embed Pods Frameworks */ = {
@@ -504,7 +515,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Event VodsTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-EventvodsTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -523,7 +534,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Event VodsTests/Pods-Event VodsTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EventvodsTests/Pods-EventvodsTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -574,6 +585,7 @@
 			files = (
 				1DB24CE8202B6F3800E6BDB3 /* Event_VodsTests.swift in Sources */,
 				1D1929D8205DAF2C00C56FA5 /* SnapshotHelper.swift in Sources */,
+				1D1929DA205DB23200C56FA5 /* Snapshots.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -760,7 +772,7 @@
 		};
 		1DB24CF0202B6F3800E6BDB3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C36992FF890C8CB28F239375 /* Pods-Event VodsTests.debug.xcconfig */;
+			baseConfigurationReference = 3D2001AE95AE919A72D29A71 /* Pods-EventvodsTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -778,7 +790,7 @@
 		};
 		1DB24CF1202B6F3800E6BDB3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2B4BE74EDC006633074C1B23 /* Pods-Event VodsTests.release.xcconfig */;
+			baseConfigurationReference = 174532E4DD2F2B325524A192 /* Pods-EventvodsTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";

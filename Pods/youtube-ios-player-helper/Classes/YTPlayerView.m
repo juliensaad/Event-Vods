@@ -858,13 +858,13 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
         frame = CGRectMake(0.0, 0.0, 4096.0, 2160.0);
     }
     else {
-        frame = self.bounds;
+        frame = CGRectZero;
     }
     UIWebView *webView = [[UIWebView alloc] initWithFrame:frame];
+    webView.translatesAutoresizingMaskIntoConstraints = NO;
+    webView.scalesPageToFit = YES;
     webView.scrollView.scrollEnabled = NO;
     webView.scrollView.bounces = NO;
-    webView.backgroundColor = UIColor.blackColor;
-    webView.scrollView.backgroundColor = UIColor.blackColor;
 
     [self updateWebViewFrame:webView];
 
@@ -880,17 +880,14 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 
 - (void)updateWebViewFrame:(UIWebView *)webView {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        webView.translatesAutoresizingMaskIntoConstraints = NO;
         CGSize contentSize = webView.scrollView.contentSize;
         CGSize viewSize = UIScreen.mainScreen.bounds.size;
         float scale = viewSize.width / contentSize.width;
         webView.scrollView.minimumZoomScale = scale;
         webView.scrollView.maximumZoomScale = scale;
         webView.scrollView.zoomScale = scale;
-    }
-    else {
-        webView.translatesAutoresizingMaskIntoConstraints = YES;
-        webView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+        webView.backgroundColor = UIColor.blackColor;
+        webView.scrollView.backgroundColor = UIColor.blackColor;
     }
 }
 

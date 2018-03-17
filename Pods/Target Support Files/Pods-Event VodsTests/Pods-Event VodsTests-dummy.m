@@ -1,5 +1,0 @@
-#import <Foundation/Foundation.h>
-@interface PodsDummy_Pods_Event_VodsTests : NSObject
-@end
-@implementation PodsDummy_Pods_Event_VodsTests
-@end
