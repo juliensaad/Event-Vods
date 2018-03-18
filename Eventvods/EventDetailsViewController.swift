@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import SafariServices
 
 class EventDetailsViewController: UIViewController {
     let event: Event
@@ -59,7 +60,7 @@ class EventDetailsViewController: UIViewController {
                         for matchData in match.data {
                             // only show matches that have youtube links
                             // or that are placeholders
-                            if matchData.youtube != nil {
+                            if matchData.youtube != nil || matchData.twitch != nil {
                                 shouldAddMatch = true
                                 break
                             }
@@ -177,6 +178,12 @@ class EventDetailsViewController: UIViewController {
                 let playbackViewController = PlaybackViewController(match: match, matchData: matchData, url: url, time: time)
                 self.navigationController?.present(playbackViewController, animated: true, completion: nil)
             }
+            else {
+                if url.count > 0 {
+                    let controller = SFSafariViewController(url: URL(string: url)!)
+                    self.present(controller, animated: true, completion: nil)
+                }
+            }
         })
     }
 
@@ -264,7 +271,7 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
                 controller.addAction(action)
             }
 
-            if let url = matchData.youtube?.gameStart {
+            if let url = matchData.gameStart {
                 let action = getAction(forTitle: "\(prefix)Game Start", url: url, match: match, matchData: matchData, time: nil, placeholder: matchData.placeholder)
                 controller.addAction(action)
             }
@@ -284,12 +291,10 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
         }
 
         if controller.actions.count == 1 {
-            guard let youtube = match.data[0].youtube else {
+            guard let url = match.data[0].gameStart else {
                 return
             }
-            if let onlyValidUrl = youtube.validUrl {
-                presentMatchURL(match: match, matchData: match.data[0], url: onlyValidUrl, time: nil, placeholder: false)
-            }
+            presentMatchURL(match: match, matchData: match.data[0], url: url, time: nil, placeholder: false)
         }
         else {
             let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: nil)

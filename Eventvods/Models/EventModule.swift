@@ -11,7 +11,6 @@ import UIKit
 struct EventModule: Decodable {
     let _id: String
     var title: String
-    let youtube: Bool
     let date: Date
 
     let matches: [String]?

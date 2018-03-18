@@ -47,6 +47,7 @@
 		1DD3DD9720309F5900A0F152 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD3DD9620309F5900A0F152 /* Game.swift */; };
 		1DD3DD9B2030A8C900A0F152 /* EventAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD3DD9A2030A8C900A0F152 /* EventAPI.swift */; };
 		1DD3DD9E2030B42700A0F152 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD3DD9D2030B42700A0F152 /* EventTableViewCell.swift */; };
+		1DEA8E0A205EC5FF002A809E /* TwitchLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEA8E09205EC5FF002A809E /* TwitchLink.swift */; };
 		1DFCB950204B105E0091C7CA /* UIButton+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFCB94F204B105E0091C7CA /* UIButton+Vods.swift */; };
 		41F4BE1D485F6E1E5CE29EBB /* Pods_EventvodsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4328703EFF3F75F855DC2F4E /* Pods_EventvodsTests.framework */; };
 		71FE9E3E237F895C9227AF2F /* Pods_Eventvods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5CDD518BC69C71FA16465FD /* Pods_Eventvods.framework */; };
@@ -119,6 +120,7 @@
 		1DD3DD9620309F5900A0F152 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		1DD3DD9A2030A8C900A0F152 /* EventAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAPI.swift; sourceTree = "<group>"; };
 		1DD3DD9D2030B42700A0F152 /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
+		1DEA8E09205EC5FF002A809E /* TwitchLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitchLink.swift; sourceTree = "<group>"; };
 		1DFCB94F204B105E0091C7CA /* UIButton+Vods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Vods.swift"; sourceTree = "<group>"; };
 		3D2001AE95AE919A72D29A71 /* Pods-EventvodsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EventvodsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EventvodsTests/Pods-EventvodsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4328703EFF3F75F855DC2F4E /* Pods_EventvodsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EventvodsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -252,6 +254,7 @@
 				1D37E1F520392C7800AEDCDB /* Team.swift */,
 				1D37E1F120392BDE00AEDCDB /* MatchData.swift */,
 				1D37E1F320392BFA00AEDCDB /* YoutubeLink.swift */,
+				1DEA8E09205EC5FF002A809E /* TwitchLink.swift */,
 				1DD3DD9620309F5900A0F152 /* Game.swift */,
 				1D37E1E9203920DB00AEDCDB /* EventSection.swift */,
 			);
@@ -617,6 +620,7 @@
 				1D37E1F220392BDE00AEDCDB /* MatchData.swift in Sources */,
 				1D9F5A462054D22800D3A7D0 /* PlayerViewManager.swift in Sources */,
 				1DFCB950204B105E0091C7CA /* UIButton+Vods.swift in Sources */,
+				1DEA8E0A205EC5FF002A809E /* TwitchLink.swift in Sources */,
 				1D5FC432204B41E300925DE7 /* MatchTableViewCell.swift in Sources */,
 				1DB24CD3202B6F3800E6BDB3 /* AppDelegate.swift in Sources */,
 				1DD3DD9720309F5900A0F152 /* Game.swift in Sources */,
