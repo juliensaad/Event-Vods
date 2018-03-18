@@ -16,7 +16,7 @@ class PlayerViewManager {
 
     init() {
         if UIDevice.current.userInterfaceIdiom == .pad {
-            playerView = YTPlayerView(frame: CGRect(x: 0, y: 0, width: 4096, height: 2160))
+            playerView = YTPlayerView(frame: CGRect(x: 0, y: 0, width: 4096, height: 2360))
             playerView.translatesAutoresizingMaskIntoConstraints = false
         }
         else {

@@ -72,7 +72,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLayoutSubviews()
         if let webview = youtubePlayer.webView {
             if UIDevice.current.userInterfaceIdiom == .pad {
-                webview.frame.origin.y = 100
+                webview.frame.origin.y = 60
             }
         }
     }
@@ -214,11 +214,6 @@ extension PlaybackViewController: YTPlayerViewDelegate {
 
         UserDataManager.shared.saveVideoProgression(forMatch: self.matchData, time: TimeInterval(playTime))
     }
-
-    func playerView(_ playerView: YTPlayerView, didChangeTo quality: YTPlaybackQuality) {
-        print("Current quality: \(quality.rawValue)")
-    }
-    
 
 }
 

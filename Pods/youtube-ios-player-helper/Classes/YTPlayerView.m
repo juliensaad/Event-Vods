@@ -855,7 +855,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 - (UIWebView *)createNewWebView {
     CGRect frame;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        frame = CGRectMake(0.0, 0.0, 4096.0, 2160.0);
+        frame = CGRectMake(0.0, 0.0, 4096.0, 2360.0);
     }
     else {
         frame = self.bounds;
