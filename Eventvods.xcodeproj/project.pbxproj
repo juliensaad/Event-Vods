@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1D065DDB2030ECC600F5340E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D065DDA2030ECC600F5340E /* Localizable.strings */; };
-		1D065DDD20312D5E00F5340E /* GamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D065DDC20312D5E00F5340E /* GamesViewController.swift */; };
 		1D065DDF20312D8C00F5340E /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D065DDE20312D8C00F5340E /* EventCell.swift */; };
 		1D2D27C32043937C00BB3733 /* UIColor+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D27C22043937C00BB3733 /* UIColor+Vods.swift */; };
 		1D2D27C52043975E00BB3733 /* VideoPlayerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D27C42043975E00BB3733 /* VideoPlayerOverlay.swift */; };
@@ -73,7 +72,6 @@
 /* Begin PBXFileReference section */
 		174532E4DD2F2B325524A192 /* Pods-EventvodsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EventvodsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EventvodsTests/Pods-EventvodsTests.release.xcconfig"; sourceTree = "<group>"; };
 		1D065DDA2030ECC600F5340E /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
-		1D065DDC20312D5E00F5340E /* GamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesViewController.swift; sourceTree = "<group>"; };
 		1D065DDE20312D8C00F5340E /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		1D1929D7205DAF2C00C56FA5 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = EventvodsUITests/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		1D2D27C22043937C00BB3733 /* UIColor+Vods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Vods.swift"; sourceTree = "<group>"; };
@@ -214,7 +212,6 @@
 				1DB24CD4202B6F3800E6BDB3 /* EventsViewController.swift */,
 				1D37E1ED203925B800AEDCDB /* EventDetailsViewController.swift */,
 				1D37E1F720392ECA00AEDCDB /* PlaybackViewController.swift */,
-				1D065DDC20312D5E00F5340E /* GamesViewController.swift */,
 				1D065DDA2030ECC600F5340E /* Localizable.strings */,
 				1DB24CD6202B6F3800E6BDB3 /* Main.storyboard */,
 				1DB24CD9202B6F3800E6BDB3 /* Assets.xcassets */,
@@ -616,7 +613,6 @@
 				1D2D27C52043975E00BB3733 /* VideoPlayerOverlay.swift in Sources */,
 				1D84BCF120531FCF00CE8EEF /* SwiftyUserDefaults.swift in Sources */,
 				1D3DF638204CAD3D007BEAFA /* URLRedirectLoader.swift in Sources */,
-				1D065DDD20312D5E00F5340E /* GamesViewController.swift in Sources */,
 				1D37E1F220392BDE00AEDCDB /* MatchData.swift in Sources */,
 				1D9F5A462054D22800D3A7D0 /* PlayerViewManager.swift in Sources */,
 				1DFCB950204B105E0091C7CA /* UIButton+Vods.swift in Sources */,

@@ -38,5 +38,6 @@ class EventsSplitViewController: UISplitViewController, EventsViewControllerDele
 
         viewControllers = [rootViewController, detailViewController]
     }
+    
 
 }
