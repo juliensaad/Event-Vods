@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Event_Vods
+@testable import Eventvods
 
 class Event_VodsTests: XCTestCase {
     
