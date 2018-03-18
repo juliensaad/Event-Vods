@@ -243,8 +243,13 @@ extension PlaybackViewController: VideoPlayerOverlayDelegate {
         youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() + Float(interval), allowSeekAhead: true)
     }
 
-    func didDoubleTapOverlay(_ overlay: VideoPlayerOverlay) {
-        //youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() + Float(10), allowSeekAhead: true)
+    func didDoubleTapOverlay(_ overlay: VideoPlayerOverlay, location: Location) {
+        switch location {
+        case .right:
+            youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() + Float(15), allowSeekAhead: true)
+        case .left:
+            youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() - Float(15), allowSeekAhead: true)
+        }
     }
 
     func didTapClose(_ overlay: VideoPlayerOverlay) {

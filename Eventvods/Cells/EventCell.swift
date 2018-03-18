@@ -84,7 +84,8 @@ class EventCell: UITableViewCell {
     
     init(event: Event, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        
+
+        accessibilityIdentifier = reuseIdentifier
         eventNameLabel.text = event.name
         subtitleLabel.text = event.subtitle
         backgroundImageView.image = UIImage(named: event.backgroundImageName)

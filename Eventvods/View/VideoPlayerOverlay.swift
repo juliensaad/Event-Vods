@@ -9,9 +9,14 @@
 import UIKit
 import SVProgressHUD
 
+enum Location {
+    case right
+    case left
+}
+
 protocol VideoPlayerOverlayDelegate: NSObjectProtocol {
     func didTapOverlay(_ overlay: VideoPlayerOverlay)
-    func didDoubleTapOverlay(_ overlay: VideoPlayerOverlay)
+    func didDoubleTapOverlay(_ overlay: VideoPlayerOverlay, location: Location)
     func didTapPlay(_ overlay: VideoPlayerOverlay)
     func didTapPause(_ overlay: VideoPlayerOverlay)
     func didTapSeek(_ overlay: VideoPlayerOverlay, interval: TimeInterval)
@@ -124,7 +129,7 @@ class VideoPlayerOverlay: UIView {
     }()
 
     private lazy var doubleTapGestureRecognizer: UITapGestureRecognizer = {
-        let doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTapOverlay))
+        let doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTapOverlay(_:)))
         doubleTapGestureRecognizer.numberOfTapsRequired = 2
         return doubleTapGestureRecognizer
     }()
@@ -164,21 +169,46 @@ class VideoPlayerOverlay: UIView {
         }
     }
 
+    private lazy var seekLabel: UIButton = {
+        let label = UIButton()
+        label.titleLabel?.font = UIFont.boldVodsFontOfSize(16)
+        label.setTitle("+15s ", for: .normal)
+        label.setImage(UIImage(named: "right-3"), for: .normal)
+        label.backgroundColor = UIColor(white: 0, alpha: 0.3)
+        label.alpha = 0
+        label.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
+        label.layer.cornerRadius = 20
+        label.clipsToBounds = true
+        return label
+    }()
+
+    private lazy var seekBackLabel: UIButton = {
+        let label = UIButton()
+        label.titleLabel?.font = UIFont.boldVodsFontOfSize(16)
+        label.setTitle(" -15s", for: .normal)
+        label.setImage(UIImage(named: "left-3"), for: .normal)
+        label.backgroundColor = UIColor(white: 0, alpha: 0.3)
+        label.alpha = 0
+        label.layer.cornerRadius = 20
+        label.clipsToBounds = true
+        return label
+    }()
+
     init(match: Match) {
         self.match = match
         super.init(frame: CGRect.zero)
 
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOverlay))
         addGestureRecognizer(gestureRecognizer)
-//        addGestureRecognizer(doubleTapGestureRecognizer)
-//        container.addGestureRecognizer(gestureRecognizer)
-//        container.addGestureRecognizer(doubleTapGestureRecognizer)
-//        gestureRecognizer.require(toFail: doubleTapGestureRecognizer)
+        addGestureRecognizer(doubleTapGestureRecognizer)
+        gestureRecognizer.require(toFail: doubleTapGestureRecognizer)
 
         matchupView.match = self.match
 
         addSubview(container)
         addSubview(spinner)
+        addSubview(seekLabel)
+        addSubview(seekBackLabel)
         container.backgroundColor = UIColor(white: 0, alpha: 0.45)
         container.addSubview(matchupView)
         container.addSubview(pauseButton)
@@ -246,6 +276,20 @@ class VideoPlayerOverlay: UIView {
         container.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
+
+        seekLabel.snp.makeConstraints { (make) in
+            make.width.equalTo(100)
+            make.height.equalTo(40)
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview().offset(-30)
+        }
+
+        seekBackLabel.snp.makeConstraints { (make) in
+            make.width.equalTo(100)
+            make.height.equalTo(40)
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(30)
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -278,8 +322,22 @@ class VideoPlayerOverlay: UIView {
         delegate?.didTapOverlay(self)
     }
 
-    @objc func doubleTapOverlay() {
-        delegate?.didDoubleTapOverlay(self)
+    @objc func doubleTapOverlay(_ recognizer: UITapGestureRecognizer) {
+        let location = recognizer.location(in: self)
+        if location.x <= self.frame.midX {
+            delegate?.didDoubleTapOverlay(self, location: .left)
+            seekBackLabel.alpha = 1
+            UIView.animate(withDuration: 1.4, animations: {
+                self.seekBackLabel.alpha = 0
+            })
+        }
+        else {
+            delegate?.didDoubleTapOverlay(self, location: .right)
+            seekLabel.alpha = 1
+            UIView.animate(withDuration: 1.4, animations: {
+                self.seekLabel.alpha = 0
+            })
+        }
     }
 
     @objc func close() {

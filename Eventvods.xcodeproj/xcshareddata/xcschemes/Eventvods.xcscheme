@@ -39,6 +39,16 @@
                ReferencedContainer = "container:Eventvods.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1D799C05205DF83B009E8001"
+               BuildableName = "EventvodsUITests.xctest"
+               BlueprintName = "EventvodsUITests"
+               ReferencedContainer = "container:Eventvods.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

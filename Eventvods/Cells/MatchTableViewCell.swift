@@ -55,6 +55,7 @@ class MatchTableViewCell: UITableViewCell {
     init(match: Match, tintColor: UIColor, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
 
+        accessibilityIdentifier = reuseIdentifier
         let separatorView = UIView()
         separatorView.backgroundColor = UIColor(white: 0.1, alpha: 0.4)
 
