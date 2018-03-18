@@ -238,8 +238,6 @@ class EventsViewController: UIViewController, ResourceObserver {
             }
             return false
         }
-        events.removeFirst()
-        events.removeFirst()
 
         self.allEvents = events
 
