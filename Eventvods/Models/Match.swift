@@ -47,7 +47,7 @@ class Match: Decodable, CustomStringConvertible {
         catch {
             self.data = []
         }
-
+        
         date = try container.decodeIfPresent(Date.self, forKey: .date)
         let firstTeam = try container.decodeIfPresent(String.self, forKey: .team1Match)
         let secondTeam = try container.decodeIfPresent(String.self, forKey: .team2Match)

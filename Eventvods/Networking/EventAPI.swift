@@ -20,16 +20,15 @@ class _EventAPI {
         standardTransformers: [.text, .image])
     fileprivate init() {
         #if DEBUG
-            LogCategory.enabled = [.network]
-//            LogCategory.enabled = LogCategory.common
+//            LogCategory.enabled = [.network]
+            LogCategory.enabled = LogCategory.all
         #endif
 
         let jsonDecoder = JSONDecoder()
         jsonDecoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
       
         service.configure(EventVods.events.path) {
-            // Refresh search results after 10 seconds (Siesta default is 30)
-            $0.expirationTime = 10
+            $0.expirationTime = 5
         }
         
         // –––––– Mapping from specific paths to models ––––––
