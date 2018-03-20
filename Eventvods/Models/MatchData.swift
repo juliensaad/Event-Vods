@@ -15,6 +15,8 @@ class MatchData: Decodable {
     let twitch: TwitchLink?
     let placeholder: Bool?
 
+    let links: [String?]
+
     var gameStart: String? {
         if let youtube = youtube {
             return youtube.gameStart

@@ -19,6 +19,8 @@ class Match: Decodable, CustomStringConvertible {
         case hasSpoilers = "spoiler1"
         case team1Match
         case team2Match
+        case highlightsIndex
+        case discussionIndex
     }
 
     let team1: Team
@@ -28,6 +30,9 @@ class Match: Decodable, CustomStringConvertible {
     var hasSpoilers: Bool = false
     var team1Match: String = "Team 1"
     var team2Match: String = "Team 2"
+
+    let highlightsIndex: Int
+    let discussionIndex: Int
 
     var gameSlug: String = "lol"
     var matchTitle: String {
@@ -80,6 +85,27 @@ class Match: Decodable, CustomStringConvertible {
         }
         else {
             self.hasSpoilers = false
+        }
+
+        if let spoiler = try container.decodeIfPresent(Bool.self, forKey: .hasSpoilers) {
+            self.hasSpoilers = spoiler
+        }
+        else {
+            self.hasSpoilers = false
+        }
+
+        if let highlightsIndex = try container.decodeIfPresent(Int.self, forKey: .highlightsIndex) {
+            self.highlightsIndex = highlightsIndex
+        }
+        else {
+            self.highlightsIndex = -1
+        }
+
+        if let discussionIndex = try container.decodeIfPresent(Int.self, forKey: .discussionIndex) {
+            self.discussionIndex = discussionIndex
+        }
+        else {
+            self.discussionIndex = -1
         }
     }
 

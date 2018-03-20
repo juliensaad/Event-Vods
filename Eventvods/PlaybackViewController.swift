@@ -28,13 +28,15 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         return overlay
     }()
 
+    let highlights: Bool
     let youtubePlayer: YTPlayerView = PlayerViewManager.shared.playerView
 
-    init(match: Match, matchData: MatchData, url: String?, time: TimeInterval?) {
+    init(match: Match, matchData: MatchData, url: String?, time: TimeInterval?, highlights: Bool) {
         self.match = match
         self.matchData = matchData
         self.url = url
         self.time = time
+        self.highlights = highlights
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -212,7 +214,9 @@ extension PlaybackViewController: YTPlayerViewDelegate {
         hasPlayedVideo = true
         playerView.alpha = 1
 
-        UserDataManager.shared.saveVideoProgression(forMatch: self.matchData, time: TimeInterval(playTime))
+        if !self.highlights {
+            UserDataManager.shared.saveVideoProgression(forMatch: self.matchData, time: TimeInterval(playTime))
+        }
     }
 
 }
