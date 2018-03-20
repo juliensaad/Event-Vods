@@ -109,7 +109,12 @@ class MatchTableViewCell: UITableViewCell {
         matchTitleLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.left.right.equalToSuperview()
-            make.height.equalTo(MatchTableViewCell.matchTitleHeight)
+            if shouldShowMatchTitle {
+                make.height.equalTo(MatchTableViewCell.matchTitleHeight)
+            }
+            else {
+                make.height.equalTo(0)
+            }
         }
 
         if match.isFullyWatched {
