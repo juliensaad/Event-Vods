@@ -22,6 +22,12 @@ class EventDetailsViewController: UIViewController {
         return tableView
     }()
 
+    lazy var headerView: DetailsHeaderView = {
+        let headerView = DetailsHeaderView(event: event)
+        headerView.backButton.addTarget(self, action: #selector(didPressBackButton), for: .touchUpInside)
+        return headerView
+    }()
+
     lazy var titleView: UIButton = {
         let titleView = UIButton()
         titleView.contentEdgeInsets = UIEdgeInsetsMake(8,0,8,0)
@@ -94,12 +100,20 @@ class EventDetailsViewController: UIViewController {
 
         view.backgroundColor = gameColor
         view.addSubview(tableView)
+        view.addSubview(headerView)
 
-        tableView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+        headerView.snp.makeConstraints { (make) in
+            make.left.right.equalToSuperview()
+            make.height.equalTo(80)
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.topMargin)
         }
-        tableView.backgroundColor = UIColor.clear
-        navigationController?.navigationBar.topItem?.title = ""
+
+        tableView.snp.makeConstraints({ (make) in
+            make.left.bottom.right.equalToSuperview()
+            make.top.equalTo(headerView.snp.bottom)
+        })
+
+        tableView.backgroundColor = gameColor
 
     }
 
@@ -165,6 +179,11 @@ class EventDetailsViewController: UIViewController {
             self.titleView.alpha = 1
         })
     }
+
+    @objc func didPressBackButton() {
+        navigationController?.popViewController(animated: true)
+    }
+
     func presentMatchURL(match: Match, matchData: MatchData, url: String, time: TimeInterval?, placeholder: Bool?) {
         if let placeholder = placeholder {
             if placeholder {

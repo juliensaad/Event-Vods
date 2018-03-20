@@ -28,11 +28,24 @@ class EventsViewController: UIViewController, ResourceObserver {
     }
 
     var events: [Event] = []
+    var shouldEndRefreshing = false
+    var didBeginRefreshing = false
 
     var games: Set<Game> = [] {
         didSet {
             print(games)
         }
+    }
+
+    var leftArrow: UIButton {
+        return headerView.leftArrow
+    }
+
+    var rightArrow: UIButton {
+        return headerView.rightArrow
+    }
+    var logoView: UIButton {
+        return headerView.logoView
     }
 
     var selectedGameSlug = "lol"
@@ -43,29 +56,22 @@ class EventsViewController: UIViewController, ResourceObserver {
         tableView.dataSource = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         tableView.backgroundColor = Game.colorForSlug(selectedGameSlug)
+        tableView.refreshControl = self.refreshControl
+        tableView.alwaysBounceVertical = true
         return tableView
+    }()
+
+    private lazy var headerView: HomeHeaderView = {
+        let header = HomeHeaderView(slug: self.selectedGameSlug)
+        header.delegate = self
+        return header
     }()
 
     private lazy var refreshControl : UIRefreshControl = {
         let control = UIRefreshControl()
         control.addTarget(self, action: #selector(refresh(control:)), for: .valueChanged)
+        control.tintColor = UIColor.white
         return control
-    }()
-
-    private lazy var rightArrow: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named:"right-1"), for: .normal)
-        button.alpha = 0.6
-        button.addTarget(self, action: #selector(tapArrowView(button:)), for: .touchUpInside)
-        return button
-    }()
-
-    private lazy var leftArrow: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named:"left-1"), for: .normal)
-        button.alpha = 0.6
-        button.addTarget(self, action: #selector(tapArrowView(button:)), for: .touchUpInside)
-        return button
     }()
     
     var eventsResource: Resource? {
@@ -78,22 +84,6 @@ class EventsViewController: UIViewController, ResourceObserver {
                 .loadIfNeeded()
         }
     }
-
-    lazy var logoView: UIButton = {
-        let logoView = UIButton()
-        logoView.setImage(UIImage(named: selectedGameSlug), for: .normal)
-        logoView.imageView?.contentMode = .scaleAspectFit
-        logoView.imageEdgeInsets = UIEdgeInsetsMake(12, 4, 12, 4)
-        logoView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-        logoView.layer.shadowColor = UIColor.black.cgColor
-        logoView.layer.shadowOpacity = 0.2
-        logoView.layer.shadowRadius = 6
-        logoView.layer.shadowOffset = CGSize(width: 0, height: 1)
-        logoView.isUserInteractionEnabled = false
-        logoView.layer.shouldRasterize = true
-        logoView.layer.rasterizationScale = UIScreen.main.scale
-        return logoView
-    }()
 
     init(slug: String) {
         self.selectedGameSlug = slug
@@ -113,35 +103,31 @@ class EventsViewController: UIViewController, ResourceObserver {
 //        searchController.searchBar.tintColor = UIColor.white
 //        navigationItem.searchController = searchController
 //        navigationItem.hidesSearchBarWhenScrolling = true
-        navigationController?.navigationBar.barTintColor = Game.colorForSlug(selectedGameSlug)
-        navigationController?.navigationBar.tintColor = UIColor.white
-        navigationController?.navigationBar.addSubview(logoView)
-        navigationController?.navigationBar.addSubview(rightArrow)
-        navigationController?.navigationBar.addSubview(leftArrow)
-        navigationController?.navigationBar.backgroundColor = Game.colorForSlug(selectedGameSlug)
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.navigationBar.isHidden = true
+//        navigationController?.navigationBar.barTintColor = Game.colorForSlug(selectedGameSlug)
+//        navigationController?.navigationBar.tintColor = UIColor.white
+//        navigationController?.navigationBar.addSubview(logoView)
+//        navigationController?.navigationBar.addSubview(rightArrow)
+//        navigationController?.navigationBar.addSubview(leftArrow)
+//        navigationController?.navigationBar.backgroundColor = Game.colorForSlug(selectedGameSlug)
 
-        logoView.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.top.bottom.equalToSuperview()
-            make.height.greaterThanOrEqualTo(54)
-            make.centerY.equalToSuperview()
-        }
 
-        rightArrow.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.right.equalToSuperview().inset(10)
-        }
 
-        leftArrow.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.left.equalToSuperview().inset(10)
-        }
-
+        view.addSubview(headerView)
         view.backgroundColor = Game.colorForSlug(selectedGameSlug)
         view.addSubview(tableView)
 
+        headerView.snp.makeConstraints { (make) in
+            make.left.right.equalToSuperview()
+            make.height.equalTo(80)
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.topMargin)
+        }
+
         tableView.snp.makeConstraints({ (make) in
-            make.edges.equalToSuperview()
+            make.left.bottom.right.equalToSuperview()
+            make.top.equalTo(headerView.snp.bottom)
         })
 
         eventsResource = EventAPI.events()
@@ -185,20 +171,9 @@ class EventsViewController: UIViewController, ResourceObserver {
     }
 
     @objc func refresh(control: UIRefreshControl) {
-        eventsResource?.load()
-    }
-
-    @objc func tapArrowView(button: UIButton) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-
-        let currentIndex = appDelegate.pageController.currentIndex
-        if button == rightArrow {
-            appDelegate.pageController.setCurrentIndex(currentIndex + 1, animated: true)
-        }
-        else {
-            appDelegate.pageController.setCurrentIndex(currentIndex - 1, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            self.eventsResource?.load()
+            self.didBeginRefreshing = true
         }
     }
 
@@ -219,9 +194,6 @@ class EventsViewController: UIViewController, ResourceObserver {
     
     func resourceChanged(_ resource: Resource, event: ResourceEvent) {
         if resource == eventsResource {
-            if !resource.isLoading {
-                refreshControl.endRefreshing()
-            }
             showEvents(eventsResource?.typedContent())
         }
     }
@@ -232,6 +204,7 @@ class EventsViewController: UIViewController, ResourceObserver {
         }
 
         SVProgressHUD.dismiss()
+
         events.sort { (event, otherEvent) -> Bool in
             if let update = event.updatedAt, let otherUpdate = otherEvent.updatedAt {
                 return update > otherUpdate
@@ -253,6 +226,18 @@ class EventsViewController: UIViewController, ResourceObserver {
         if UIDevice.current.userInterfaceIdiom == .pad {
             if events.count > 0 {
                 tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
+            }
+        }
+
+        DispatchQueue.main.async {
+            if self.refreshControl.isRefreshing {
+                if !self.tableView.isDragging {
+                    self.refreshControl.endRefreshing()
+                    self.didBeginRefreshing = false
+                }
+                else {
+                    self.shouldEndRefreshing = true
+                }
             }
         }
     }
@@ -330,10 +315,38 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
         return 220
     }
 
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if shouldEndRefreshing {
+            refreshControl.endRefreshing()
+            shouldEndRefreshing = false
+            didBeginRefreshing = false
+        }
+    }
+
 }
 
 extension EventsViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print("change");
+    }
+}
+
+extension EventsViewController: HomeHeaderViewDelegate {
+    func headerViewDidTapLeftArrow(_ headerView: HomeHeaderView) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+
+        let currentIndex = appDelegate.pageController.currentIndex
+        appDelegate.pageController.setCurrentIndex(currentIndex - 1, animated: true)
+    }
+
+    func headerViewDidTapRightArrow(_ headerView: HomeHeaderView) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+
+        let currentIndex = appDelegate.pageController.currentIndex
+        appDelegate.pageController.setCurrentIndex(currentIndex + 1, animated: true)
     }
 }
