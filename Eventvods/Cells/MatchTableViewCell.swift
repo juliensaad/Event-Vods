@@ -43,7 +43,7 @@ class MatchTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = UIColor.white
         label.textAlignment = .center
-        label.font = UIFont.vodsFontOfSize(18)
+        label.font = UIFont.boldVodsFontOfSize(18)
         label.backgroundColor = UIColor(white: 0, alpha: 0.2)
         return label
     }()
@@ -87,7 +87,8 @@ class MatchTableViewCell: UITableViewCell {
         }
 
         overlay.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+            make.bottom.left.right.equalToSuperview()
+            make.top.equalTo(matchTitleLabel.snp.bottom)
         }
 
         separatorView.snp.makeConstraints { (make) in
