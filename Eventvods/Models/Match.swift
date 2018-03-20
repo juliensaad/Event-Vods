@@ -26,8 +26,8 @@ class Match: Decodable, CustomStringConvertible {
     let date: Date?
     var data: [MatchData]
     var hasSpoilers: Bool = false
-    let team1Match: String?
-    let team2Match: String?
+    var team1Match: String = "Team 1"
+    var team2Match: String = "Team 2"
 
     var gameSlug: String = "lol"
     var matchTitle: String {
@@ -49,8 +49,16 @@ class Match: Decodable, CustomStringConvertible {
         }
 
         date = try container.decodeIfPresent(Date.self, forKey: .date)
-        team1Match = try container.decodeIfPresent(String.self, forKey: .team1Match)
-        team2Match = try container.decodeIfPresent(String.self, forKey: .team2Match)
+        let firstTeam = try container.decodeIfPresent(String.self, forKey: .team1Match)
+        let secondTeam = try container.decodeIfPresent(String.self, forKey: .team2Match)
+
+        if let firstTeam = firstTeam {
+            team1Match = firstTeam
+        }
+
+        if let secondTeam = secondTeam {
+            team2Match = secondTeam
+        }
 
         if let team1 = try container.decodeIfPresent(Team.self, forKey: .team1) {
             self.team1 = team1

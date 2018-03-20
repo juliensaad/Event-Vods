@@ -219,8 +219,14 @@ class EventsViewController: UIViewController, ResourceObserver {
 
     func filterEvents(_ slug: String) {
         events = allEvents.filter { (event) -> Bool in
-            event.game.slug == selectedGameSlug
+            if event.game.slug == selectedGameSlug {
+                if let status = event.status, status.lowercased() != "upcoming" {
+                    return true
+                }
+            }
+            return false
         }
+
         tableView.reloadData()
 
         if UIDevice.current.userInterfaceIdiom == .pad {
