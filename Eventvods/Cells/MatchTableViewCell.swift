@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 
 class MatchTableViewCell: UITableViewCell {
-
+    static let matchTitleHeight: CGFloat = 34
     static let reuseIdentifier = "MatchTableViewCell"
 
     lazy var teamMatchupView: TeamMatchupView = {
@@ -37,6 +37,15 @@ class MatchTableViewCell: UITableViewCell {
         button.titleLabel?.font = UIFont.boldVodsFontOfSize(18)
         button.setTitleColor(UIColor.white, for: .normal)
         return button
+    }()
+
+    private lazy var matchTitleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.white
+        label.textAlignment = .center
+        label.font = UIFont.vodsFontOfSize(18)
+        label.backgroundColor = UIColor(white: 0, alpha: 0.2)
+        return label
     }()
 
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
@@ -68,7 +77,9 @@ class MatchTableViewCell: UITableViewCell {
         contentView.addSubview(separatorView)
         contentView.addSubview(watchCountButton)
         contentView.addSubview(overlay)
+        contentView.addSubview(matchTitleLabel)
 
+        let shouldShowMatchTitle = (match.title != nil)
         backgroundImageView.image = UIImage(named: match.backgroundImageName)
         backgroundImageView.clipsToBounds = true
         backgroundImageView.snp.makeConstraints { (make) in
@@ -86,23 +97,36 @@ class MatchTableViewCell: UITableViewCell {
 
         teamMatchupView.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().offset(shouldShowMatchTitle ? MatchTableViewCell.matchTitleHeight/2 : 0)
         }
 
         watchCountButton.snp.makeConstraints { (make) in
             make.right.equalToSuperview().offset(-22)
-            make.centerY.equalToSuperview()
+            make.centerY.equalTo(teamMatchupView)
+        }
+
+        matchTitleLabel.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.left.right.equalToSuperview()
+            make.height.equalTo(MatchTableViewCell.matchTitleHeight)
         }
 
         if match.isFullyWatched {
             watchCountButton.setTitle("\(match.watchCount)/\(match.data.count)", for: .normal)
-//            watchCountButton.setImage(UIImage(named:"watched"), for: .normal)
             teamMatchupView.alpha = 0.4
             watchCountButton.alpha = 0.4
         }
         else {
             watchCountButton.setTitle("\(match.watchCount)/\(match.data.count)", for: .normal)
             watchCountButton.alpha = 1.0
+        }
+
+        if let title = match.title {
+            self.matchTitleLabel.text = title
+            self.matchTitleLabel.isHidden = false
+        }
+        else {
+            self.matchTitleLabel.isHidden = true
         }
     }
 

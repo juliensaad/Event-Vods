@@ -10,6 +10,7 @@ import UIKit
 
 extension DefaultsKeys {
     static let watchProgression = DefaultsKey<[String : Any]>("watchProgression")
+    static let highlights = DefaultsKey<[String : Any]>("highlights")
 }
 
 class UserDataManager: NSObject {
@@ -19,8 +20,20 @@ class UserDataManager: NSObject {
         Defaults[.watchProgression][match._id] = time
     }
 
+    func saveHighlightsWatched(forMatch match: MatchData) {
+        Defaults[.highlights][match._id] = true
+    }
+
     func getProgressionForMatch(match: MatchData) -> TimeInterval? {
         return Defaults[.watchProgression][match._id] as? TimeInterval
+    }
+
+    func getHighlightsWatchedForMatch(match: MatchData) -> Bool {
+        let watched = Defaults[.highlights][match._id] as? Bool
+        if watched == nil {
+            return false
+        }
+        return true
     }
 }
 

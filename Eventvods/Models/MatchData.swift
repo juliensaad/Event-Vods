@@ -26,4 +26,11 @@ class MatchData: Decodable {
         }
         return nil
     }
+
+    var watched: Bool {
+        if UserDataManager.shared.getProgressionForMatch(match: self) != nil {
+            return true
+        }
+        return UserDataManager.shared.getHighlightsWatchedForMatch(match: self)
+    }
 }

@@ -218,6 +218,9 @@ extension PlaybackViewController: YTPlayerViewDelegate {
         if !self.highlights {
             UserDataManager.shared.saveVideoProgression(forMatch: self.matchData, time: TimeInterval(playTime))
         }
+        else {
+            UserDataManager.shared.saveHighlightsWatched(forMatch: self.matchData)
+        }
     }
 
 }

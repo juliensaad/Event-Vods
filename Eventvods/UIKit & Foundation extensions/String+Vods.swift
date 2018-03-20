@@ -42,7 +42,7 @@ extension String {
     }
 
     static func getRedirectURL(url: String, withCompletion completion: @escaping (String?) -> Void) {
-        if url.contains("youtube") {
+        if url.contains("youtube") || url.contains("youtu.be") {
             completion(url)
         }
         else {
@@ -54,5 +54,13 @@ extension String {
     func getQueryStringParameter(_ param: String) -> String? {
         guard let url = URLComponents(string: self) else { return nil }
         return url.queryItems?.first(where: { $0.name == param })?.value
+    }
+
+    static func fromTimeInterval(_ interval: TimeInterval) -> String {
+        let interval = Int(interval)
+        let seconds = interval % 60
+        let minutes = (interval / 60) % 60
+        let hours = (interval / 3600)
+        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
 }

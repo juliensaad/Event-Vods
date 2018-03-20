@@ -21,6 +21,7 @@
 		1D37E1F620392C7800AEDCDB /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1F520392C7800AEDCDB /* Team.swift */; };
 		1D37E1F820392ECA00AEDCDB /* PlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D37E1F720392ECA00AEDCDB /* PlaybackViewController.swift */; };
 		1D3DF638204CAD3D007BEAFA /* URLRedirectLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DF637204CAD3D007BEAFA /* URLRedirectLoader.swift */; };
+		1D4FC9CA2061644200DB4806 /* MatchAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4FC9C92061644200DB4806 /* MatchAlertController.swift */; };
 		1D5FC42D204B394100925DE7 /* String+Vods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5FC42C204B394100925DE7 /* String+Vods.swift */; };
 		1D5FC432204B41E300925DE7 /* MatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5FC431204B41E300925DE7 /* MatchTableViewCell.swift */; };
 		1D612610206085A90040D0DB /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D61260F206085A90040D0DB /* HomeHeaderView.swift */; };
@@ -88,6 +89,7 @@
 		1D37E1F520392C7800AEDCDB /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		1D37E1F720392ECA00AEDCDB /* PlaybackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackViewController.swift; sourceTree = "<group>"; };
 		1D3DF637204CAD3D007BEAFA /* URLRedirectLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRedirectLoader.swift; sourceTree = "<group>"; };
+		1D4FC9C92061644200DB4806 /* MatchAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchAlertController.swift; sourceTree = "<group>"; };
 		1D5FC42C204B394100925DE7 /* String+Vods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Vods.swift"; sourceTree = "<group>"; };
 		1D5FC431204B41E300925DE7 /* MatchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchTableViewCell.swift; sourceTree = "<group>"; };
 		1D61260F206085A90040D0DB /* HomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				1DB24CDB202B6F3800E6BDB3 /* LaunchScreen.storyboard */,
 				1DB24CDE202B6F3800E6BDB3 /* Info.plist */,
 				1D9F5A3D205483A700D3A7D0 /* EventsSplitViewController.swift */,
+				1D4FC9C92061644200DB4806 /* MatchAlertController.swift */,
 			);
 			path = Eventvods;
 			sourceTree = "<group>";
@@ -617,6 +620,7 @@
 				1D37E1F820392ECA00AEDCDB /* PlaybackViewController.swift in Sources */,
 				1DD3DD852030992200A0F152 /* Event.swift in Sources */,
 				1D2D27C52043975E00BB3733 /* VideoPlayerOverlay.swift in Sources */,
+				1D4FC9CA2061644200DB4806 /* MatchAlertController.swift in Sources */,
 				1D84BCF120531FCF00CE8EEF /* SwiftyUserDefaults.swift in Sources */,
 				1D612610206085A90040D0DB /* HomeHeaderView.swift in Sources */,
 				1D3DF638204CAD3D007BEAFA /* URLRedirectLoader.swift in Sources */,
@@ -743,7 +747,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -802,7 +806,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;

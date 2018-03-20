@@ -21,8 +21,10 @@ class Match: Decodable, CustomStringConvertible {
         case team2Match
         case highlightsIndex
         case discussionIndex
+        case title
     }
 
+    let title: String?
     let team1: Team
     let team2: Team
     let date: Date?
@@ -107,12 +109,14 @@ class Match: Decodable, CustomStringConvertible {
         else {
             self.discussionIndex = -1
         }
+
+        self.title = try container.decodeIfPresent(String.self, forKey: .title)
     }
 
     var watchCount: Int {
         var count = 0
         for match in data {
-            if UserDataManager.shared.getProgressionForMatch(match: match) != nil {
+            if match.watched {
                 count = count + 1
             }
         }

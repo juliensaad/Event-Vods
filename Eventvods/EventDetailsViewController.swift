@@ -9,6 +9,7 @@
 import UIKit
 import Kingfisher
 import SafariServices
+import SVProgressHUD
 
 class EventDetailsViewController: UIViewController {
     let event: Event
@@ -193,46 +194,80 @@ class EventDetailsViewController: UIViewController {
 
     func presentMatchURL(match: Match, matchData: MatchData, url: String, time: TimeInterval?, placeholder: Bool?, highlights: Bool) {
         if let placeholder = placeholder {
-            if placeholder {
+            if placeholder && !highlights {
                 showPlaceholderAlert()
+                UserDataManager.shared.saveHighlightsWatched(forMatch: matchData)
+                tableView.reloadData()
                 return
             }
         }
 
+        SVProgressHUD.show()
         String.getRedirectURL(url: url, withCompletion: { (string) in
-            if let url = string, url.contains("youtube") {
+            if let url = string, url.contains("youtube") || url.contains("youtu.be") {
+                SVProgressHUD.dismiss()
                 let playbackViewController = PlaybackViewController(match: match, matchData: matchData, url: url, time: time, highlights: highlights)
                 self.navigationController?.present(playbackViewController, animated: true, completion: nil)
             }
-            else {
-                if url.count > 0 {
-                    let controller = SFSafariViewController(url: URL(string: url)!)
-                    self.present(controller, animated: true, completion: nil)
-                }
+            else if let url = string {
+                String.getRedirectURL(url: url, withCompletion: { (string) in
+                    SVProgressHUD.dismiss()
+                    if let string = string {
+                        self.handleNonYoutubeURL(url: string)
+                    }
+                })
             }
         })
     }
 
+    func handleNonYoutubeURL(url: String) {
+        if url.count > 0 {
+
+            let apolloBaseScheme = "apollo://"
+            if UIApplication.shared.canOpenURL(URL(string: apolloBaseScheme)!) {
+                    if let regex = try? NSRegularExpression(pattern: ".+?(?=reddit\\.com)", options: .caseInsensitive) {
+                    let range = NSMakeRange(0, url.count)
+                    let modString = regex.stringByReplacingMatches(in: url, options: [], range: range, withTemplate: apolloBaseScheme)
+
+                    if let apolloURL = URL(string:modString) {
+                        UIApplication.shared.open(apolloURL, options: [:], completionHandler: nil)
+                        return;
+                    }
+                }
+            }
+
+            let controller = SFSafariViewController(url: URL(string: url)!)
+            self.present(controller, animated: true, completion: nil)
+
+
+        }
+    }
+
     func showPlaceholderAlert() {
-        let alert = UIAlertController(title: NSLocalizedString("sorry", comment: ""),
+        let alert = MatchAlertController(title: NSLocalizedString("sorry", comment: ""),
                                       message: NSLocalizedString("match_doesnt_exist", comment: ""),
                                       preferredStyle: UIAlertControllerStyle.alert)
+        alert.tintColor = gameColor
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
 
     func getAction(forTitle title: String, url: String, match: Match, matchData: MatchData, time: TimeInterval?, placeholder: Bool?, highlights: Bool) -> UIAlertAction {
-        return UIAlertAction(title: title, style: UIAlertActionStyle.default, handler: { (action) in
+        let action = UIAlertAction(title: title, style: UIAlertActionStyle.default, handler: { (action) in
             self.presentMatchURL(match: match, matchData: matchData, url: url, time: time, placeholder: placeholder, highlights:  highlights)
         })
+        return action
     }
 
     func presentOptions(for matchData: MatchData, match: Match, index: Int, cell: UITableViewCell) {
         var prefix: String = ""
-        if match.data.count > 1 {
+        let hasMultipleMatches = match.data.count > 1
+        if hasMultipleMatches {
             prefix = "Game \(index + 1) - "
         }
-        let controller = UIAlertController(title: "\(prefix)\(match.matchTitle)", message: nil, preferredStyle: .actionSheet)
+
+        let controller = MatchAlertController(title: "\(prefix)\(match.matchTitle)", message: nil, preferredStyle: .actionSheet)
+        controller.tintColor = gameColor
 
         if let url = matchData.youtube?.picksBans {
             let action = getAction(forTitle: "Picks & Bans", url: url, match: match, matchData: matchData, time: nil, placeholder: matchData.placeholder, highlights: false)
@@ -251,10 +286,12 @@ class EventDetailsViewController: UIViewController {
             }
         }
 
-        if match.discussionIndex >= 0 && matchData.links.count > match.discussionIndex {
-            if let link = matchData.links[match.discussionIndex] {
-                let action = getAction(forTitle: "Discussion", url: link, match: match, matchData: matchData, time: nil, placeholder: matchData.placeholder, highlights: true)
-                controller.addAction(action)
+        if !hasMultipleMatches {
+            if match.discussionIndex >= 0 && matchData.links.count > match.discussionIndex {
+                if let link = matchData.links[match.discussionIndex] {
+                    let action = getAction(forTitle: "Discussion", url: link, match: match, matchData: matchData, time: nil, placeholder: matchData.placeholder, highlights: true)
+                    controller.addAction(action)
+                }
             }
         }
 
@@ -265,7 +302,7 @@ class EventDetailsViewController: UIViewController {
             }
 
             if let url = url {
-                let action = getAction(forTitle: "Resume - \(stringFromTimeInterval(interval: progression))", url: url, match: match, matchData: matchData, time: progression, placeholder: matchData.placeholder, highlights: false)
+                let action = getAction(forTitle: "Resume - \(String.fromTimeInterval(progression))", url: url, match: match, matchData: matchData, time: progression, placeholder: matchData.placeholder, highlights: false)
                 controller.addAction(action)
             }
         }
@@ -288,13 +325,6 @@ class EventDetailsViewController: UIViewController {
         }
     }
 
-    func stringFromTimeInterval(interval: TimeInterval) -> String {
-        let interval = Int(interval)
-        let seconds = interval % 60
-        let minutes = (interval / 60) % 60
-        let hours = (interval / 3600)
-        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-    }
 }
 
 // MARK: TableView
@@ -344,14 +374,22 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let match = sections[indexPath.section].matches2[indexPath.row]
         let cell = self.tableView.cellForRow(at: indexPath)!
-        let controller = UIAlertController(title: match.matchTitle, message: nil, preferredStyle: .actionSheet)
-
+        let controller = MatchAlertController(title: match.matchTitle, message: nil, preferredStyle: .actionSheet)
+        controller.tintColor = gameColor
         if match.data.count > 1 {
             for (index, matchData) in match.data.enumerated() {
-                let action = UIAlertAction(title: "Game \(index+1)", style: .default, handler: { (action) in
+                let title = "Game \(index+1)\(matchData.watched ? " ✔" : "")"
+                let action = UIAlertAction(title: title, style: .default, handler: { (action) in
                     self.presentOptions(for: matchData, match: match, index: index, cell: cell)
                 })
                 controller.addAction(action)
+
+                if match.discussionIndex >= 0 && matchData.links.count > match.discussionIndex {
+                    if let link = matchData.links[match.discussionIndex] {
+                        let action = getAction(forTitle: "Discussion", url: link, match: match, matchData: matchData, time: nil, placeholder: matchData.placeholder, highlights: true)
+                        controller.addAction(action)
+                    }
+                }
             }
         }
         else if match.data.count == 1 {
@@ -370,6 +408,10 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let match = sections[indexPath.section].matches2[indexPath.row]
+        if match.title != nil {
+            return 110 + MatchTableViewCell.matchTitleHeight
+        }
         return 110
     }
 
