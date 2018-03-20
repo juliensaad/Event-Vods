@@ -16,8 +16,9 @@ class EventsSplitViewController: UISplitViewController, EventsViewControllerDele
     init(slug: String) {
         eventsViewController = EventsViewController(slug: slug)
         rootViewController = UINavigationController(rootViewController: eventsViewController)
-        rootViewController.navigationBar.prefersLargeTitles = true
-
+        rootViewController.navigationBar.prefersLargeTitles = false
+        rootViewController.navigationBar.isHidden = true
+        
         let placeholderViewController = UIViewController()
         placeholderViewController.view.backgroundColor = Game.colorForSlug(slug)
         super.init(nibName: nil, bundle: nil)
@@ -31,8 +32,8 @@ class EventsSplitViewController: UISplitViewController, EventsViewControllerDele
     }
 
     func eventsViewController(_ viewController: EventsViewController, didSelectEvent event: Event) {
-        let detailViewController = UINavigationController(rootViewController: EventDetailsViewController(event: event))
-        detailViewController.navigationBar.prefersLargeTitles = true
+        let detailViewController = UINavigationController(rootViewController: EventDetailsViewController(event: event, gameSlug: viewController.selectedGameSlug))
+        detailViewController.navigationBar.isHidden = true
         detailViewController.navigationBar.backgroundColor = viewController.navigationController?.navigationBar.backgroundColor
         detailViewController.navigationBar.barTintColor = detailViewController.navigationBar.backgroundColor
 

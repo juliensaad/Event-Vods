@@ -289,7 +289,7 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
                     }
                 }
                 else {
-                    let eventDetailsViewController = EventDetailsViewController(event: detailedEvent)
+                    let eventDetailsViewController = EventDetailsViewController(event: detailedEvent, gameSlug: (self?.selectedGameSlug)!)
                     self?.setLogoHidden(true, animated: true)
                     self?.reloadArrowViews(hidden: true)
                     self?.navigationController?.pushViewController(eventDetailsViewController, animated: true)

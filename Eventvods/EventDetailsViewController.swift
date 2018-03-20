@@ -45,11 +45,14 @@ class EventDetailsViewController: UIViewController {
     }()
 
     var gameColor: UIColor {
-        return navigationController?.navigationBar.backgroundColor ?? UIColor.lolGreen
+        return Game.colorForSlug(gameSlug)
     }
 
-    init(event: Event) {
+    let gameSlug: String
+
+    init(event: Event, gameSlug: String) {
         self.event = event
+        self.gameSlug = gameSlug
         if let contents = self.event.contents {
             let fullSections = contents.reversed()
 
@@ -114,6 +117,10 @@ class EventDetailsViewController: UIViewController {
         })
 
         tableView.backgroundColor = gameColor
+
+        if navigationController?.viewControllers.count == 1 {
+            headerView.backButton.isHidden = true
+        }
 
     }
 
