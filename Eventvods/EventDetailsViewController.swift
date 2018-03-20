@@ -227,6 +227,67 @@ class EventDetailsViewController: UIViewController {
         })
     }
 
+    func presentOptions(for matchData: MatchData, match: Match, index: Int, cell: UITableViewCell) {
+        var prefix: String = ""
+        if match.data.count > 1 {
+            prefix = "Game \(index + 1) - "
+        }
+        let controller = UIAlertController(title: "\(prefix)\(match.matchTitle)", message: nil, preferredStyle: .actionSheet)
+
+        if let url = matchData.youtube?.picksBans {
+            let action = getAction(forTitle: "Picks & Bans", url: url, match: match, matchData: matchData, time: nil, placeholder: matchData.placeholder, highlights: false)
+            controller.addAction(action)
+        }
+
+        if let url = matchData.gameStart {
+            let action = getAction(forTitle: "Game Start", url: url, match: match, matchData: matchData, time: nil, placeholder: matchData.placeholder, highlights: false)
+            controller.addAction(action)
+        }
+
+        if match.highlightsIndex >= 0 && matchData.links.count > match.highlightsIndex {
+            if let link = matchData.links[match.highlightsIndex] {
+                let action = getAction(forTitle: "Highlights", url: link, match: match, matchData: matchData, time: nil, placeholder: matchData.placeholder, highlights: true)
+                controller.addAction(action)
+            }
+        }
+
+        if match.discussionIndex >= 0 && matchData.links.count > match.discussionIndex {
+            if let link = matchData.links[match.discussionIndex] {
+                let action = getAction(forTitle: "Discussion", url: link, match: match, matchData: matchData, time: nil, placeholder: matchData.placeholder, highlights: true)
+                controller.addAction(action)
+            }
+        }
+
+        if let progression = UserDataManager.shared.getProgressionForMatch(match: matchData) {
+            var url = matchData.youtube?.gameStart
+            if url == nil {
+                url = matchData.youtube?.picksBans
+            }
+
+            if let url = url {
+                let action = getAction(forTitle: "Resume - \(stringFromTimeInterval(interval: progression))", url: url, match: match, matchData: matchData, time: progression, placeholder: matchData.placeholder, highlights: false)
+                controller.addAction(action)
+            }
+        }
+
+        if controller.actions.count == 1 {
+            guard let url = matchData.gameStart else {
+                return
+            }
+            presentMatchURL(match: match, matchData: matchData, url: url, time: nil, placeholder: false, highlights: false)
+        }
+        else {
+            let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: nil)
+            controller.addAction(cancelAction)
+
+            let sourceView = (cell as! MatchTableViewCell).teamMatchupView
+            controller.popoverPresentationController?.sourceView = sourceView.vsLabel
+            DispatchQueue.main.async {
+                self.present(controller, animated: true, completion: nil)
+            }
+        }
+    }
+
     func stringFromTimeInterval(interval: TimeInterval) -> String {
         let interval = Int(interval)
         let seconds = interval % 60
@@ -282,69 +343,29 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let match = sections[indexPath.section].matches2[indexPath.row]
-
+        let cell = self.tableView.cellForRow(at: indexPath)!
         let controller = UIAlertController(title: match.matchTitle, message: nil, preferredStyle: .actionSheet)
 
-        var prefix: String = ""
-
-        for (index, matchData) in match.data.enumerated() {
-            if match.data.count > 1 {
-                prefix = "Game \(index+1) - "
-            }
-
-            if let url = matchData.youtube?.picksBans {
-                let action = getAction(forTitle: "\(prefix)Picks & Bans", url: url, match: match, matchData: matchData, time: nil, placeholder: matchData.placeholder, highlights: false)
+        if match.data.count > 1 {
+            for (index, matchData) in match.data.enumerated() {
+                let action = UIAlertAction(title: "Game \(index+1)", style: .default, handler: { (action) in
+                    self.presentOptions(for: matchData, match: match, index: index, cell: cell)
+                })
                 controller.addAction(action)
             }
-
-            if let url = matchData.gameStart {
-                let action = getAction(forTitle: "\(prefix)Game Start", url: url, match: match, matchData: matchData, time: nil, placeholder: matchData.placeholder, highlights: false)
-                controller.addAction(action)
-            }
-
-            if match.highlightsIndex >= 0 && matchData.links.count > match.highlightsIndex {
-                if let link = matchData.links[match.highlightsIndex] {
-                    let action = getAction(forTitle: "\(prefix)Highlights", url: link, match: match, matchData: matchData, time: nil, placeholder: matchData.placeholder, highlights: true)
-                    controller.addAction(action)
-                }
-            }
-
-            if match.discussionIndex >= 0 && matchData.links.count > match.discussionIndex {
-                if let link = matchData.links[match.discussionIndex] {
-                    let action = getAction(forTitle: "\(prefix)Discussion", url: link, match: match, matchData: matchData, time: nil, placeholder: matchData.placeholder, highlights: true)
-                    controller.addAction(action)
-                }
-            }
-
-            if let progression = UserDataManager.shared.getProgressionForMatch(match: matchData) {
-                var url = matchData.youtube?.gameStart
-                if url == nil {
-                    url = matchData.youtube?.picksBans
-                }
-
-                if let url = url {
-                    let action = getAction(forTitle: "\(prefix)Resume - \(stringFromTimeInterval(interval: progression))", url: url, match: match, matchData: matchData, time: progression, placeholder: matchData.placeholder, highlights: false)
-                    controller.addAction(action)
-                }
-            }
-
+        }
+        else if match.data.count == 1 {
+            self.presentOptions(for: match.data[0], match: match, index: 0, cell: cell)
+            return;
         }
 
-        if controller.actions.count == 1 {
-            guard let url = match.data[0].gameStart else {
-                return
-            }
-            presentMatchURL(match: match, matchData: match.data[0], url: url, time: nil, placeholder: false, highlights: false)
-        }
-        else {
-            let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: nil)
-            controller.addAction(cancelAction)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: nil)
+        controller.addAction(cancelAction)
 
-            let sourceView = (self.tableView.cellForRow(at: indexPath) as! MatchTableViewCell).teamMatchupView
-            controller.popoverPresentationController?.sourceView = sourceView.vsLabel
-            DispatchQueue.main.async {
-                self.present(controller, animated: true, completion: nil)
-            }
+        let sourceView = (cell as! MatchTableViewCell).teamMatchupView
+        controller.popoverPresentationController?.sourceView = sourceView.vsLabel
+        DispatchQueue.main.async {
+            self.present(controller, animated: true, completion: nil)
         }
     }
 
