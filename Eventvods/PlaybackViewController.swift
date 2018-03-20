@@ -117,6 +117,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         youtubePlayer.webView?.isUserInteractionEnabled = false
         youtubePlayer.webView?.scrollView.contentInsetAdjustmentBehavior = .never
         youtubePlayer.webView?.scrollView.isUserInteractionEnabled = false
+        youtubePlayer.webView?.mediaPlaybackRequiresUserAction = false
         youtubePlayer.alpha = 0.01
         youtubePlayer.updateWebViewFrame(youtubePlayer.webView);
     }

@@ -25,7 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidFinishLaunching(_ application: UIApplication) {
         Fabric.with([Crashlytics.self])
         PlayerViewManager.shared.prepare()
-        
+
+        try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+
         for slug in Game.supportedGames {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 let splitViewController = EventsSplitViewController(slug: slug)
