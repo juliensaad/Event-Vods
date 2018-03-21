@@ -12,6 +12,7 @@ target 'Eventvods' do
   pod 'ABVolumeControl', :git => 'https://github.com/juliensaad/ABVolumeControl'
   pod 'Kingfisher'
   pod 'GoogleAnalytics'
+  pod 'XCDYouTubeKit', '~> 2.5'
   # Pods for Eventvods
 
   target 'EventvodsTests' do

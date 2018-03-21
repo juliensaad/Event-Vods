@@ -10,6 +10,7 @@ import UIKit
 import youtube_ios_player_helper
 import SVProgressHUD
 import ABVolumeControl
+import XCDYouTubeKit
 
 class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
@@ -30,6 +31,9 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
     let highlights: Bool
     let youtubePlayer: YTPlayerView = PlayerViewManager.shared.playerView
+
+    var player: XCDYouTubeVideoPlayerViewController!
+    var saveTimeTimer: Timer?
 
     init(match: Match, matchData: MatchData, url: String?, time: TimeInterval?, highlights: Bool) {
         self.match = match
@@ -70,32 +74,15 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         view.setNeedsUpdateConstraints()
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if let webview = youtubePlayer.webView {
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                webview.frame.origin.y = 70
-            }
-        }
-    }
-    override func updateViewConstraints() {
-        youtubePlayer.snp.remakeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
-            make.left.equalTo(view.safeAreaLayoutGuide.snp.leftMargin)
-            make.bottom.equalTo(view.snp.bottom)
-            make.right.equalTo(view.safeAreaLayoutGuide.snp.rightMargin)
-        }
-
-        youtubePlayer.setNeedsLayout()
-        setupWebView()
-        super.updateViewConstraints()
-    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsUpdateOfHomeIndicatorAutoHidden()
         (ABVolumeControl.sharedManager() as! ABVolumeControl).volumeControlStyle = ABVolumeControlStyle.minimal
         (ABVolumeControl.sharedManager() as! ABVolumeControl).defaultDarkColor = UIColor.black
+
+        saveTimeTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
+            self.savePlaybackTime()
+        })
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -104,27 +91,15 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         if UIDevice.current.userInterfaceIdiom == .phone {
             UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
         }
-
+        player.moviePlayer.stop()
+        saveTimeTimer?.invalidate()
+        saveTimeTimer = nil
         (ABVolumeControl.sharedManager() as! ABVolumeControl).volumeControlStyle = ABVolumeControlStyle.minimal
     }
 
-    func setupWebView() {
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapWebView))
-        gestureRecognizer.numberOfTapsRequired = 1
-        gestureRecognizer.delegate = self
-        youtubePlayer.addGestureRecognizer(gestureRecognizer)
-        youtubePlayer.delegate = self
-        youtubePlayer.webView?.isUserInteractionEnabled = false
-        youtubePlayer.webView?.scrollView.contentInsetAdjustmentBehavior = .never
-        youtubePlayer.webView?.scrollView.isUserInteractionEnabled = false
-        youtubePlayer.webView?.mediaPlaybackRequiresUserAction = false
-        youtubePlayer.alpha = 0.01
-        youtubePlayer.updateWebViewFrame(youtubePlayer.webView);
-    }
-
     func loadVideo() {
-        overlay.beginLoading()
-        setupWebView()
+//        overlay.beginLoading()
+//        setupWebView()
 
         guard let url = self.url else {
             return
@@ -140,7 +115,17 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         }
 
         if let videoID = url.getQueryStringParameter("v") {
-            youtubePlayer.load(withVideoId: videoID, playerVars: PlayerViewManager.shared.playerParams(seconds: numberOfSeconds))
+//            youtubePlayer.load(withVideoId: videoID, playerVars: PlayerViewManager.shared.playerParams(seconds: numberOfSeconds))
+            player = XCDYouTubeVideoPlayerViewController(videoIdentifier: videoID)
+            player.moviePlayer.initialPlaybackTime = numberOfSeconds
+            player.present(in: self.view)
+            player.moviePlayer.play()
+
+            let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapWebView))
+            gestureRecognizer.numberOfTapsRequired = 1
+            gestureRecognizer.delegate = self
+            player.moviePlayer.view.addGestureRecognizer(gestureRecognizer)
+            self.view.bringSubview(toFront: overlay)
         }
         else {
             youtubePlayer.loadVideo(byURL: url, startSeconds: 0, suggestedQuality: YTPlaybackQuality.HD720)
@@ -180,6 +165,20 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
 
+    func savePlaybackTime() {
+        if !self.highlights {
+            if player != nil && player.moviePlayer != nil {
+                let playTime = player.moviePlayer.currentPlaybackTime
+                if !playTime.isNaN {
+                    UserDataManager.shared.saveVideoProgression(forMatch: self.matchData, time: playTime)
+                }
+            }
+        }
+        else {
+            UserDataManager.shared.saveHighlightsWatched(forMatch: self.matchData)
+        }
+    }
+
 }
 
 // MARK : YTPlayerViewDelegate
@@ -215,43 +214,34 @@ extension PlaybackViewController: YTPlayerViewDelegate {
         hasPlayedVideo = true
         playerView.alpha = 1
 
-        if !self.highlights {
-            UserDataManager.shared.saveVideoProgression(forMatch: self.matchData, time: TimeInterval(playTime))
-        }
-        else {
-            UserDataManager.shared.saveHighlightsWatched(forMatch: self.matchData)
-        }
+        savePlaybackTime()
     }
 
 }
 
 extension PlaybackViewController: VideoPlayerOverlayDelegate {
     func didTapOverlay(_ overlay: VideoPlayerOverlay) {
-        if !hasPlayedVideo {
-            youtubePlayer.playVideo()
-            hasPlayedVideo = true
-        }
         overlay.fadeIn()
     }
 
     func didTapPlay(_ overlay: VideoPlayerOverlay) {
-        youtubePlayer.playVideo()
+        player.moviePlayer.play()
     }
 
     func didTapPause(_ overlay: VideoPlayerOverlay) {
-        youtubePlayer.pauseVideo()
+        player.moviePlayer.pause()
     }
 
     func didTapSeek(_ overlay: VideoPlayerOverlay, interval: TimeInterval) {
-        youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() + Float(interval), allowSeekAhead: true)
+        player.moviePlayer.currentPlaybackTime = player.moviePlayer.currentPlaybackTime + interval
     }
 
     func didDoubleTapOverlay(_ overlay: VideoPlayerOverlay, location: Location) {
         switch location {
         case .right:
-            youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() + Float(15), allowSeekAhead: true)
+            player.moviePlayer.currentPlaybackTime = player.moviePlayer.currentPlaybackTime + 15
         case .left:
-            youtubePlayer.seek(toSeconds: youtubePlayer.currentTime() - Float(15), allowSeekAhead: true)
+            player.moviePlayer.currentPlaybackTime = player.moviePlayer.currentPlaybackTime - 15
         }
     }
 

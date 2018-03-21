@@ -30,6 +30,7 @@ class VideoPlayerOverlay: UIView {
         view.strokeColor = UIColor.white
         view.radius = 12
         view.strokeThickness = 4
+        view.alpha = 0
         return view
     }()
 
@@ -209,6 +210,7 @@ class VideoPlayerOverlay: UIView {
         addSubview(spinner)
         addSubview(seekLabel)
         addSubview(seekBackLabel)
+        container.alpha = 0
         container.backgroundColor = UIColor(white: 0, alpha: 0.45)
         container.addSubview(matchupView)
         container.addSubview(pauseButton)
