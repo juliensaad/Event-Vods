@@ -27,7 +27,7 @@ class EventCell: UITableViewCell {
     
     private lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.alpha = 0.5
+        imageView.alpha = 0.8
         imageView.image = UIImage(named: "16")
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -69,6 +69,14 @@ class EventCell: UITableViewCell {
         return view
     }()
 
+    lazy var gradientView: GradientView = {
+        let view = GradientView()
+        view.startColor = UIColor(white: 0, alpha: 0.4)
+        view.endColor = UIColor(white: 0, alpha: 0.8)
+        view.backgroundColor = .clear
+        return view
+    }()
+
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         if highlighted {
             self.overlay.alpha = 0.4
@@ -93,12 +101,13 @@ class EventCell: UITableViewCell {
         dateLabel.text = event.dateRangeText
         contentView.clipsToBounds = true
         contentView.addSubview(backgroundImageView)
+        contentView.addSubview(gradientView)
         contentView.addSubview(eventNameLabel)
         contentView.addSubview(eventImageView)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(dateLabel)
         contentView.addSubview(overlay)
-        contentView.backgroundColor = .black
+        contentView.backgroundColor = event.game.color
 
         let verticalMargin = 15
 
@@ -113,7 +122,11 @@ class EventCell: UITableViewCell {
         }
         
         backgroundImageView.snp.makeConstraints { (make) in
-            make.edges.equalTo(contentView)
+            make.edges.equalToSuperview()
+        }
+
+        gradientView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
         }
         
         eventNameLabel.snp.makeConstraints { (make) in
@@ -146,21 +159,5 @@ class EventCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("IB not supported")
     }
-    
-    func makeCard() {
-        //
-        //        card.backgroundColor = UIColor(red: 0, green: 94/255, blue: 112/255, alpha: 1)
-        //        card.icon = UIImage(named: "flappy")
-        //        card.title = event.name
-        //        card.itemTitle = event.slug
-        //        card.itemSubtitle = event.startDate?.description ?? ""
-        //        card.textColor = UIColor.white
-        //
-        //        card.hasParallax = true
-        //
-        //        card.snp.makeConstraints { (make) in
-        //            make.edges.equalTo(contentView).inset(UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20))
-        //        }
-    }
-    
+
 }

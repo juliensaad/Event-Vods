@@ -22,8 +22,10 @@ class Match: Decodable, CustomStringConvertible {
         case highlightsIndex
         case discussionIndex
         case title
+        case id = "_id"
     }
 
+    let id: String
     let title: String?
     let team1: Team
     let team2: Team
@@ -111,6 +113,12 @@ class Match: Decodable, CustomStringConvertible {
         }
 
         self.title = try container.decodeIfPresent(String.self, forKey: .title)
+        if let id = try container.decodeIfPresent(String.self, forKey: .id) {
+            self.id = id
+        }
+        else {
+            self.id = ""
+        }
     }
 
     var watchCount: Int {
@@ -128,7 +136,7 @@ class Match: Decodable, CustomStringConvertible {
     }
 
     var backgroundImageName: String {
-        return String(abs(matchTitle.hash) % 13)
+        return String((abs((id.hash) % 29) + 1))
     }
 
     var description: String {

@@ -98,7 +98,7 @@ class VideoPlayerOverlay: UIView {
         button.tintColor = .white
         button.layer.cornerRadius = VideoPlayerOverlay.playPauseButtonSize/2
         button.backgroundColor = UIColor(white: 0, alpha: 0.7)
-        button.layer.borderWidth = 5
+        button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.controlGreen.cgColor
         button.clipsToBounds = true
         button.isHidden = true
@@ -112,7 +112,7 @@ class VideoPlayerOverlay: UIView {
         button.tintColor = .white
         button.backgroundColor = UIColor(white: 0, alpha: 0.7)
         button.layer.cornerRadius = VideoPlayerOverlay.playPauseButtonSize/2
-        button.layer.borderWidth = 5
+        button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.controlGreen.cgColor
         button.clipsToBounds = true
         return button

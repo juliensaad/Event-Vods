@@ -21,7 +21,15 @@ class MatchTableViewCell: UITableViewCell {
     lazy var backgroundImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = UIViewContentMode.scaleAspectFill
-        view.alpha = 0.2
+        view.alpha = 0.1
+        return view
+    }()
+
+    lazy var gradientView: GradientView = {
+        let view = GradientView()
+        view.backgroundColor = .clear
+        view.startColor = UIColor(white: 0, alpha: 0.4)
+        view.endColor = UIColor(white: 0, alpha: 0.6)
         return view
     }()
 
@@ -73,6 +81,7 @@ class MatchTableViewCell: UITableViewCell {
         backgroundColor = .clear
         contentView.backgroundColor = tintColor
         contentView.addSubview(backgroundImageView)
+//        contentView.addSubview(gradientView)
         contentView.addSubview(teamMatchupView)
         contentView.addSubview(separatorView)
         contentView.addSubview(watchCountButton)
@@ -90,6 +99,10 @@ class MatchTableViewCell: UITableViewCell {
             make.bottom.left.right.equalToSuperview()
             make.top.equalTo(matchTitleLabel.snp.bottom)
         }
+
+//        gradientView.snp.makeConstraints { (make) in
+//            make.edges.equalTo(overlay)
+//        }
 
         separatorView.snp.makeConstraints { (make) in
             make.height.equalTo(1)

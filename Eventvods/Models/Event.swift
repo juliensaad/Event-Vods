@@ -23,7 +23,7 @@ class Event: Decodable {
     let contents: [EventSection]?
 
     var backgroundImageName: String {
-        return String(abs((_id ?? "").hash) % 13)
+        return String((abs((_id ?? "").hash) % 29) + 1)
     }
 
     var dateRangeText: String {
