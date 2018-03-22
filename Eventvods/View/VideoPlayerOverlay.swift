@@ -148,8 +148,9 @@ class VideoPlayerOverlay: UIView {
     }
 
     override func updateConstraints() {
-        super.updateConstraints()
+
         updateSeekButtonVisibility()
+        super.updateConstraints()
     }
 
     func updateSeekButtonVisibility () {
@@ -298,9 +299,14 @@ class VideoPlayerOverlay: UIView {
 
     @objc func pause() {
         delegate?.didTapPause(self)
+        showPausedState()
+    }
+
+    func showPausedState() {
         pauseButton.isHidden = true
         playButton.isHidden = false
-        resetFadeTimer()
+        fadeTimer?.invalidate()
+        fadeTimer = nil
     }
 
     @objc func play() {

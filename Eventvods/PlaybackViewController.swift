@@ -68,6 +68,10 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         view.setNeedsUpdateConstraints()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.32) {
+            self.overlay.updateSeekButtonVisibility()
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -77,6 +81,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
                 webview.frame.origin.y = 70
             }
         }
+        overlay.updateSeekButtonVisibility()
     }
     override func updateViewConstraints() {
         youtubePlayer.snp.remakeConstraints { (make) in
@@ -88,6 +93,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
         youtubePlayer.setNeedsLayout()
         setupWebView()
+        overlay.updateSeekButtonVisibility()
         super.updateViewConstraints()
     }
 
@@ -197,6 +203,10 @@ extension PlaybackViewController: YTPlayerViewDelegate {
         if state == .ended {
             dismiss(animated: true, completion: nil)
         }
+
+        if state == .paused {
+            overlay.showPausedState()
+        }
         
         if state != .buffering && state != .unstarted {
             playerView.alpha = 1
@@ -206,9 +216,7 @@ extension PlaybackViewController: YTPlayerViewDelegate {
             }
             overlay.stopLoading()
         }
-        else {
-            playerView.alpha = 0.01
-        }
+
     }
 
     func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
