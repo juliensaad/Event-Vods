@@ -204,16 +204,25 @@ class EventDetailsViewController: UIViewController {
 
         SVProgressHUD.show()
         String.getRedirectURL(url: url, withCompletion: { (string) in
-            if let url = string, url.contains("youtube") || url.contains("youtu.be") {
+
+            var url: String = url
+            if string != nil {
+                url = string!
+            }
+
+            if url.contains("youtube") || url.contains("youtu.be") {
                 SVProgressHUD.dismiss()
                 let playbackViewController = PlaybackViewController(match: match, matchData: matchData, url: url, time: time, highlights: highlights)
                 self.navigationController?.present(playbackViewController, animated: true, completion: nil)
             }
-            else if let url = string {
+            else {
                 String.getRedirectURL(url: url, withCompletion: { (string) in
                     SVProgressHUD.dismiss()
                     if let string = string {
                         self.handleNonYoutubeURL(url: string)
+                    }
+                    else {
+                        self.handleNonYoutubeURL(url: url)
                     }
                 })
             }
