@@ -21,7 +21,7 @@ class MatchTableViewCell: UITableViewCell {
     lazy var backgroundImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = UIViewContentMode.scaleAspectFill
-        view.alpha = 0.1
+        view.alpha = 0.05
         return view
     }()
 
