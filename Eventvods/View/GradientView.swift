@@ -22,7 +22,6 @@ class GradientView: UIView {
     }
 
     override public func draw(_ rect: CGRect) {
-        self.backgroundColor = .clear
         self.gradient.frame = self.bounds
         self.gradient.colors = [startColor.cgColor, endColor.cgColor]
         self.gradient.startPoint = CGPoint.init(x: 1, y: 0)

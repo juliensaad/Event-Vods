@@ -87,7 +87,14 @@ class EventCell: UITableViewCell {
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
-        // do nothing
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if selected {
+                self.overlay.alpha = 0.4
+            }
+            else {
+                self.overlay.alpha = 0
+            }
+        }
     }
     
     init(event: Event, reuseIdentifier: String?) {
