@@ -304,32 +304,32 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let searchBarHeight = HomeHeaderView.searchBarHeight
-        if currentOffset < searchBarHeight && scrollView.contentOffset.y >= 0 {
-            currentOffset += scrollView.contentOffset.y
-            scrollView.contentOffset.y = 0
-            if (searchBarHeight - currentOffset > 0) {
-                headerView.searchBarHeightConstraint.update(offset: searchBarHeight - currentOffset)
-            }
-            else {
-                headerView.searchBarHeightConstraint.update(offset: 0)
-                currentOffset = searchBarHeight
-            }
-        }
-        else if currentOffset >= searchBarHeight && scrollView.contentOffset.y > 0 {
-            headerView.searchBarHeightConstraint.update(offset: 0)
-        }
-        else if currentOffset <= searchBarHeight && currentOffset > 0 && scrollView.contentOffset.y <= 0 {
-            currentOffset += scrollView.contentOffset.y
-            scrollView.contentOffset.y = 0
-            if (currentOffset <= searchBarHeight && currentOffset > 0) {
-                headerView.searchBarHeightConstraint.update(offset: searchBarHeight - currentOffset)
-            }
-            else {
-                currentOffset = 0
-                headerView.searchBarHeightConstraint.update(offset: searchBarHeight)
-            }
-        }
+//        let searchBarHeight = HomeHeaderView.searchBarHeight
+//        if currentOffset < searchBarHeight && scrollView.contentOffset.y >= 0 {
+//            currentOffset += scrollView.contentOffset.y
+//            scrollView.contentOffset.y = 0
+//            if (searchBarHeight - currentOffset > 0) {
+//                headerView.searchBarHeightConstraint.update(offset: searchBarHeight - currentOffset)
+//            }
+//            else {
+//                headerView.searchBarHeightConstraint.update(offset: 0)
+//                currentOffset = searchBarHeight
+//            }
+//        }
+//        else if currentOffset >= searchBarHeight && scrollView.contentOffset.y > 0 {
+//            headerView.searchBarHeightConstraint.update(offset: 0)
+//        }
+//        else if currentOffset <= searchBarHeight && currentOffset > 0 && scrollView.contentOffset.y <= 0 {
+//            currentOffset += scrollView.contentOffset.y
+//            scrollView.contentOffset.y = 0
+//            if (currentOffset <= searchBarHeight && currentOffset > 0) {
+//                headerView.searchBarHeightConstraint.update(offset: searchBarHeight - currentOffset)
+//            }
+//            else {
+//                currentOffset = 0
+//                headerView.searchBarHeightConstraint.update(offset: searchBarHeight)
+//            }
+//        }
     }
 }
 

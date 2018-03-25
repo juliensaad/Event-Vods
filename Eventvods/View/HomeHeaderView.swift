@@ -95,7 +95,7 @@ class HomeHeaderView: UIView, UISearchBarDelegate {
             make.left.equalToSuperview().offset(24).priority(749)
             make.right.equalToSuperview().offset(-24).priority(749)
             make.bottom.equalToSuperview().offset(-10).priority(749)
-            self.searchBarHeightConstraint = make.height.equalTo(HomeHeaderView.searchBarHeight).priority(1000).constraint
+            self.searchBarHeightConstraint = make.height.equalTo(0).priority(1000).constraint
         }
 
         rightArrow.snp.makeConstraints { (make) in
