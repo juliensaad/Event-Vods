@@ -161,11 +161,12 @@ class YZSwipeBetweenViewController: UIViewController {
     }
 
     private func set(index: Int, animated: Bool) {
-
-        if let vc = viewController(at: index) {
-            let direction: UIPageViewControllerNavigationDirection =
-                (index > (containerIndex ?? -1)) ? .forward : .reverse
-            container.setViewControllers([vc], direction: direction, animated: animated, completion: nil)
+        DispatchQueue.main.async {
+            if let vc = self.viewController(at: index) {
+                let direction: UIPageViewControllerNavigationDirection =
+                    (index > (self.containerIndex ?? -1)) ? .forward : .reverse
+                self.container.setViewControllers([vc], direction: direction, animated: animated, completion: nil)
+            }
         }
     }
 

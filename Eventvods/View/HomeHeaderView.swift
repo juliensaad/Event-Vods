@@ -74,12 +74,14 @@ class HomeHeaderView: UIView {
 
         rightArrow.snp.makeConstraints { (make) in
             make.centerY.equalTo(logoView)
-            make.right.equalToSuperview().inset(10)
+            make.right.equalToSuperview()
+            make.width.height.equalTo(50)
         }
 
         leftArrow.snp.makeConstraints { (make) in
             make.centerY.equalTo(logoView)
-            make.left.equalToSuperview().inset(10)
+            make.left.equalToSuperview()
+            make.width.height.equalTo(50)
         }
     }
 
