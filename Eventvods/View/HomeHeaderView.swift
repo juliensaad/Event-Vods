@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 protocol HomeHeaderViewDelegate: NSObjectProtocol {
     func headerViewDidTapRightArrow(_ headerView: HomeHeaderView)
@@ -17,6 +18,7 @@ protocol HomeHeaderViewDelegate: NSObjectProtocol {
 class HomeHeaderView: UIView, UISearchBarDelegate {
 
     let slug: String
+    static let searchBarHeight: CGFloat = 40.0
 
     lazy var logoView: UIButton = {
         let logoView = UIButton()
@@ -64,6 +66,7 @@ class HomeHeaderView: UIView, UISearchBarDelegate {
 
     weak var delegate: HomeHeaderViewDelegate?
     var shouldBeginEditing = true
+    var searchBarHeightConstraint: Constraint!
 
     init(slug: String) {
         self.slug = slug
@@ -88,10 +91,11 @@ class HomeHeaderView: UIView, UISearchBarDelegate {
         }
 
         searchBar.snp.makeConstraints { (make) in
-            make.top.equalTo(logoView.snp.bottom).offset(14)
-            make.left.equalToSuperview().offset(24)
-            make.right.equalToSuperview().offset(-24)
-            make.bottom.equalToSuperview().offset(-10)
+            make.top.equalTo(logoView.snp.bottom).offset(14).priority(749)
+            make.left.equalToSuperview().offset(24).priority(749)
+            make.right.equalToSuperview().offset(-24).priority(749)
+            make.bottom.equalToSuperview().offset(-10).priority(749)
+            self.searchBarHeightConstraint = make.height.equalTo(HomeHeaderView.searchBarHeight).priority(1000).constraint
         }
 
         rightArrow.snp.makeConstraints { (make) in

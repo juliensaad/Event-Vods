@@ -24,6 +24,7 @@ class EventsViewController: UIViewController, ResourceObserver {
     var shouldEndRefreshing = false
     var didBeginRefreshing = false
     let selectedGameSlug: String
+    var currentOffset: CGFloat = 0
 
     var allEvents: [Event] = [] {
         didSet {
@@ -33,11 +34,7 @@ class EventsViewController: UIViewController, ResourceObserver {
         }
     }
 
-    var games: Set<Game> = [] {
-        didSet {
-            print(games)
-        }
-    }
+    var games: Set<Game> = []
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -117,6 +114,11 @@ class EventsViewController: UIViewController, ResourceObserver {
         eventsResource = EventAPI.events()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        headerView.resignFirstResponder()
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         headerView.setLogoHidden(false, animated: true)
@@ -183,7 +185,8 @@ class EventsViewController: UIViewController, ResourceObserver {
 
         if textFilter.count > 0 {
             events = events.filter({ (event) -> Bool in
-                if event.name.lowercased().contains(textFilter.lowercased()) {
+                if event.name.lowercased().contains(textFilter.lowercased()) ||
+                    event.game.slug.lowercased().contains(textFilter.lowercased()) {
                     return true
                 }
                 return false
@@ -246,9 +249,7 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
                     for section in contents {
                         for module in section.modules {
                             for match in module.matches2 {
-                                if let slug = self?.selectedGameSlug {
-                                    match.gameSlug = slug
-                                }
+                                match.gameSlug = detailedEvent.game.slug
                             }
                         }
                     }
@@ -259,7 +260,7 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
                         sself.delegate?.eventsViewController(sself, didSelectEvent: detailedEvent)
                     }
                     else {
-                        let eventDetailsViewController = EventDetailsViewController(event: detailedEvent, gameSlug: sself.selectedGameSlug)
+                        let eventDetailsViewController = EventDetailsViewController(event: detailedEvent, gameSlug: detailedEvent.game.slug)
                         sself.headerView.setLogoHidden(true, animated: true)
                         sself.headerView.reloadArrowViews(hidden: true, viewController: sself)
                         sself.navigationController?.pushViewController(eventDetailsViewController, animated: true)
@@ -296,6 +297,35 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         headerView.resignFirstResponder()
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let searchBarHeight = HomeHeaderView.searchBarHeight
+        if currentOffset < searchBarHeight && scrollView.contentOffset.y >= 0 {
+            currentOffset += scrollView.contentOffset.y
+            scrollView.contentOffset.y = 0
+            if (searchBarHeight - currentOffset > 0) {
+                headerView.searchBarHeightConstraint.update(offset: searchBarHeight - currentOffset)
+            }
+            else {
+                headerView.searchBarHeightConstraint.update(offset: 0)
+                currentOffset = searchBarHeight
+            }
+        }
+        else if currentOffset >= searchBarHeight && scrollView.contentOffset.y > 0 {
+            headerView.searchBarHeightConstraint.update(offset: 0)
+        }
+        else if currentOffset <= searchBarHeight && currentOffset > 0 && scrollView.contentOffset.y <= 0 {
+            currentOffset += scrollView.contentOffset.y
+            scrollView.contentOffset.y = 0
+            if (currentOffset <= searchBarHeight && currentOffset > 0) {
+                headerView.searchBarHeightConstraint.update(offset: searchBarHeight - currentOffset)
+            }
+            else {
+                currentOffset = 0
+                headerView.searchBarHeightConstraint.update(offset: searchBarHeight)
+            }
+        }
     }
 }
 
