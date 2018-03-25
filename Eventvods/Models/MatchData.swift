@@ -17,6 +17,10 @@ class MatchData: Decodable {
 
     let links: [String?]
 
+    var isComingSoon: Bool {
+        return gameStart == nil
+    }
+
     var gameStart: String? {
         if let youtube = youtube {
             return youtube.gameStart

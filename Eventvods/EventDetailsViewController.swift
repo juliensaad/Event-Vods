@@ -383,7 +383,6 @@ class EventDetailsViewController: UIViewController {
         else {
             let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: nil)
             controller.addAction(cancelAction)
-
             let sourceView = (cell as! MatchTableViewCell).teamMatchupView
             controller.popoverPresentationController?.sourceView = sourceView.vsLabel
             DispatchQueue.main.async {
@@ -445,10 +444,20 @@ extension EventDetailsViewController: UITableViewDataSource, UITableViewDelegate
         controller.tintColor = gameColor
         if match.data.count > 1 {
             for (index, matchData) in match.data.enumerated() {
-                let title = "Game \(index+1)\(matchData.watched ? " ✔" : "")"
+                var title = "Game \(index+1)\(matchData.watched ? " ✔" : "")"
+
+                if matchData.isComingSoon {
+                    title += " - Soon™"
+                }
+
                 let action = UIAlertAction(title: title, style: .default, handler: { (action) in
                     self.presentOptions(for: matchData, match: match, index: index, cell: cell)
                 })
+
+                if matchData.isComingSoon {
+                    action.isEnabled = false
+                }
+
                 controller.addAction(action)
 
                 if match.discussionIndex >= 0 && matchData.links.count > match.discussionIndex {
