@@ -104,7 +104,11 @@ class EventsViewController: UIViewController, ResourceObserver {
 //        navigationItem.searchController = searchController
 //        navigationItem.hidesSearchBarWhenScrolling = true
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.prefersLargeTitles = false
+
+
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = false
+        }
         navigationController?.navigationBar.isHidden = true
 //        navigationController?.navigationBar.barTintColor = Game.colorForSlug(selectedGameSlug)
 //        navigationController?.navigationBar.tintColor = UIColor.white
@@ -122,7 +126,12 @@ class EventsViewController: UIViewController, ResourceObserver {
         headerView.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
             make.height.equalTo(80)
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.topMargin)
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(self.view.safeAreaLayoutGuide.snp.topMargin)
+            }
+            else {
+                make.top.equalTo(self.view.snp.topMargin)
+            }
         }
 
         tableView.snp.makeConstraints({ (make) in
@@ -219,7 +228,7 @@ class EventsViewController: UIViewController, ResourceObserver {
 
     func filterEvents(_ slug: String) {
         events = allEvents.filter { (event) -> Bool in
-            if event.game.slug == selectedGameSlug {
+            if event.game.slug == selectedGameSlug || selectedGameSlug.isEmpty {
                 if let status = event.status, status.lowercased() != "upcoming" {
                     return true
                 }

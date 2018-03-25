@@ -60,18 +60,25 @@ class HomeHeaderView: UIView {
         addSubview(rightArrow)
         
         logoView.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.height.equalTo(54)
+
+            if #available(iOS 11.0, *) {
+                make.height.equalTo(54)
+                make.centerY.equalToSuperview()
+            }
+            else {
+                make.height.equalTo(44)
+                make.centerY.equalToSuperview().offset(6)
+            }
         }
 
         rightArrow.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
+            make.centerY.equalTo(logoView)
             make.right.equalToSuperview().inset(10)
         }
 
         leftArrow.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
+            make.centerY.equalTo(logoView)
             make.left.equalToSuperview().inset(10)
         }
     }

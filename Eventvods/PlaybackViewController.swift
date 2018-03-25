@@ -85,10 +85,16 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     override func updateViewConstraints() {
         youtubePlayer.snp.remakeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
-            make.left.equalTo(view.safeAreaLayoutGuide.snp.leftMargin)
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
+                make.left.equalTo(view.safeAreaLayoutGuide.snp.leftMargin)
+                make.right.equalTo(view.safeAreaLayoutGuide.snp.rightMargin)
+            }
+            else {
+                make.top.left.right.equalTo(view)
+            }
+
             make.bottom.equalTo(view.snp.bottom)
-            make.right.equalTo(view.safeAreaLayoutGuide.snp.rightMargin)
         }
 
         youtubePlayer.setNeedsLayout()
@@ -99,7 +105,9 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setNeedsUpdateOfHomeIndicatorAutoHidden()
+        if #available(iOS 11.0, *) {
+            setNeedsUpdateOfHomeIndicatorAutoHidden()
+        }
         (ABVolumeControl.sharedManager() as! ABVolumeControl).volumeControlStyle = ABVolumeControlStyle.minimal
         (ABVolumeControl.sharedManager() as! ABVolumeControl).defaultDarkColor = UIColor.black
     }
@@ -121,7 +129,9 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         youtubePlayer.addGestureRecognizer(gestureRecognizer)
         youtubePlayer.delegate = self
         youtubePlayer.webView?.isUserInteractionEnabled = false
-        youtubePlayer.webView?.scrollView.contentInsetAdjustmentBehavior = .never
+        if #available(iOS 11.0, *) {
+            youtubePlayer.webView?.scrollView.contentInsetAdjustmentBehavior = .never
+        }
         youtubePlayer.webView?.scrollView.isUserInteractionEnabled = false
         youtubePlayer.webView?.mediaPlaybackRequiresUserAction = false
         youtubePlayer.alpha = 0.01

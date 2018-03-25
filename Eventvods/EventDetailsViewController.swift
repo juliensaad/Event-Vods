@@ -109,7 +109,13 @@ class EventDetailsViewController: UIViewController {
         headerView.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
             make.height.equalTo(80)
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.topMargin)
+
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(self.view.safeAreaLayoutGuide.snp.topMargin)
+            } else {
+                make.top.equalTo(self.view)
+            }
+
         }
 
         tableView.snp.makeConstraints({ (make) in

@@ -36,7 +36,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             else {
                 let viewController = EventsViewController(slug: slug)
                 let navigationController = UINavigationController(rootViewController: viewController)
-                navigationController.navigationBar.prefersLargeTitles = true
+                if #available(iOS 11.0, *) {
+                    navigationController.navigationBar.prefersLargeTitles = true
+                }
                 pageController.viewControllers.append(navigationController)
             }
         }

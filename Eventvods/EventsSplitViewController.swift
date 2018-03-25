@@ -16,7 +16,10 @@ class EventsSplitViewController: UISplitViewController, EventsViewControllerDele
     init(slug: String) {
         eventsViewController = EventsViewController(slug: slug)
         rootViewController = UINavigationController(rootViewController: eventsViewController)
-        rootViewController.navigationBar.prefersLargeTitles = false
+        if #available(iOS 11.0, *) {
+            rootViewController.navigationBar.prefersLargeTitles = false
+        }
+        
         rootViewController.navigationBar.isHidden = true
         
         let placeholderViewController = UIViewController()

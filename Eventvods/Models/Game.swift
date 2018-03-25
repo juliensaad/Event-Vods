@@ -36,7 +36,7 @@ class Game: Decodable, Hashable, CustomStringConvertible {
             return UIColor.rocketLeague
 
         default:
-            return UIColor.lolGreen
+            return UIColor.eventvods
         }
     }
 

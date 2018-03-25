@@ -40,6 +40,9 @@ extension UIColor {
     @nonobjc class var darkPurple: UIColor {
         return UIColor(red: 41.0 / 255.0, green: 36.0 / 255.0, blue: 51.0 / 255.0, alpha: 1.0)
     }
+
+    @nonobjc class var eventvods: UIColor {
+        return UIColor(red: 0.0 / 255.0, green: 190.0 / 255.0, blue: 113.0 / 255.0, alpha: 1.0)
+    }
     
-    //UIColor(red: 10.0 / 255.0, green: 110.0 / 255.0, blue: 115.0 / 255.0, alpha: 1.0)
 }

@@ -249,7 +249,9 @@ class VideoPlayerOverlay: UIView {
 
         matchupView.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.topMargin).inset(30)
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(self.safeAreaLayoutGuide.snp.topMargin).inset(30)
+            }
             make.centerX.equalToSuperview()
         }
 
@@ -270,8 +272,13 @@ class VideoPlayerOverlay: UIView {
         }
 
         closeButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.topMargin).inset(10)
-            make.right.equalTo(self.safeAreaLayoutGuide.snp.rightMargin).inset(14)
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(self.safeAreaLayoutGuide.snp.topMargin).inset(10)
+                make.right.equalTo(self.safeAreaLayoutGuide.snp.rightMargin).inset(14)
+            } else {
+                make.right.equalTo(self.snp.rightMargin).inset(14)
+                make.top.equalTo(self.snp.topMargin).inset(14)
+            }
         }
 
         container.snp.makeConstraints { (make) in
