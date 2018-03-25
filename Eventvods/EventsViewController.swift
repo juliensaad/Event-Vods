@@ -19,6 +19,12 @@ class EventsViewController: UIViewController, ResourceObserver {
 
     weak var delegate: EventsViewControllerDelegate?
 
+    var textFilter: String = ""
+    var events: [Event] = []
+    var shouldEndRefreshing = false
+    var didBeginRefreshing = false
+    let selectedGameSlug: String
+
     var allEvents: [Event] = [] {
         didSet {
             games = Set(allEvents.map({ (event) -> Game in
@@ -27,28 +33,11 @@ class EventsViewController: UIViewController, ResourceObserver {
         }
     }
 
-    var events: [Event] = []
-    var shouldEndRefreshing = false
-    var didBeginRefreshing = false
-
     var games: Set<Game> = [] {
         didSet {
             print(games)
         }
     }
-
-    var leftArrow: UIButton {
-        return headerView.leftArrow
-    }
-
-    var rightArrow: UIButton {
-        return headerView.rightArrow
-    }
-    var logoView: UIButton {
-        return headerView.logoView
-    }
-
-    var selectedGameSlug = "lol"
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -91,6 +80,7 @@ class EventsViewController: UIViewController, ResourceObserver {
     }
 
     required init?(coder aDecoder: NSCoder) {
+        self.selectedGameSlug = ""
         super.init(coder: aDecoder)
     }
 
@@ -98,34 +88,19 @@ class EventsViewController: UIViewController, ResourceObserver {
         super.viewDidLoad()
 
         SVProgressHUD.show()
-//        let searchController = UISearchController(searchResultsController: nil)
-//        searchController.searchBar.delegate = self
-//        searchController.searchBar.tintColor = UIColor.white
-//        navigationItem.searchController = searchController
-//        navigationItem.hidesSearchBarWhenScrolling = true
-        navigationController?.navigationBar.isTranslucent = false
 
+        navigationController?.navigationBar.isTranslucent = false
 
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = false
         }
         navigationController?.navigationBar.isHidden = true
-//        navigationController?.navigationBar.barTintColor = Game.colorForSlug(selectedGameSlug)
-//        navigationController?.navigationBar.tintColor = UIColor.white
-//        navigationController?.navigationBar.addSubview(logoView)
-//        navigationController?.navigationBar.addSubview(rightArrow)
-//        navigationController?.navigationBar.addSubview(leftArrow)
-//        navigationController?.navigationBar.backgroundColor = Game.colorForSlug(selectedGameSlug)
-
-
-
         view.addSubview(headerView)
         view.backgroundColor = Game.colorForSlug(selectedGameSlug)
         view.addSubview(tableView)
 
         headerView.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
-            make.height.equalTo(80)
             if #available(iOS 11.0, *) {
                 make.top.equalTo(self.view.safeAreaLayoutGuide.snp.topMargin)
             }
@@ -144,56 +119,26 @@ class EventsViewController: UIViewController, ResourceObserver {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setLogoHidden(false, animated: true)
-        reloadArrowViews(hidden: false)
+        headerView.setLogoHidden(false, animated: true)
+        headerView.reloadArrowViews(hidden: false, viewController: self)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setLogoHidden(false, animated: true)
-        reloadArrowViews(hidden: false)
+        headerView.setLogoHidden(false, animated: true)
+        headerView.reloadArrowViews(hidden: false, viewController: self)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        setLogoHidden(true, animated: true)
-        reloadArrowViews(hidden: true)
-    }
-
-    func reloadArrowViews(hidden: Bool) {
-        if hidden {
-            leftArrow.isHidden = true
-            rightArrow.isHidden = true
-        }
-        else if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            let currentIndex = appDelegate.pageController.index(of: self)
-            let lastIndex = appDelegate.pageController.viewControllers.count - 1
-            leftArrow.isHidden = false
-            rightArrow.isHidden = false
-            if currentIndex == 0 {
-                leftArrow.isHidden = true
-            }
-            else if currentIndex == lastIndex {
-                rightArrow.isHidden = true
-            }
-        }
+        headerView.setLogoHidden(true, animated: true)
+        headerView.reloadArrowViews(hidden: true, viewController: self)
     }
 
     @objc func refresh(control: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
             self.eventsResource?.load()
             self.didBeginRefreshing = true
-        }
-    }
-
-    func setLogoHidden(_ hidden: Bool, animated: Bool) {
-        if (animated) {
-            UIView.animateKeyframes(withDuration: 0.1, delay: 0, options: [], animations: {
-                self.logoView.alpha = hidden ? 0 : 1
-            }, completion: nil)
-        }
-        else {
-            self.logoView.alpha = hidden ? 0 : 1
         }
     }
     
@@ -223,10 +168,10 @@ class EventsViewController: UIViewController, ResourceObserver {
 
         self.allEvents = events
 
-        filterEvents(selectedGameSlug)
+        filterEvents()
     }
 
-    func filterEvents(_ slug: String) {
+    func filterEvents() {
         events = allEvents.filter { (event) -> Bool in
             if event.game.slug == selectedGameSlug || selectedGameSlug.isEmpty {
                 if let status = event.status, status.lowercased() != "upcoming" {
@@ -234,6 +179,15 @@ class EventsViewController: UIViewController, ResourceObserver {
                 }
             }
             return false
+        }
+
+        if textFilter.count > 0 {
+            events = events.filter({ (event) -> Bool in
+                if event.name.lowercased().contains(textFilter.lowercased()) {
+                    return true
+                }
+                return false
+            })
         }
 
         tableView.reloadData()
@@ -300,16 +254,16 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
                     }
                 }
 
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    if let sself = self {
+                if let sself = self {
+                    if UIDevice.current.userInterfaceIdiom == .pad {
                         sself.delegate?.eventsViewController(sself, didSelectEvent: detailedEvent)
                     }
-                }
-                else {
-                    let eventDetailsViewController = EventDetailsViewController(event: detailedEvent, gameSlug: (self?.selectedGameSlug)!)
-                    self?.setLogoHidden(true, animated: true)
-                    self?.reloadArrowViews(hidden: true)
-                    self?.navigationController?.pushViewController(eventDetailsViewController, animated: true)
+                    else {
+                        let eventDetailsViewController = EventDetailsViewController(event: detailedEvent, gameSlug: sself.selectedGameSlug)
+                        sself.headerView.setLogoHidden(true, animated: true)
+                        sself.headerView.reloadArrowViews(hidden: true, viewController: sself)
+                        sself.navigationController?.pushViewController(eventDetailsViewController, animated: true)
+                    }
                 }
 
                 EventAPI.game(event.slug).removeObservers(ownedBy: self)
@@ -340,11 +294,8 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-}
-
-extension EventsViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print("change");
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        headerView.resignFirstResponder()
     }
 }
 
@@ -365,5 +316,10 @@ extension EventsViewController: HomeHeaderViewDelegate {
 
         let currentIndex = appDelegate.pageController.currentIndex
         appDelegate.pageController.setCurrentIndex(currentIndex + 1, animated: true)
+    }
+
+    func headerViewTextDidChange(_ headerView: HomeHeaderView, text: String) {
+        textFilter = text
+        filterEvents()
     }
 }

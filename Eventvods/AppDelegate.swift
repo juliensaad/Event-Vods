@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidFinishLaunching(_ application: UIApplication) {
         Fabric.with([Crashlytics.self])
         PlayerViewManager.shared.prepare()
+        UIBarButtonItem.appearance(whenContainedInInstancesOf:[UISearchBar.self]).tintColor = UIColor.white
 
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
 

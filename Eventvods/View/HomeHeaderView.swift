@@ -11,9 +11,10 @@ import UIKit
 protocol HomeHeaderViewDelegate: NSObjectProtocol {
     func headerViewDidTapRightArrow(_ headerView: HomeHeaderView)
     func headerViewDidTapLeftArrow(_ headerView: HomeHeaderView)
+    func headerViewTextDidChange(_ headerView: HomeHeaderView, text: String)
 }
 
-class HomeHeaderView: UIView {
+class HomeHeaderView: UIView, UISearchBarDelegate {
 
     let slug: String
 
@@ -49,7 +50,20 @@ class HomeHeaderView: UIView {
         return button
     }()
 
+    lazy var searchBar: UISearchBar = {
+        let bar = UISearchBar()
+        bar.backgroundColor = .clear
+        bar.barTintColor = .white
+        bar.placeholder = "Search"
+        bar.isTranslucent = true
+        bar.delegate = self
+        bar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
+        bar.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: UILayoutConstraintAxis.vertical)
+        return bar
+    }()
+
     weak var delegate: HomeHeaderViewDelegate?
+    var shouldBeginEditing = true
 
     init(slug: String) {
         self.slug = slug
@@ -58,18 +72,26 @@ class HomeHeaderView: UIView {
         addSubview(logoView)
         addSubview(leftArrow)
         addSubview(rightArrow)
+        addSubview(searchBar)
         
         logoView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
 
             if #available(iOS 11.0, *) {
                 make.height.equalTo(54)
-                make.centerY.equalToSuperview()
+                make.top.equalToSuperview().offset(20)
             }
             else {
                 make.height.equalTo(44)
-                make.centerY.equalToSuperview().offset(6)
+                make.top.equalToSuperview().offset(30)
             }
+        }
+
+        searchBar.snp.makeConstraints { (make) in
+            make.top.equalTo(logoView.snp.bottom).offset(14)
+            make.left.equalToSuperview().offset(24)
+            make.right.equalToSuperview().offset(-24)
+            make.bottom.equalToSuperview().offset(-10)
         }
 
         rightArrow.snp.makeConstraints { (make) in
@@ -98,4 +120,71 @@ class HomeHeaderView: UIView {
         }
     }
 
+    func setLogoHidden(_ hidden: Bool, animated: Bool) {
+        if (animated) {
+            UIView.animateKeyframes(withDuration: 0.1, delay: 0, options: [], animations: {
+                self.logoView.alpha = hidden ? 0 : 1
+            }, completion: nil)
+        }
+        else {
+            self.logoView.alpha = hidden ? 0 : 1
+        }
+    }
+
+    func reloadArrowViews(hidden: Bool, viewController: UIViewController) {
+        if hidden {
+            leftArrow.isHidden = true
+            rightArrow.isHidden = true
+        }
+        else if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            let currentIndex = appDelegate.pageController.index(of: viewController)
+            let lastIndex = appDelegate.pageController.viewControllers.count - 1
+            leftArrow.isHidden = false
+            rightArrow.isHidden = false
+            if currentIndex == 0 {
+                leftArrow.isHidden = true
+            }
+            else if currentIndex == lastIndex {
+                rightArrow.isHidden = true
+            }
+        }
+    }
+
+    @discardableResult override func resignFirstResponder() -> Bool {
+        return searchBar.resignFirstResponder()
+    }
+
+    // MARK: Search bar
+
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchBar.resignFirstResponder()
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchBar.resignFirstResponder()
+    }
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchBar.resignFirstResponder()
+    }
+
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        let boolToReturn = shouldBeginEditing
+        shouldBeginEditing = true
+        return boolToReturn
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if !searchBar.isFirstResponder {
+            shouldBeginEditing = false
+        }
+        delegate?.headerViewTextDidChange(self, text: searchText)
+    }
 }
