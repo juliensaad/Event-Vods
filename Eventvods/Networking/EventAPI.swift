@@ -30,6 +30,10 @@ class _EventAPI {
         service.configure(EventVods.events.path) {
             $0.expirationTime = 5
         }
+
+        service.configure(EventVods.game.path) {
+            $0.expirationTime = 5
+        }
         
         // –––––– Mapping from specific paths to models ––––––
         service.configureTransformer(EventVods.events.path) {

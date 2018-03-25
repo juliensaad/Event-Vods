@@ -123,6 +123,10 @@ class EventsViewController: UIViewController, ResourceObserver {
         super.viewWillAppear(animated)
         headerView.setLogoHidden(false, animated: true)
         headerView.reloadArrowViews(hidden: false, viewController: self)
+
+        if let resource = eventsResource {
+            resource.loadIfNeeded()
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {

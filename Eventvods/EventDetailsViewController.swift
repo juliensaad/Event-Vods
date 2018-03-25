@@ -12,15 +12,23 @@ import SafariServices
 import SVProgressHUD
 
 class EventDetailsViewController: UIViewController {
-    let event: Event
-    let sections: [EventModule]
+    var event: Event
+    var sections: [EventModule] = []
 
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
+        tableView.refreshControl = self.refreshControl
         return tableView
+    }()
+
+    private lazy var refreshControl : UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(refresh(control:)), for: .valueChanged)
+        control.tintColor = UIColor.white
+        return control
     }()
 
     lazy var headerView: DetailsHeaderView = {
@@ -54,6 +62,17 @@ class EventDetailsViewController: UIViewController {
     init(event: Event, gameSlug: String) {
         self.event = event
         self.gameSlug = gameSlug
+        super.init(nibName: nil, bundle: nil)
+        filterContent()
+    }
+
+    @objc func refresh(control: UIRefreshControl) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            self.reloadMatches()
+        }
+    }
+
+    func filterContent() {
         if let contents = self.event.contents {
             let fullSections = contents.reversed()
 
@@ -92,7 +111,6 @@ class EventDetailsViewController: UIViewController {
         else {
             self.sections = []
         }
-        super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -185,6 +203,7 @@ class EventDetailsViewController: UIViewController {
         })
 
         tableView.reloadData()
+        reloadMatches()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -192,6 +211,39 @@ class EventDetailsViewController: UIViewController {
         UIView.animate(withDuration: 0.3, animations: {
             self.titleView.alpha = 1
         })
+    }
+
+    func reloadMatches() {
+        EventAPI.game(event.slug).addObserver(owner: self) {
+            [weak self] resource, _ in
+
+            if let detailedEvent: Event = resource.typedContent() {
+                SVProgressHUD.dismiss()
+
+                if let contents = detailedEvent.contents {
+                    for section in contents {
+                        for module in section.modules {
+                            for match in module.matches2 {
+                                match.gameSlug = detailedEvent.game.slug
+                            }
+                        }
+                    }
+                }
+
+                if let sself = self {
+                    sself.event = detailedEvent
+                    sself.filterContent()
+
+                    DispatchQueue.main.async {
+                        sself.tableView.reloadData()
+                        if sself.refreshControl.isRefreshing {
+                            sself.refreshControl.endRefreshing()
+                        }
+                    }
+                    EventAPI.game(sself.event.slug).removeObservers(ownedBy: self)
+                }
+            }
+        }.loadIfNeeded()
     }
 
     @objc func didPressBackButton() {
