@@ -21,7 +21,7 @@ class _EventAPI {
     fileprivate init() {
         #if DEBUG
 //            LogCategory.enabled = [.network]
-            LogCategory.enabled = LogCategory.all
+            LogCategory.enabled = [LogCategory.cache]
         #endif
 
         let jsonDecoder = JSONDecoder()

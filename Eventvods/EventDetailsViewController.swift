@@ -149,18 +149,6 @@ class EventDetailsViewController: UIViewController {
 
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        if isMovingFromParentViewController {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.titleView.alpha = 0
-            }) { (completed) in
-                self.titleView.removeFromSuperview()
-            }
-        }
-    }
-
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if UIDevice.current.userInterfaceIdiom == .phone && isMovingFromParentViewController {
@@ -303,20 +291,32 @@ class EventDetailsViewController: UIViewController {
                 }
             }
 
-            let controller = SFSafariViewController(url: URL(string: url)!)
-            self.present(controller, animated: true, completion: nil)
-
+            if let validUrl = URL(string: url), url.hasPrefix("http") {
+                let controller = SFSafariViewController(url: validUrl)
+                self.present(controller, animated: true, completion: nil)
+            }
+            else {
+                showUnexpectedErrorAlert()
+            }
 
         }
     }
 
-    func showPlaceholderAlert() {
-        let alert = MatchAlertController(title: NSLocalizedString("sorry", comment: ""),
-                                      message: NSLocalizedString("match_doesnt_exist", comment: ""),
-                                      preferredStyle: UIAlertControllerStyle.alert)
+    func showAlert(withTitle title: String, message: String) {
+        let alert = MatchAlertController(title: title,
+                                         message: message,
+                                         preferredStyle: UIAlertControllerStyle.alert)
         alert.tintColor = gameColor
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
         present(alert, animated: true, completion: nil)
+    }
+
+    func showPlaceholderAlert() {
+        showAlert(withTitle: NSLocalizedString("sorry", comment: ""), message: NSLocalizedString("match_doesnt_exist", comment: ""))
+    }
+
+    func showUnexpectedErrorAlert() {
+        showAlert(withTitle: NSLocalizedString("sorry", comment: ""), message: NSLocalizedString("unexpected_error_message", comment: ""))
     }
 
     func getAction(forTitle title: String, url: String, match: Match, matchData: MatchData, time: TimeInterval?, placeholder: Bool?, highlights: Bool) -> UIAlertAction {

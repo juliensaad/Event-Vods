@@ -16,7 +16,8 @@ class Match: Decodable, CustomStringConvertible {
         case team2
         case data
         case date
-        case hasSpoilers = "spoiler1"
+        case spoiler1 = "spoiler1"
+        case spoiler2 = "spoiler2"
         case team1Match
         case team2Match
         case highlightsIndex
@@ -31,7 +32,8 @@ class Match: Decodable, CustomStringConvertible {
     let team2: Team
     let date: Date?
     var data: [MatchData]
-    var hasSpoilers: Bool = false
+    var spoiler1: Bool = false
+    var spoiler2: Bool = false
     var team1Match: String = "Team 1"
     var team2Match: String = "Team 2"
 
@@ -39,8 +41,21 @@ class Match: Decodable, CustomStringConvertible {
     let discussionIndex: Int
 
     var gameSlug: String = "lol"
+
     var matchTitle: String {
         return "\(team1.tag) vs \(team2.tag)"
+    }
+
+    var hasSpoilers: Bool {
+        return spoiler1 || spoiler2
+    }
+
+    var team1Title: String {
+        return spoiler1 ? team1Match : team1.tag
+    }
+
+    var team2Title: String {
+        return spoiler2 ? team2Match : team2.tag
     }
 
     required init(from decoder: Decoder) throws {
@@ -84,18 +99,12 @@ class Match: Decodable, CustomStringConvertible {
             self.team2 = Team()
         }
 
-        if let spoiler = try container.decodeIfPresent(Bool.self, forKey: .hasSpoilers) {
-            self.hasSpoilers = spoiler
-        }
-        else {
-            self.hasSpoilers = false
+        if let spoiler1 = try container.decodeIfPresent(Bool.self, forKey: .spoiler1) {
+            self.spoiler1 = spoiler1
         }
 
-        if let spoiler = try container.decodeIfPresent(Bool.self, forKey: .hasSpoilers) {
-            self.hasSpoilers = spoiler
-        }
-        else {
-            self.hasSpoilers = false
+        if let spoiler2 = try container.decodeIfPresent(Bool.self, forKey: .spoiler2) {
+            self.spoiler2 = spoiler2
         }
 
         if let highlightsIndex = try container.decodeIfPresent(Int.self, forKey: .highlightsIndex) {

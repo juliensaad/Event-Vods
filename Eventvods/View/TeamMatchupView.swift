@@ -14,34 +14,37 @@ class TeamMatchupView: UIView {
     var match: Match? {
         didSet {
             if let match = match {
-                if match.hasSpoilers {
+                if match.spoiler1 {
                     let placeholder = UIImage(named: match.gameSlug)
                     firstTeamImageView.image = placeholder
-                    secondTeamImageView.image = placeholder
-                    firstTeamLabel.text = match.team1Match
-                    secondTeamLabel.text = match.team2Match
                 }
-                else {
-                    firstTeamLabel.text = match.team1.tag
-                    secondTeamLabel.text = match.team2.tag
+                else if let team1Icon = match.team1.icon {
+                    firstTeamImageView.kf.indicatorType = .activity
 
-                    if let team1Icon = match.team1.icon, let team2Icon = match.team2.icon {
-                        firstTeamImageView.kf.indicatorType = .activity
-                        secondTeamImageView.kf.indicatorType = .activity
-                        firstTeamImageView.kf.setImage(with: URL(string: team1Icon), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image, _, _, _) in
-                            if image == nil {
-                                self.failedFirstImage = true
-                            }
-                            self.setNeedsUpdateConstraints()
-                        })
-                        secondTeamImageView.kf.setImage(with: URL(string: team2Icon), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image, _, _, _) in
-                            if image == nil {
-                                self.failedSecondImage = true
-                            }
-                            self.setNeedsUpdateConstraints()
-                        })
-                    }
+                    firstTeamImageView.kf.setImage(with: URL(string: team1Icon), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image, _, _, _) in
+                        if image == nil {
+                            self.failedFirstImage = true
+                        }
+                        self.setNeedsUpdateConstraints()
+                    })
                 }
+
+                if match.spoiler2 {
+                    let placeholder = UIImage(named: match.gameSlug)
+                    secondTeamImageView.image = placeholder
+                }
+                else if let team2Icon = match.team2.icon {
+                    secondTeamImageView.kf.indicatorType = .activity
+                    secondTeamImageView.kf.setImage(with: URL(string: team2Icon), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image, _, _, _) in
+                        if image == nil {
+                            self.failedSecondImage = true
+                        }
+                        self.setNeedsUpdateConstraints()
+                    })
+                }
+
+                firstTeamLabel.text = match.team1Title
+                secondTeamLabel.text = match.team2Title
             }
         }
     }
