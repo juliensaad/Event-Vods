@@ -20,7 +20,6 @@ class TeamMatchupView: UIView {
                 }
                 else if let team1Icon = match.team1.icon {
                     firstTeamImageView.kf.indicatorType = .activity
-
                     firstTeamImageView.kf.setImage(with: URL(string: team1Icon), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image, _, _, _) in
                         if image == nil {
                             self.failedFirstImage = true

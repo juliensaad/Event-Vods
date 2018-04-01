@@ -19,6 +19,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
     let time: TimeInterval?
     var hasPlayedVideo: Bool = false
     var setQuality: Bool = false
+    var showsStatusBar: Bool = false
 
     var initialTouchPoint: CGPoint = CGPoint(x: 0,y: 0)
 
@@ -86,7 +87,12 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
     override func updateViewConstraints() {
         youtubePlayer.snp.remakeConstraints { (make) in
             if #available(iOS 11.0, *) {
-                make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
+                if (UIDeviceOrientationIsLandscape(UIDevice.current.orientation)) {
+                    make.top.equalToSuperview()
+                }
+                else {
+                    make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
+                }
                 make.left.equalTo(view.safeAreaLayoutGuide.snp.leftMargin)
                 make.right.equalTo(view.safeAreaLayoutGuide.snp.rightMargin)
             }
@@ -165,6 +171,14 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle.lightContent
+    }
+
+    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return .fade
+    }
+
+    override var prefersStatusBarHidden: Bool {
+        return !showsStatusBar
     }
 
     override func prefersHomeIndicatorAutoHidden() -> Bool {
@@ -275,5 +289,10 @@ extension PlaybackViewController: VideoPlayerOverlayDelegate {
 
     func didTapClose(_ overlay: VideoPlayerOverlay) {
         dismiss(animated: true, completion: nil)
+    }
+
+    func overlayDidBecomeVisible(_ overlay: VideoPlayerOverlay, visible: Bool) {
+        showsStatusBar = visible
+        setNeedsStatusBarAppearanceUpdate()
     }
 }

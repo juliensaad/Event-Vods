@@ -21,6 +21,7 @@ protocol VideoPlayerOverlayDelegate: NSObjectProtocol {
     func didTapPause(_ overlay: VideoPlayerOverlay)
     func didTapSeek(_ overlay: VideoPlayerOverlay, interval: TimeInterval)
     func didTapClose(_ overlay: VideoPlayerOverlay)
+    func overlayDidBecomeVisible(_ overlay: VideoPlayerOverlay, visible: Bool)
 }
 
 class VideoPlayerOverlay: UIView {
@@ -148,7 +149,6 @@ class VideoPlayerOverlay: UIView {
     }
 
     override func updateConstraints() {
-
         updateSeekButtonVisibility()
         super.updateConstraints()
     }
@@ -401,6 +401,7 @@ class VideoPlayerOverlay: UIView {
 
     func fadeIn() {
         updateSeekButtonVisibility()
+        delegate?.overlayDidBecomeVisible(self, visible: true)
         UIView.animateKeyframes(withDuration: 0.3, delay: 0, options: [], animations: {
             self.container.alpha = 1
         }, completion: nil)
@@ -409,6 +410,7 @@ class VideoPlayerOverlay: UIView {
 
     func fadeOut() {
         updateSeekButtonVisibility()
+        delegate?.overlayDidBecomeVisible(self, visible: false)
         UIView.animateKeyframes(withDuration: 0.3, delay: 0, options: [], animations: {
             self.container.alpha = 0
         }, completion: nil)
