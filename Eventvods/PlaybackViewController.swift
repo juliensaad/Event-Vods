@@ -178,7 +178,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     override var prefersStatusBarHidden: Bool {
-        return !showsStatusBar || (UIDeviceOrientationIsPortrait(UIDevice.current.orientation) && UIDevice.current.userInterfaceIdiom == .phone)
+        return !showsStatusBar && !(UIDeviceOrientationIsPortrait(UIDevice.current.orientation) && UIDevice.current.userInterfaceIdiom == .phone)
     }
 
     override func prefersHomeIndicatorAutoHidden() -> Bool {
