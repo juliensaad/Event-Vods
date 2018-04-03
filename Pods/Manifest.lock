@@ -5,8 +5,6 @@ PODS:
   - Siesta (1.3.1):
     - Siesta/Core (= 1.3.1)
   - Siesta/Core (1.3.1)
-  - Siesta/UI (1.3.1):
-    - Siesta/Core
   - SnapKit (4.0.0)
   - SVProgressHUD (2.2.5)
   - youtube-ios-player-helper (0.1.6)
@@ -16,7 +14,6 @@ DEPENDENCIES:
   - GoogleAnalytics
   - Kingfisher
   - Siesta (~> 1.3.1)
-  - Siesta/UI (~> 1.3.1)
   - SnapKit
   - SVProgressHUD
   - youtube-ios-player-helper (from `https://github.com/juliensaad/youtube-ios-player-helper.git`)
@@ -44,6 +41,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   youtube-ios-player-helper: 21ab92db027c7ff86cb17a3843a3f6eafc8158d2
 
-PODFILE CHECKSUM: c0c342848280a75278bdb1d69222e98d188817a8
+PODFILE CHECKSUM: 081629832e74605c0f9ba9930244e628157401e2
 
 COCOAPODS: 1.4.0

@@ -6,7 +6,6 @@ target 'Eventvods' do
   use_frameworks!
   pod 'youtube-ios-player-helper', :git => 'https://github.com/juliensaad/youtube-ios-player-helper.git'
   pod 'Siesta', '~> 1.3.1'
-  pod 'Siesta/UI', '~> 1.3.1'
   pod 'SnapKit'
   pod 'SVProgressHUD'
   pod 'ABVolumeControl', :git => 'https://github.com/juliensaad/ABVolumeControl'

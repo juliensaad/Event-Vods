@@ -246,6 +246,7 @@ extension PlaybackViewController: YTPlayerViewDelegate {
     func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
         hasPlayedVideo = true
         playerView.alpha = 1
+        overlay.stopLoading()
 
         if !self.highlights {
             UserDataManager.shared.saveVideoProgression(forMatch: self.matchData, time: TimeInterval(playTime))

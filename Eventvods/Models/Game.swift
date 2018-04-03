@@ -51,5 +51,10 @@ class Game: Decodable, Hashable, CustomStringConvertible {
     var description: String {
         return slug
     }
+
+    init() {
+        slug = ""
+        icon = nil
+    }
     
 }

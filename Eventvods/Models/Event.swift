@@ -40,4 +40,17 @@ class Event: Decodable {
         return "\(start) - \(end)"
     }
 
+    init() {
+        _id = nil
+        name = ""
+        game = Game()
+        slug = ""
+        subtitle = nil
+        startDate = nil
+        endDate = nil
+        logo = nil
+        status = nil
+        updatedAt = nil
+        contents = nil
+    }
 }

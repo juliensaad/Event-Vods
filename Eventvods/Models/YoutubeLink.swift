@@ -12,6 +12,11 @@ class YoutubeLink: Decodable {
     let gameStart: String?
     let picksBans: String?
 
+    init() {
+        gameStart = nil
+        picksBans = nil 
+    }
+
     var validUrl: String? {
         if let gameStart = gameStart {
             return gameStart

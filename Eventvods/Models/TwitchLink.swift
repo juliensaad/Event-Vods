@@ -10,4 +10,8 @@ import UIKit
 
 class TwitchLink: Decodable {
     let gameStart: String?
+
+    init() {
+        gameStart = nil
+    }
 }
