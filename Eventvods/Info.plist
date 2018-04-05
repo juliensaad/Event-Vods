@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.1.1</string>
 	<key>CFBundleVersion</key>
-	<string>45</string>
+	<string>48</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -74,5 +74,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>${PRODUCT_NAME} needs bluetooth access to scan for nearby Cast devices.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>${PRODUCT_NAME} needs microphone access to listen for ultrasonic tokens when pairing with nearby Cast devices.</string>
 </dict>
 </plist>

@@ -133,7 +133,8 @@ class EventsViewController: UIViewController, ResourceObserver {
         super.viewDidAppear(animated)
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             let currentIndex = appDelegate.pageController.index(of: self)
-            UserDataManager.shared.saveGameIndex(index: currentIndex)
+            let slugIndex = Game.supportedGames.index(of: Game.orderedGames[currentIndex]) ?? 0
+            UserDataManager.shared.saveGameIndex(index: slugIndex)
         }
 
         headerView.setLogoHidden(false, animated: true)

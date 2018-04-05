@@ -30,7 +30,7 @@ class UserDataManager: NSObject {
     }
 
     func getGameIndex() -> Int {
-        return Defaults[.gameIndex] ?? 0
+        return Defaults[.gameIndex]
     }
 
     func getProgressionForMatch(match: MatchData) -> TimeInterval? {

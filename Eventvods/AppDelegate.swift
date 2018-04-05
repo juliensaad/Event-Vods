@@ -30,10 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
 
         let gameIndex = UserDataManager.shared.getGameIndex()
-        let currentGameSlug = Game.supportedGames.remove(at: gameIndex)
-        Game.supportedGames.insert(currentGameSlug, at: 0)
+        let currentGameSlug = Game.orderedGames.remove(at: gameIndex)
+        Game.orderedGames.insert(currentGameSlug, at: 0)
 
-        for slug in Game.supportedGames {
+        for slug in Game.orderedGames {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 let splitViewController = EventsSplitViewController(slug: slug)
                 pageController.viewControllers.append(splitViewController)
