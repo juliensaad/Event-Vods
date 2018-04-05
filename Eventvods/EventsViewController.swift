@@ -131,6 +131,11 @@ class EventsViewController: UIViewController, ResourceObserver {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            let currentIndex = appDelegate.pageController.index(of: self)
+            UserDataManager.shared.saveGameIndex(index: currentIndex)
+        }
+
         headerView.setLogoHidden(false, animated: true)
         headerView.reloadArrowViews(hidden: false, viewController: self)
     }

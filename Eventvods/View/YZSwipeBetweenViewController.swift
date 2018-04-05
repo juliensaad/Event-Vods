@@ -202,7 +202,6 @@ extension YZSwipeBetweenViewController: UIPageViewControllerDataSource {
 extension YZSwipeBetweenViewController: UIPageViewControllerDelegate {
 
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-
     }
 
 }

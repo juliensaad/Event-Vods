@@ -11,6 +11,7 @@ import UIKit
 extension DefaultsKeys {
     static let watchProgression = DefaultsKey<[String : Any]>("watchProgression")
     static let highlights = DefaultsKey<[String : Any]>("highlights")
+    static let gameIndex = DefaultsKey<Int>("gameIndex")
 }
 
 class UserDataManager: NSObject {
@@ -22,6 +23,14 @@ class UserDataManager: NSObject {
 
     func saveHighlightsWatched(forMatch match: MatchData) {
         Defaults[.highlights][match._id] = true
+    }
+
+    func saveGameIndex(index: Int) {
+        Defaults[.gameIndex] = index
+    }
+
+    func getGameIndex() -> Int {
+        return Defaults[.gameIndex] ?? 0
     }
 
     func getProgressionForMatch(match: MatchData) -> TimeInterval? {

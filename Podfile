@@ -11,6 +11,7 @@ target 'Eventvods' do
   pod 'ABVolumeControl', :git => 'https://github.com/juliensaad/ABVolumeControl'
   pod 'Kingfisher'
   pod 'GoogleAnalytics'
+  pod 'google-cast-sdk', '~> 4.1'
   # Pods for Eventvods
 
   target 'EventvodsTests' do
