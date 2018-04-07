@@ -10,6 +10,7 @@ import UIKit
 import youtube_ios_player_helper
 import SVProgressHUD
 import ABVolumeControl
+import GoogleCast
 
 class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
@@ -60,6 +61,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         view.backgroundColor = UIColor.black
         view.addSubview(youtubePlayer)
         view.addSubview(overlay)
+
         overlay.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
@@ -297,3 +299,8 @@ extension PlaybackViewController: VideoPlayerOverlayDelegate {
         setNeedsStatusBarAppearanceUpdate()
     }
 }
+
+//extension PlaybackViewController: GCKDeviceScannerListener, GCKDeviceManagerDelegate, GCKMediaControlChannelDelegate {
+//
+//
+//}

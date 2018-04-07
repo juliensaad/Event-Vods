@@ -8,6 +8,7 @@
 
 import UIKit
 import SVProgressHUD
+import GoogleCast
 
 enum Location {
     case right
@@ -141,6 +142,8 @@ class VideoPlayerOverlay: UIView {
         return view
     }()
 
+    let castButton = GCKUICastButton(frame: CGRect(x: 100, y: 100, width: 24, height: 24))
+
     private var seekButtons: [UIButton] = []
 
     override func layoutSubviews() {
@@ -215,6 +218,7 @@ class VideoPlayerOverlay: UIView {
         container.addSubview(pauseButton)
         container.addSubview(playButton)
         container.addSubview(closeButton)
+        container.addSubview(castButton)
 
         let b0 = makeButton(direction: .left, seekTime: .fiveMin)
         let b1 = makeButton(direction: .left, seekTime: .oneMin)
@@ -298,6 +302,14 @@ class VideoPlayerOverlay: UIView {
             make.centerY.equalToSuperview()
             make.left.equalToSuperview().offset(30)
         }
+
+        castButton.borderize()
+        castButton.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().inset(30)
+            make.right.equalToSuperview().offset(-30)
+            make.width.height.equalTo(24)
+        }
+        castButton.backgroundColor = UIColor.green
     }
 
     required init?(coder aDecoder: NSCoder) {

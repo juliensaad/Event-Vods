@@ -11,9 +11,10 @@ import SVProgressHUD
 import Fabric
 import Crashlytics
 import ABVolumeControl
+import GoogleCast
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GCKLoggerDelegate {
 
     var window: UIWindow?
     let pageController = YZSwipeBetweenViewController()
@@ -25,6 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidFinishLaunching(_ application: UIApplication) {
         Fabric.with([Crashlytics.self])
         PlayerViewManager.shared.prepare()
+
+        setupGoogleCast();
+
         UIBarButtonItem.appearance(whenContainedInInstancesOf:[UISearchBar.self]).tintColor = UIColor.white
 
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
@@ -73,6 +77,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    func logMessage(_ message: String, at level: GCKLoggerLevel, fromFunction function: String, location: String) {
+        print("\(message) \(function)")
+    }
 
+    func setupGoogleCast() {
+        let criteria = GCKDiscoveryCriteria(applicationID: "4F8B3483")
+        let options = GCKCastOptions(discoveryCriteria: criteria)
+        GCKCastContext.setSharedInstanceWith(options)
+        GCKLogger.sharedInstance().delegate = self
+        GCKLogger.sharedInstance().minimumLevel = .verbose;
+    }
 }
 
