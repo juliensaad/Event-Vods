@@ -125,10 +125,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
-## google-cast-sdk
-
-https://developers.google.com/terms/
-
 ## youtube-ios-player-helper
 
 Copyright 2014 Google Inc. All rights reserved.

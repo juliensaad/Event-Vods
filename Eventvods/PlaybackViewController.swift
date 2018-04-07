@@ -60,6 +60,7 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         view.backgroundColor = UIColor.black
         view.addSubview(youtubePlayer)
         view.addSubview(overlay)
+
         overlay.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }

@@ -8,6 +8,7 @@
 
 import UIKit
 import SVProgressHUD
+import MediaPlayer
 
 enum Location {
     case right
@@ -216,6 +217,11 @@ class VideoPlayerOverlay: UIView {
         container.addSubview(playButton)
         container.addSubview(closeButton)
 
+        let mpvolumeview = MPVolumeView()
+        container.addSubview(mpvolumeview)
+        mpvolumeview.borderize()
+        mpvolumeview.showsVolumeSlider = false
+
         let b0 = makeButton(direction: .left, seekTime: .fiveMin)
         let b1 = makeButton(direction: .left, seekTime: .oneMin)
         let b2 = makeButton(direction: .left, seekTime: .thirtySec)
@@ -297,6 +303,16 @@ class VideoPlayerOverlay: UIView {
             make.height.equalTo(40)
             make.centerY.equalToSuperview()
             make.left.equalToSuperview().offset(30)
+        }
+
+        mpvolumeview.snp.makeConstraints { (make) in
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottomMargin).inset(34)
+            }
+            else {
+                make.bottom.equalTo(self).inset(34)
+            }
+            make.centerX.equalToSuperview()
         }
     }
 
