@@ -87,7 +87,6 @@ class EventsViewController: UIViewController, ResourceObserver {
         SVProgressHUD.show()
 
         navigationController?.navigationBar.isTranslucent = false
-
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = false
         }
@@ -98,6 +97,7 @@ class EventsViewController: UIViewController, ResourceObserver {
 
         headerView.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
+
             if #available(iOS 11.0, *) {
                 make.top.equalTo(self.view.safeAreaLayoutGuide.snp.topMargin)
             }
@@ -126,6 +126,13 @@ class EventsViewController: UIViewController, ResourceObserver {
 
         if let resource = eventsResource {
             resource.loadIfNeeded()
+        }
+
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            let tabBar = appDelegate.tabBarController.tabBar
+            UIView.transition(with: tabBar, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                tabBar.barTintColor = Game.colorForSlug(self.selectedGameSlug)
+            }, completion: nil)
         }
     }
 

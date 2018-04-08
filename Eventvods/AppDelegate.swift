@@ -17,10 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     let pageController = YZSwipeBetweenViewController()
-
-    func setSwipingEnabled(_ enabled: Bool) {
-        pageController.isSwipingEnabled = enabled
-    }
+    var tabBarController: TabBarController!
 
     func applicationDidFinishLaunching(_ application: UIApplication) {
         Fabric.with([Crashlytics.self])
@@ -29,27 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
 
-        let gameIndex = UserDataManager.shared.getGameIndex()
-        let currentGameSlug = Game.orderedGames.remove(at: gameIndex)
-        Game.orderedGames.insert(currentGameSlug, at: 0)
-
-        for slug in Game.orderedGames {
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                let splitViewController = EventsSplitViewController(slug: slug)
-                pageController.viewControllers.append(splitViewController)
-            }
-            else {
-                let viewController = EventsViewController(slug: slug)
-                let navigationController = UINavigationController(rootViewController: viewController)
-                if #available(iOS 11.0, *) {
-                    navigationController.navigationBar.prefersLargeTitles = true
-                }
-                pageController.viewControllers.append(navigationController)
-            }
-        }
-
-
-        window?.rootViewController = pageController
+        tabBarController = TabBarController(pageController: pageController)
+        window?.rootViewController = tabBarController
     }
     
     func application(_ application: UIApplication,
@@ -73,6 +51,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-
+    func setSwipingEnabled(_ enabled: Bool) {
+        pageController.isSwipingEnabled = enabled
+    }
 }
 
