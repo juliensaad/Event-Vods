@@ -138,13 +138,29 @@ NSString *const XCDYouTubeVideoUserInfoKey = @"Video";
 	static const void * const XCDYouTubeVideoPlayerViewControllerKey = &XCDYouTubeVideoPlayerViewControllerKey;
 	
 	self.embedded = YES;
-	
-	self.moviePlayer.controlStyle = MPMovieControlStyleEmbedded;
+
+    self.moviePlayer.controlStyle = MPMovieControlStyleNone;
 	self.moviePlayer.view.frame = CGRectMake(0, 0, view.bounds.size.width, view.bounds.size.height);
 	self.moviePlayer.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	if (![view.subviews containsObject:self.moviePlayer.view])
 		[view addSubview:self.moviePlayer.view];
+
+    for (UIView *view in self.moviePlayer.view.subviews) {
+        [self logViewHierarchy:view];
+    }
+
 	objc_setAssociatedObject(view, XCDYouTubeVideoPlayerViewControllerKey, self, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (void)logViewHierarchy:(UIView *)parentView
+{
+    NSLog(@"%@", self);
+    for (UIView *subview in parentView.subviews)
+    {
+        subview.hidden = YES;
+        subview.alpha = 0;
+        [self logViewHierarchy:subview];
+    }
 }
 
 #pragma mark - Private
@@ -169,6 +185,7 @@ NSString *const XCDYouTubeVideoUserInfoKey = @"Video";
 	self.moviePlayer.contentURL = streamURL;
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:XCDYouTubeVideoPlayerViewControllerDidReceiveVideoNotification object:self userInfo:@{ XCDYouTubeVideoUserInfoKey: video }];
+    self.moviePlayer.controlStyle = MPMovieControlStyleNone;
 }
 
 - (void) stopWithError:(NSError *)error
@@ -176,6 +193,7 @@ NSString *const XCDYouTubeVideoUserInfoKey = @"Video";
 	NSDictionary *userInfo = @{ MPMoviePlayerPlaybackDidFinishReasonUserInfoKey: @(MPMovieFinishReasonPlaybackError),
 	                            XCDMoviePlayerPlaybackDidFinishErrorUserInfoKey: error };
 	[[NSNotificationCenter defaultCenter] postNotificationName:MPMoviePlayerPlaybackDidFinishNotification object:self.moviePlayer userInfo:userInfo];
+    self.moviePlayer.controlStyle = MPMovieControlStyleNone;
 	
 	if (self.isEmbedded)
 		[self.moviePlayer.view removeFromSuperview];
@@ -192,8 +210,9 @@ NSString *const XCDYouTubeVideoUserInfoKey = @"Video";
 	if (![self isBeingPresented])
 		return;
 	
-	self.moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
+	self.moviePlayer.controlStyle = MPMovieControlStyleNone;
 	[self.moviePlayer play];
+    self.moviePlayer.controlStyle = MPMovieControlStyleNone;
 }
 
 - (void) viewWillDisappear:(BOOL)animated

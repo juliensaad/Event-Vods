@@ -21,8 +21,8 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
     var hasPlayedVideo: Bool = false
     var setQuality: Bool = false
     var showsStatusBar: Bool = false
-
-    var initialTouchPoint: CGPoint = CGPoint(x: 0,y: 0)
+    let highlights: Bool
+    var initialTouchPoint: CGPoint = CGPoint(x: 0, y: 0)
 
     private lazy var overlay: VideoPlayerOverlay = {
         let overlay = VideoPlayerOverlay(match: match)
@@ -30,10 +30,11 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         return overlay
     }()
 
-    let highlights: Bool
-    let youtubePlayer: YTPlayerView = PlayerViewManager.shared.playerView
+    private lazy var player: XCDYouTubeVideoPlayerViewController = {
+        let player = XCDYouTubeVideoPlayerViewController()
+        return player
+    }()
 
-    var player: XCDYouTubeVideoPlayerViewController!
     var saveTimeTimer: Timer?
 
     init(match: Match, matchData: MatchData, url: String?, time: TimeInterval?, highlights: Bool) {
@@ -62,12 +63,13 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler)))
         view.backgroundColor = UIColor.black
-        view.addSubview(youtubePlayer)
         view.addSubview(overlay)
 
         overlay.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(playerStateDidChange), name: NSNotification.Name.MPMoviePlayerLoadStateDidChange, object: nil)
 
         loadVideo()
     }
@@ -80,43 +82,6 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
 
-//<<<<<<< HEAD
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        if let webview = youtubePlayer.webView {
-//            if UIDevice.current.userInterfaceIdiom == .pad {
-//                webview.frame.origin.y = 70
-//            }
-//        }
-//        overlay.updateSeekButtonVisibility()
-//    }
-//    override func updateViewConstraints() {
-//        youtubePlayer.snp.remakeConstraints { (make) in
-//            if #available(iOS 11.0, *) {
-//                if (UIDeviceOrientationIsLandscape(UIDevice.current.orientation)) {
-//                    make.top.equalToSuperview()
-//                }
-//                else {
-//                    make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
-//                }
-//                make.left.equalTo(view.safeAreaLayoutGuide.snp.leftMargin)
-//                make.right.equalTo(view.safeAreaLayoutGuide.snp.rightMargin)
-//            }
-//            else {
-//                make.top.left.right.equalTo(view)
-//            }
-//
-//            make.bottom.equalTo(view.snp.bottom)
-//        }
-//
-//        youtubePlayer.setNeedsLayout()
-//        setupWebView()
-//        overlay.updateSeekButtonVisibility()
-//        super.updateViewConstraints()
-//    }
-//
-//=======
-//>>>>>>> feature/drop-yt-iframe
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if #available(iOS 11.0, *) {
@@ -130,6 +95,11 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         })
     }
 
+    @objc func playerStateDidChange() {
+        print(player.moviePlayer.controlStyle)
+        player.moviePlayer.controlStyle = .none
+    }
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
@@ -141,29 +111,8 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         saveTimeTimer = nil
         (ABVolumeControl.sharedManager() as! ABVolumeControl).volumeControlStyle = ABVolumeControlStyle.minimal
     }
-//
-//<<<<<<< HEAD
-//    func setupWebView() {
-//        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapWebView))
-//        gestureRecognizer.numberOfTapsRequired = 1
-//        gestureRecognizer.delegate = self
-//        youtubePlayer.addGestureRecognizer(gestureRecognizer)
-//        youtubePlayer.delegate = self
-//        youtubePlayer.webView?.isUserInteractionEnabled = false
-//        if #available(iOS 11.0, *) {
-//            youtubePlayer.webView?.scrollView.contentInsetAdjustmentBehavior = .never
-//        }
-//        youtubePlayer.webView?.scrollView.isUserInteractionEnabled = false
-//        youtubePlayer.webView?.mediaPlaybackRequiresUserAction = false
-//        youtubePlayer.alpha = 0.01
-//        youtubePlayer.updateWebViewFrame(youtubePlayer.webView);
-//    }
-//
-//=======
-//>>>>>>> feature/drop-yt-iframe
+
     func loadVideo() {
-//        overlay.beginLoading()
-//        setupWebView()
 
         guard let url = self.url else {
             return
@@ -179,9 +128,9 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
         }
 
         if let videoID = url.getQueryStringParameter("v") {
-//            youtubePlayer.load(withVideoId: videoID, playerVars: PlayerViewManager.shared.playerParams(seconds: numberOfSeconds))
             player = XCDYouTubeVideoPlayerViewController(videoIdentifier: videoID)
             player.moviePlayer.initialPlaybackTime = numberOfSeconds
+            player.moviePlayer.controlStyle = .none
             player.present(in: self.view)
             player.moviePlayer.play()
 
@@ -190,9 +139,6 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
             gestureRecognizer.delegate = self
             player.moviePlayer.view.addGestureRecognizer(gestureRecognizer)
             self.view.bringSubview(toFront: overlay)
-        }
-        else {
-            youtubePlayer.loadVideo(byURL: url, startSeconds: 0, suggestedQuality: YTPlaybackQuality.HD720)
         }
     }
 
@@ -239,57 +185,17 @@ class PlaybackViewController: UIViewController, UIGestureRecognizerDelegate {
 
     func savePlaybackTime() {
         if !self.highlights {
-            if player != nil && player.moviePlayer != nil {
+            if player.moviePlayer != nil {
                 let playTime = player.moviePlayer.currentPlaybackTime
                 if !playTime.isNaN {
                     UserDataManager.shared.saveVideoProgression(forMatch: self.matchData, time: playTime)
                 }
+                player.moviePlayer.controlStyle = .none
             }
         }
         else {
             UserDataManager.shared.saveHighlightsWatched(forMatch: self.matchData)
         }
-    }
-
-}
-
-// MARK : YTPlayerViewDelegate
-extension PlaybackViewController: YTPlayerViewDelegate {
-
-    func playerViewPreferredWebViewBackgroundColor(_ playerView: YTPlayerView) -> UIColor {
-        return UIColor.black
-    }
-
-    func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
-        playerView.playVideo()
-    }
-
-    func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
-        if state == .ended {
-            dismiss(animated: true, completion: nil)
-        }
-
-        if state == .paused {
-            overlay.showPausedState()
-        }
-        
-        if state != .buffering && state != .unstarted {
-            playerView.alpha = 1
-
-            if state != .paused || !hasPlayedVideo {
-                youtubePlayer.playVideo()
-            }
-            overlay.stopLoading()
-        }
-
-    }
-
-    func playerView(_ playerView: YTPlayerView, didPlayTime playTime: Float) {
-        hasPlayedVideo = true
-        playerView.alpha = 1
-        overlay.stopLoading()
-
-        savePlaybackTime()
     }
 
 }
