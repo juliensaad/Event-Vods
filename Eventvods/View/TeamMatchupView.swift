@@ -139,7 +139,7 @@ class TeamMatchupView: UIView {
         }
     
         secondTeamImageView.snp.makeConstraints { (make) in
-            make.centerY.equalTo(firstTeamImageView)
+            make.centerY.equalToSuperview().offset(-14)
             make.centerX.equalToSuperview().offset(80)
             make.height.equalTo(44)
         }
@@ -151,7 +151,7 @@ class TeamMatchupView: UIView {
 
         secondTeamLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(secondTeamImageView)
-            make.top.equalTo(firstTeamLabel)
+            make.top.equalTo(firstTeamImageView.snp.bottom).offset(8)
         }
 
         vsLabel.snp.makeConstraints { (make) in
