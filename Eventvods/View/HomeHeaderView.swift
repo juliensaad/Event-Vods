@@ -22,14 +22,9 @@ class HomeHeaderView: UIView, UISearchBarDelegate {
 
     lazy var logoView: UIButton = {
         let logoView = UIButton()
-
-        if (slug == Game.favoritesSlug) {
-            logoView.setImage(UIImage(named: "eventvodslogo"), for: .normal)
-        }
-        else {
-            logoView.setImage(UIImage(named: slug), for: .normal)
-        }
+        logoView.setImage(UIImage(named: slug), for: .normal)
         logoView.imageView?.contentMode = .scaleAspectFit
+        logoView.imageEdgeInsets = UIEdgeInsetsMake(4, 4, 4, 4)
         logoView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         logoView.layer.shadowColor = UIColor.black.cgColor
         logoView.layer.shadowOpacity = 0.2
@@ -46,7 +41,6 @@ class HomeHeaderView: UIView, UISearchBarDelegate {
         button.setImage(UIImage(named:"right-1"), for: .normal)
         button.alpha = 0.6
         button.addTarget(self, action: #selector(tapArrowView(button:)), for: .touchUpInside)
-        button.isHidden = slug == Game.favoritesSlug
         return button
     }()
 
@@ -55,7 +49,6 @@ class HomeHeaderView: UIView, UISearchBarDelegate {
         button.setImage(UIImage(named:"left-1"), for: .normal)
         button.alpha = 0.6
         button.addTarget(self, action: #selector(tapArrowView(button:)), for: .touchUpInside)
-        button.isHidden = slug == Game.favoritesSlug
         return button
     }()
 
@@ -86,17 +79,24 @@ class HomeHeaderView: UIView, UISearchBarDelegate {
         
         logoView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.height.equalTo(34)
-            make.top.bottom.equalToSuperview().inset(UIEdgeInsetsMake(12, 0, 12, 0))
+
+            if #available(iOS 11.0, *) {
+                make.height.equalTo(54)
+                make.top.equalToSuperview().offset(20)
+            }
+            else {
+                make.height.equalTo(44)
+                make.top.equalToSuperview().offset(30)
+            }
         }
 
-//        searchBar.snp.makeConstraints { (make) in
-//            make.top.equalTo(logoView.snp.bottom).offset(14).priority(749)
-//            make.left.equalToSuperview().offset(24).priority(749)
-//            make.right.equalToSuperview().offset(-24).priority(749)
-//            make.bottom.equalToSuperview().offset(-10).priority(749)
-//            self.searchBarHeightConstraint = make.height.equalTo(0).priority(1000).constraint
-//        }
+        searchBar.snp.makeConstraints { (make) in
+            make.top.equalTo(logoView.snp.bottom).offset(14).priority(749)
+            make.left.equalToSuperview().offset(24).priority(749)
+            make.right.equalToSuperview().offset(-24).priority(749)
+            make.bottom.equalToSuperview().offset(-10).priority(749)
+            self.searchBarHeightConstraint = make.height.equalTo(0).priority(1000).constraint
+        }
 
         rightArrow.snp.makeConstraints { (make) in
             make.centerY.equalTo(logoView)
@@ -136,7 +136,7 @@ class HomeHeaderView: UIView, UISearchBarDelegate {
     }
 
     func reloadArrowViews(hidden: Bool, viewController: UIViewController) {
-        if hidden || slug == Game.favoritesSlug {
+        if hidden {
             leftArrow.isHidden = true
             rightArrow.isHidden = true
         }

@@ -12,7 +12,6 @@ class Game: Decodable, Hashable, CustomStringConvertible {
 
     static let supportedGames = ["lol", "csgo", "overwatch", "dota", "rocket-league"]
     static var orderedGames = Game.supportedGames
-    static let favoritesSlug = ""
     
     let slug: String
     let icon: String?
