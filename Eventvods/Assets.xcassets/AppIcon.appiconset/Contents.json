@@ -39,13 +39,13 @@
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Icon-60@2x.png",
+      "filename" : "eventvods-apple-store-120-square.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Icon-60@3x.png",
+      "filename" : "eventvods-apple-store-180-square.png",
       "scale" : "3x"
     },
     {
@@ -103,7 +103,7 @@
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "iTunesArtwork@2x.png",
+      "filename" : "eventvods-apple-store-1024-square.png",
       "scale" : "1x"
     }
   ],
