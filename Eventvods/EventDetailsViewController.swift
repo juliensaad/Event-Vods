@@ -74,12 +74,12 @@ class EventDetailsViewController: UIViewController {
 
     func filterContent() {
         if let contents = self.event.contents {
-            let fullSections = contents.reversed()
+            let fullSections = contents
 
             var dayModules: [EventModule] = []
 
             for section in fullSections {
-                for module in section.modules.reversed() {
+                for module in section.modules {
                     var newModule = module
                     newModule.title = "\(section.title) - \(module.title)"
 
